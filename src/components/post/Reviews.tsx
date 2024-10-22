@@ -1,0 +1,31 @@
+import { IProductReview } from "@/types";
+import React from "react";
+import Image from "next/image";
+import RatingStars from "../RatingStars";
+
+export default function Reviews({ reviews }: { reviews?: IProductReview[]; productId: string }) {
+  return (
+    <>
+      <div className="min-h-52 w-full bg-[#F8F8F8] p-4">
+        {reviews?.map((review) => (
+          <div className="mb-4 flex items-start gap-3" key={review._id}>
+            <Image
+              alt={review.customer.firstName + " " + review.customer.lastName}
+              className="h-10 w-10 rounded-full bg-lightGray"
+              height={50}
+              src={review.customer.imageUrl}
+              width={50}
+            />
+            <div className="w-11/12 rounded-md bg-lightGray p-2">
+              <div className="flex items-center gap-2">
+                <div className="text-sm font-bold">{review.customer.firstName + " " + review.customer.lastName}</div>
+                <RatingStars rate={review.rating} size={14} />
+              </div>
+              <p className="text-sm">{review.reviewText}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}

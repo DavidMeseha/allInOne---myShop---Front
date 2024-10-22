@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #fa2d6c;
+  --secondary: #20d5ec;
+  --lightGray: #f1f1f1;
+  --strongGray: #7c7c7c;
+}
+
+@layer base {
+  img {
+    width: auto;
+    height: auto;
+  }
+}
+
+.rmsc .dropdown-container:focus-within {
+  box-shadow: var(--primary) 0 0 0 1px !important;
+  border-color: var(--primary) !important;
+}
+
+.rmsc .dropdown-container {
+  border-color: var(--strongGray) !important;
+}

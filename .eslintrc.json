@@ -1,0 +1,24 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["next", "next/core-web-vitals", "eslint:recommended", "plugin:react/recommended", "prettier"],
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "react-hooks/exhaustive-deps": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": 0,
+    "react/display-name": "error",
+    "react/function-component-definition": "warn",
+    "react/jsx-props-no-multi-spaces": "warn",
+    "react/jsx-pascal-case": ["error", { "allowNamespace": true }],
+    "react/boolean-prop-naming": ["error", { "rule": "^(is|has|can)[A-Z]([A-Za-z0-9]?)+" }],
+    "react/jsx-sort-props": [
+      "warn",
+      {
+        "callbacksLast": true,
+        "multiline": "last"
+      }
+    ]
+  }
+}

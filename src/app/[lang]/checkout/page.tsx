@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { IAddress, IFullProduct, IProductAttribute } from "@/types";
-import ShippingForm from "./components/ShippingForm";
-import BillingForm from "./components/BillingForm";
 import CartItem from "../../../components/CartItem";
 import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
@@ -12,41 +10,24 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axiosInstanceNew from "@/lib/axiosInstanceNew";
 import Button from "@/components/Button";
 import { toast } from "react-toastify";
+import FormDropdownInput from "@/components/FormDropdownInput";
+import { useGeneralStore } from "@/stores/generalStore";
+import RadioGroup from "@/components/RadioGroup";
 
-interface IBillingForm {
-  billingAddressId: string;
-  method: "cod" | "card";
-  cardInfo: {
-    code: string;
-    exp: string;
-    holder: string;
-  };
-}
-
-interface IShippingForm {
+interface ICheckoutForm {
   shippingAddressId: string;
-  method: "ground" | "air";
+  billingMethod: string;
 }
 
-const initialCheckoutForm: { billing: IBillingForm; shipping: IShippingForm } = {
-  billing: {
-    billingAddressId: "",
-    method: "cod",
-    cardInfo: {
-      code: "",
-      exp: "",
-      holder: ""
-    }
-  },
-  shipping: {
-    shippingAddressId: "",
-    method: "ground"
-  }
+const initialCheckoutForm: ICheckoutForm = {
+  billingMethod: "cod",
+  shippingAddressId: ""
 };
 
 export default function CheckoutPage() {
   const [activeTap, setActiveTap] = useState<"shipping" | "billing" | "summary">("shipping");
   const [form, setForm] = useState(initialCheckoutForm);
+  const { setIsAddAddressOpen } = useGeneralStore();
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -76,39 +57,16 @@ export default function CheckoutPage() {
           addresses: IAddress[];
         }>("/api/user/checkout")
         .then((res) => {
-          setForm({ ...form, billing: { ...form.billing, billingAddressId: res.data.addresses[0]._id } });
-          setForm({ ...form, shipping: { ...form.shipping, shippingAddressId: res.data.addresses[0]._id } });
+          setForm({ ...form, shippingAddressId: res.data.addresses[0]._id });
           return res.data;
         })
   });
 
   const shoppingCartProducts = checkoutQuery.data?.cartItems ?? [];
-  const userAddresses = checkoutQuery.data?.addresses ?? [];
+  const addresses = checkoutQuery.data?.addresses ?? [];
 
-  const handleFieldOnChangeBilling = (value: string, name: string) => {
-    if (name === "cardInfo")
-      return setForm({
-        ...form,
-        billing: {
-          ...form.billing,
-          cardInfo: { ...form.billing.cardInfo, [name as keyof typeof form.billing.cardInfo]: value }
-        }
-      });
-
-    setForm({
-      ...form,
-      billing: { ...form.billing, [name]: value }
-    });
-  };
-
-  const handleFieldOnChangeShipping = (value: string, name: string) => {
-    if (name === "method" && (value === "air" || value === "ground"))
-      return setForm({ ...form, shipping: { ...form.shipping, method: value } });
-
-    setForm({
-      ...form,
-      shipping: { ...form.shipping, [name]: value }
-    });
+  const handleFieldOnChange = (value: string, name: string) => {
+    setForm({ ...form, [name]: value });
   };
 
   return (
@@ -127,11 +85,6 @@ export default function CheckoutPage() {
               {t("checkout.shipping")}
             </a>
           </li>
-          <li className={`w-full ${activeTap === "billing" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}>
-            <a className="flex justify-center py-2" onClick={() => setActiveTap("billing")}>
-              {t("checkout.billing")}
-            </a>
-          </li>
           <li className={`w-full ${activeTap === "summary" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}>
             <a className="flex justify-center py-2" onClick={() => setActiveTap("summary")}>
               {t("checkout.products")}
@@ -146,13 +99,6 @@ export default function CheckoutPage() {
           >
             <a className="flex justify-center py-2" onClick={() => setActiveTap("shipping")}>
               {t("checkout.shipping")}
-            </a>
-          </li>
-          <li
-            className={`border-s border-t px-6 ${activeTap === "billing" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
-          >
-            <a className="flex justify-center py-2" onClick={() => setActiveTap("billing")}>
-              {t("checkout.billing")}
             </a>
           </li>
           <li
@@ -174,10 +120,32 @@ export default function CheckoutPage() {
       </div>
       <div className="mt-10 p-4 md:mt-0 md:p-0 md:py-4">
         {activeTap === "shipping" && (
-          <ShippingForm addresses={userAddresses} shipping={form.shipping} onChange={handleFieldOnChangeShipping} />
-        )}
-        {activeTap === "billing" && (
-          <BillingForm addresses={userAddresses} billing={form.billing} onChange={handleFieldOnChangeBilling} />
+          <>
+            <div className="flex items-start gap-4">
+              <div className="grow">
+                <FormDropdownInput
+                  label={""}
+                  name="shippingAddressId"
+                  options={addresses.map((address) => ({ name: address.address, value: address._id }))}
+                  value={form.shippingAddressId}
+                  onUpdate={handleFieldOnChange}
+                />
+              </div>
+              <Button className="bg-primary text-white" onClick={() => setIsAddAddressOpen(true)}>
+                Add New
+              </Button>
+            </div>
+            <RadioGroup
+              className="text-sm"
+              title="Billing Method"
+              value={form.billingMethod}
+              options={[
+                { name: "COD", value: "cod" },
+                { name: "Cridet Card", value: "card" }
+              ]}
+              onChange={(value) => setForm({ ...form, billingMethod: value })}
+            />
+          </>
         )}
         {activeTap === "summary" &&
           shoppingCartProducts.map((item) => (
@@ -190,7 +158,11 @@ export default function CheckoutPage() {
           ))}
       </div>
       <div className="fixed bottom-0 start-0 z-30 w-full border border-x-0 bg-white px-6 py-4 md:start-[280px] md:hidden md:w-[calc(100%-280px)]">
-        <Button className="w-full bg-primary text-white" onClick={() => placeOrderMutation.mutate()}>
+        <Button
+          className="w-full bg-primary text-white"
+          isLoading={placeOrderMutation.isPending}
+          onClick={() => placeOrderMutation.mutate()}
+        >
           <div className="flex w-full justify-between">
             {t("checkout.placeOrder")}({shoppingCartProducts.length})<div>{checkoutQuery.data?.total}$</div>
           </div>

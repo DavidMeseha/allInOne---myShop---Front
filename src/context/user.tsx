@@ -94,8 +94,9 @@ function UserProvider({ children }: ContextProps) {
         })
         .catch((err: AxiosError) => {
           if (user?.isRegistered && err.response?.status === 400) {
+            setUser(null);
             toast.error(t("auth.forcedLogout"));
-          } else if (err.response?.status !== 500) {
+          } else {
             setUser(null);
             freshTokenMutation.mutate();
           }

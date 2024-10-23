@@ -22,9 +22,9 @@ export default function CheckboxGroup({ values, options, title, onChange }: Prop
   return (
     <>
       <div className="mb-2 text-lg">{title}</div>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-4">
         {options.map((option, index) => (
-          <label className="mb-2 w-1/2" htmlFor={option.name} key={index}>
+          <label className="mb-2" htmlFor={option.name} key={index}>
             <input
               checked={values.includes(option.value)}
               className="me-2 border-primary bg-red-100 text-primary focus:ring-red-200"

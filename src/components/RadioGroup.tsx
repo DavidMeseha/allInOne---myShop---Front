@@ -4,7 +4,7 @@ type Props = {
   className?: string;
   title: string;
   value: string;
-  options: { name: string; value: string }[];
+  options: { name: string | React.ReactNode; value: string }[];
   onChange: (value: string) => void;
 };
 
@@ -16,13 +16,13 @@ export default function RadioGroup({ value, options, title, onChange, className 
   return (
     <div className={className ?? ""}>
       <div className="mb-2 text-lg">{title}</div>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-4">
         {options.map((option, index) => (
-          <label className="mb-2 w-1/2" htmlFor={option.name} key={index}>
+          <label className="mb-2" htmlFor={option.value} key={index}>
             <input
               checked={value === option.value}
               className="me-2 border-red-300 bg-red-100 text-red-500 focus:ring-red-200"
-              id={option.name}
+              id={option.value}
               type="radio"
               value={option.value}
               onChange={handleChange}

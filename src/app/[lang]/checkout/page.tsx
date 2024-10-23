@@ -13,18 +13,23 @@ import { toast } from "react-toastify";
 import FormDropdownInput from "@/components/FormDropdownInput";
 import { useGeneralStore } from "@/stores/generalStore";
 import RadioGroup from "@/components/RadioGroup";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 interface ICheckoutForm {
   shippingAddressId: string;
   billingMethod: string;
+  billingStatus: string;
 }
 
 const initialCheckoutForm: ICheckoutForm = {
   billingMethod: "cod",
+  billingStatus: "cod",
   shippingAddressId: ""
 };
 
 export default function CheckoutPage() {
+  const stripe = useStripe();
+  const elements = useElements();
   const [activeTap, setActiveTap] = useState<"shipping" | "billing" | "summary">("shipping");
   const [form, setForm] = useState(initialCheckoutForm);
   const { setIsAddAddressOpen } = useGeneralStore();
@@ -41,6 +46,11 @@ export default function CheckoutPage() {
       console.log(data.data);
       toast.success("Order Placed Successfully");
     }
+  });
+
+  const preperPaymentMutation = useMutation({
+    mutationKey: ["preperPayment"],
+    mutationFn: () => axiosInstanceNew.get<{ paymentSecret: string }>("/api/user/preperPayment")
   });
 
   const checkoutQuery = useQuery({
@@ -67,6 +77,33 @@ export default function CheckoutPage() {
 
   const handleFieldOnChange = (value: string, name: string) => {
     setForm({ ...form, [name]: value });
+  };
+
+  const handleSubmit = async () => {
+    if (form.billingMethod === "cod") return placeOrderMutation.mutate();
+
+    if (!elements || !stripe) return;
+    const cardElement = elements.getElement(CardElement);
+    if (!cardElement) return;
+
+    // Create payment intent on the server
+    await preperPaymentMutation.mutateAsync();
+    if (!preperPaymentMutation.data) return;
+    console.log(preperPaymentMutation.data.data);
+
+    const { paymentSecret } = preperPaymentMutation.data.data;
+
+    // Confirm the payment with the card details
+    const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(paymentSecret, {
+      payment_method: {
+        card: cardElement
+      }
+    });
+
+    console.log(stripeError);
+    console.log(paymentIntent);
+    if (stripeError) return;
+    else placeOrderMutation.mutate();
   };
 
   return (
@@ -124,7 +161,7 @@ export default function CheckoutPage() {
             <div className="flex items-start gap-4">
               <div className="grow">
                 <FormDropdownInput
-                  label={""}
+                  label=""
                   name="shippingAddressId"
                   options={addresses.map((address) => ({ name: address.address, value: address._id }))}
                   value={form.shippingAddressId}
@@ -145,6 +182,9 @@ export default function CheckoutPage() {
               ]}
               onChange={(value) => setForm({ ...form, billingMethod: value })}
             />
+            {form.billingMethod === "card" ? (
+              <CardElement className="mx-auto mt-9 w-auto max-w-[500] rounded-md border p-4" />
+            ) : null}
           </>
         )}
         {activeTap === "summary" &&
@@ -161,7 +201,7 @@ export default function CheckoutPage() {
         <Button
           className="w-full bg-primary text-white"
           isLoading={placeOrderMutation.isPending}
-          onClick={() => placeOrderMutation.mutate()}
+          onClick={handleSubmit}
         >
           <div className="flex w-full justify-between">
             {t("checkout.placeOrder")}({shoppingCartProducts.length})<div>{checkoutQuery.data?.total}$</div>

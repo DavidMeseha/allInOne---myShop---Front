@@ -74,7 +74,6 @@ function UserProvider({ children }: ContextProps) {
   }, []);
 
   const resetUserStore = () => {
-    if (!user) return;
     setLikes();
     setSavedProducts();
     setFollowedVendors();
@@ -96,7 +95,8 @@ function UserProvider({ children }: ContextProps) {
           if (user?.isRegistered && err.response?.status === 400) {
             setUser(null);
             toast.error(t("auth.forcedLogout"));
-          } else {
+            freshTokenMutation.mutate();
+          } else if (err.response?.status === 400) {
             setUser(null);
             freshTokenMutation.mutate();
           }

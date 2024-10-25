@@ -9,7 +9,6 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["localhost"],
     remotePatterns: [
       {
         protocol: "http",

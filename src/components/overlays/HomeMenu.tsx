@@ -25,7 +25,7 @@ export default function HomeMenu() {
           <RiCloseLine size={25} />
         </div>
         <MainMenu />
-        {user?.is_vendor ? <VendorMenu /> : null}
+        {user?.isVendor ? <VendorMenu /> : null}
       </div>
     </div>
   );

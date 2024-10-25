@@ -38,7 +38,7 @@ export default function EditProfileOverlay() {
   const { t } = useTranslation();
   const cropperRef = useRef<CropperRef>(null);
   const [cropping, setCropping] = useState<string | null>(null);
-  const [form, setForm] = useState<UserProfile>({
+  const [form, setForm] = useState({
     email: "",
     gender: "",
     firstName: "",

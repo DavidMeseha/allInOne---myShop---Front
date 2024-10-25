@@ -92,6 +92,23 @@ export interface Language {
   id: number;
 }
 
+export interface IOrder {
+  _id: string;
+  customer: User;
+  billingStatus: string;
+  billingMethod: string;
+  shippingAddress: IAddress;
+  shippingStatus: string;
+  items: {
+    product: IFullProduct;
+    quantity: number;
+    attributes: IProductAttribute[];
+  }[];
+  subTotal: number;
+  totalValue: number;
+  shippingFees: number;
+}
+
 export interface UserProfile {
   email: string;
   gender: string;
@@ -102,6 +119,7 @@ export interface UserProfile {
   dateOfBirthYear: number;
   phone: string;
   imageUrl: string;
+  ordersCount: number;
   // street_address: string;
   // street_address2: string;
   // zip_postal_code: string;

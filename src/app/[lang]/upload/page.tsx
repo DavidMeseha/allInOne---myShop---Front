@@ -4,22 +4,22 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { BiMinus, BiSolidCloudUpload } from "react-icons/bi";
 import { useRouter } from "next-nprogress-bar";
 import { useUser } from "@/context/user";
-import { FieldError, NewImage, NewProduct } from "../../../types";
-import createProduct from "../../../hooks/createProduct";
+import { FieldError } from "../../../types";
+// import createProduct from "../../../hooks/createProduct";
 import { TagsInput } from "react-tag-input-component";
 import "react-advanced-cropper/dist/style.css";
 import FormTextInput from "../../../components/FormTextInput";
 import { useGeneralStore } from "../../../stores/generalStore";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Cropper, CropperRef } from "react-advanced-cropper";
-import useUploadImage from "../../../hooks/useUploadImage";
+// import useUploadImage from "../../../hooks/useUploadImage";
 import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import { useTranslation } from "@/context/Translation";
 import Checkbox from "@/components/Checkbox";
 import Image from "next/image";
 
-const initialNewProduct: NewProduct = {
+const initialNewProduct = {
   name: "",
   description: "",
   is_free_shipping: true,
@@ -61,34 +61,34 @@ export default function Upload() {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const [product, setProduct] = useState<NewProduct>(initialNewProduct);
-  const [images, setImages] = useState<NewImage[]>([]);
+  const [product, setProduct] = useState(initialNewProduct);
+  const [images, setImages] = useState<string[]>([]);
   const [error, setError] = useState<Errors>(initialErrors);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const cropperRef = useRef<CropperRef>(null);
   const [cropping, setCropping] = useState<string | null>(null);
 
-  const uploadImageMutation = useUploadImage({
-    onSuccess: (data) => {
-      console.log(data);
-      if (!data.success) return toast.error(t("upload.unableToUpload"));
-      const tempImages = [...images];
-      tempImages.push(data);
-      setImages(tempImages);
-      setProduct({
-        ...product,
-        images: tempImages.map((image, index) => ({
-          picture_id: image.pictureId,
-          position: index,
-          src: image.imageUrl
-        }))
-      });
-      setCropping(null);
-      toast.success("Image Uploaded");
-    },
-    onError: (e) => toast.error(e.message)
-  });
+  // const uploadImageMutation = useUploadImage({
+  //   onSuccess: (data) => {
+  //     console.log(data);
+  //     if (!data.success) return toast.error(t("upload.unableToUpload"));
+  //     const tempImages = [...images];
+  //     tempImages.push(data);
+  //     setImages(tempImages);
+  //     setProduct({
+  //       ...product,
+  //       images: tempImages.map((image, index) => ({
+  //         picture_id: image.pictureId,
+  //         position: index,
+  //         src: image.imageUrl
+  //       }))
+  //     });
+  //     setCropping(null);
+  //     toast.success("Image Uploaded");
+  //   },
+  //   onError: (e) => toast.error(e.message)
+  // });
 
   const validate = () => {
     setError(initialErrors);
@@ -162,7 +162,7 @@ export default function Upload() {
           const file = new File([blob], "croppedImg.webp", { type: blob.type });
           const formData = new FormData();
           formData.append("file", file);
-          uploadImageMutation.mutate(formData);
+          // uploadImageMutation.mutate(formData);
         }
       }, "image/webp");
       setError({ ...error, images: false });
@@ -176,7 +176,7 @@ export default function Upload() {
     setIsUploading(true);
 
     try {
-      await createProduct(product);
+      // await createProduct(product);
       toast.success(t("upload.productAddedSuccessfully"));
       setIsUploading(false);
     } catch (error) {
@@ -215,14 +215,14 @@ export default function Upload() {
               <Carousel className="mt-4">
                 <CarouselContent>
                   {images.map((image, index) => (
-                    <CarouselItem className="basis-1/2 md:basis-1/4 lg:basis-1/6" key={image.pictureId}>
+                    <CarouselItem className="basis-1/2 md:basis-1/4 lg:basis-1/6" key={image}>
                       <div className="flex w-full justify-center">
                         <div className="relative">
                           <Image
                             alt="New image"
                             className="min-h-[200px]"
                             height={250}
-                            src={image.imageUrl}
+                            src={image}
                             style={{ width: "auto", height: "auto" }}
                             width={150}
                           />
@@ -253,7 +253,7 @@ export default function Upload() {
               <div className="mt-4">
                 <Button
                   className="me-4 bg-primary text-white"
-                  isLoading={uploadImageMutation.isPending}
+                  // isLoading={uploadImageMutation.isPending}
                   onClick={() => confirmImageCrop()}
                 >
                   {t("upload.confirm")}
@@ -324,9 +324,9 @@ export default function Upload() {
                 classNames={{ input: "p-1 focus:ring-0", tag: "bg-secondary" }}
                 separators={[",", ";", "Enter"]}
                 value={product.tags}
-                onChange={(tags) => {
+                onChange={() => {
                   setError({ ...error, tags: false });
-                  setProduct({ ...product, tags });
+                  // setProduct({ ...product, [] });
                 }}
               />
               <div className="min-h-[21px] text-[14px] font-semibold text-red-500">

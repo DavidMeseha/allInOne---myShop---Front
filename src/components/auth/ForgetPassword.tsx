@@ -23,7 +23,6 @@ export default function ForgetPassword() {
 
   return (
     <>
-      <h1 className="text-center text-[28px] font-bold">{t("auth.forgetPassword")}</h1>
       <p className="mb-4 text-center text-sm text-strongGray">{t("auth.EnterEmailtoResetPassword")}</p>
 
       <FormTextInput

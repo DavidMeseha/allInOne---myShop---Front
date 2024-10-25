@@ -1,7 +1,7 @@
 import axios from "@/lib/axiosInstance";
-import { NewProduct } from "../types";
+import { IFullProduct } from "@/types";
 
-const createProduct = async (product: NewProduct) => {
+const createProduct = async (product: IFullProduct) => {
   try {
     await axios.post("/products", { product: { ...product } });
   } catch (error) {

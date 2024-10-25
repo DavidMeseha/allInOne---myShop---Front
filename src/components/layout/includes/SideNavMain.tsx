@@ -10,7 +10,7 @@ export default function SideNavMain() {
       <div className="fixed z-20 hidden h-full w-[270px] overflow-auto border-e bg-white pe-2 pt-[70px] md:block">
         <div className="mx-auto w-full">
           <MainMenu />
-          {user?.is_vendor ? <VendorMenu /> : null}
+          {user?.isVendor ? <VendorMenu /> : null}
         </div>
       </div>
     </>

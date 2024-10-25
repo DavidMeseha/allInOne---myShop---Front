@@ -1,4 +1,4 @@
-import { IFullProduct, Pagenation } from "@/types";
+import { IFullProduct, Pagination } from "@/types";
 import HomePage from "../HomePage";
 import { cookies } from "next/headers";
 import axiosInstance from "@/lib/axiosInstance";
@@ -7,7 +7,7 @@ export default async function Page() {
   const getProducts = async (page = 1) => {
     "use server";
     const res = await axiosInstance
-      .get<{ data: IFullProduct[]; page: Pagenation }>("api/catalog/homefeed", {
+      .get<{ data: IFullProduct[]; page: Pagination }>("api/catalog/homefeed", {
         params: {
           page: page
         },
@@ -22,7 +22,7 @@ export default async function Page() {
 
   const products = (await getProducts()).data;
 
-  const loadMore = async (page: number): Promise<{ data: IFullProduct[]; page: Pagenation }> => {
+  const loadMore = async (page: number): Promise<{ data: IFullProduct[]; page: Pagination }> => {
     "use server";
     const moreProducts = await getProducts(page);
     return moreProducts || [];

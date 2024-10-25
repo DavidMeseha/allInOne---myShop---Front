@@ -123,8 +123,6 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <form onSubmit={submit}>
-      <h1 className="mb-4 text-center text-[28px] font-bold">{t("auth.register")}</h1>
-
       <FormTextInput
         error={error.firstName}
         inputType="text"

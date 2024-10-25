@@ -41,7 +41,7 @@ export default function ProfileLayout({ children, params }: Props) {
           <BackArrow onClick={() => router.back()} />
           <h1 className="text-lg font-bold">
             {pathname.includes("/profile/me")
-              ? user?.firstName + " " + user?.lastName
+              ? (user?.firstName ?? "Profile" + " " + user?.lastName ?? "")
               : pathname.includes("order-details")
                 ? "Order Details"
                 : titles[path]}
@@ -55,7 +55,7 @@ export default function ProfileLayout({ children, params }: Props) {
           )}
         </div>
       </div>
-      <div className="  md:mt-0">{children}</div>
+      <div className="md:mt-0">{children}</div>
     </>
   );
 }

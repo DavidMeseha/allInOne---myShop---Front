@@ -8,5 +8,5 @@ import CategoriesView from "./CategoriesView";
 type Props = { vendors?: Vendor[]; tags?: TagsListItem[]; categories?: Category[] };
 
 export default function DiscoverPage({ categories }: Props) {
-  return <ul className=" mt-10 md:mt-0">{categories ? <CategoriesView categories={categories} /> : null}</ul>;
+  return <ul className="mt-10 md:mt-0">{categories ? <CategoriesView /> : null}</ul>;
 }

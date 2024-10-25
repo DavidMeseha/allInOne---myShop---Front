@@ -45,8 +45,6 @@ export default function Login() {
 
   return (
     <>
-      <h1 className="mb-4 text-center text-[28px] font-bold">{t("auth.login")}</h1>
-
       <FormTextInput
         error={error.email}
         inputType="email"

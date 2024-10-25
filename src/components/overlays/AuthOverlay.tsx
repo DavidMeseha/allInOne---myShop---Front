@@ -14,7 +14,11 @@ export default function AuthOverlay() {
   const { t } = useTranslation();
 
   return (
-    <OverlayLayout className="px-6" close={() => setIsLoginOpen(false)}>
+    <OverlayLayout
+      className="px-6"
+      close={() => setIsLoginOpen(false)}
+      title={tap === "register" ? t("auth.register") : tap === "login" ? t("auth.login") : t("auth.forgetPassword")}
+    >
       {tap === "register" ? (
         <Register onSuccess={() => setTap("login")} />
       ) : tap === "login" ? (

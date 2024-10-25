@@ -53,7 +53,7 @@ export default function UserProfileDisplay() {
     },
     {
       name: t("profile.orders"),
-      value: 0,
+      value: userInfoQuery.data?.ordersCount ?? 0,
       to: `/${lang}/profile/orders`
     },
     {

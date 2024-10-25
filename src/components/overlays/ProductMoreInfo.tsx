@@ -113,7 +113,7 @@ export default function ProductMoreInfoOverlay() {
       >
         Sold By: {product?.vendor.name}
       </Link>
-      <div className="mb-2 text-lg font-bold">{product?.price}$</div>
+      <div className="mb-2 text-lg font-bold">{product?.price.price}$</div>
       <div className="mb-4 text-center text-sm text-strongGray">
         {product?.productTags
           ? product?.productTags.map((tag, index) => (

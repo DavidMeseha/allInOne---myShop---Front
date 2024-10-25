@@ -7,10 +7,10 @@ type DropdownProps = SelectHTMLAttributes<HTMLSelectElement> & {
 
 export default function Dropdown({ label, options, className, ...props }: DropdownProps) {
   return (
-    <div className={`mb-4 ${className}`}>
+    <div className={className}>
       <label className="mb-1">{label}</label>
       <select
-        className="block w-full rounded-md border border-strongGray px-3 py-2 focus:border-primary focus:ring-primary"
+        className="block w-full rounded-sm border border-strongGray px-4 py-2 focus:border-primary focus:ring-primary"
         {...props}
       >
         {options.map((option, index) => (

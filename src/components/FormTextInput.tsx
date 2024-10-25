@@ -27,7 +27,7 @@ export default function FormTextInput({
       </label>
       <input
         autoComplete="off"
-        className="block w-full rounded-md border border-strongGray px-3 py-2.5 focus:border-primary focus:ring-primary"
+        className="block w-full rounded-sm border border-strongGray px-4 py-2 focus:border-primary focus:ring-primary"
         name={name}
         type={inputType}
         value={value}

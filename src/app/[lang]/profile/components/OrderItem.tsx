@@ -1,26 +1,25 @@
 import { useTranslation } from "@/context/Translation";
-import { OrderListItem } from "@/types";
+import { IOrder } from "@/types";
 import Link from "next/link";
 import React from "react";
 
 type Props = {
-  order: OrderListItem;
+  order: IOrder;
 };
 
 export default function OrderItem({ order }: Props) {
-  const { t, lang } = useTranslation();
+  const { lang } = useTranslation();
   return (
     <li className="flex items-center justify-between border-b px-4 py-2">
-      <div className="flex w-full items-center gap-3">
-        <div className="border-e pe-4 text-lg font-bold">#{order.id}</div>
-        <div>
-          <p className="font-bold">{order.custom_order_number}</p>
-          <p className="text-strongGray">{order.order_total}$</p>
-        </div>
+      <div className="flex grow flex-col justify-between">
+        <Link className="text-lg font-bold" href={`/${lang}/profile/order-details/${order._id}`}>
+          #{order._id}
+        </Link>
+        <p className="max-w-[250px] overflow-clip text-ellipsis text-nowrap text-xs text-strongGray">
+          {order.items.map((item) => item.product.name + ", ")}
+        </p>
       </div>
-      <Link className="text-strongGray" href={`/${lang}/profile/order-details/id`}>
-        {t("details")}
-      </Link>
+      <div className="w-[50px] text-strongGray">{order.shippingStatus}</div>
     </li>
   );
 }

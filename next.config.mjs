@@ -16,6 +16,12 @@ const nextConfig = {
         hostname: "localhost",
         port: "3000",
         pathname: "/images/**"
+      },
+      {
+        protocol: "https",
+        hostname: "all-in-one-my-shop-back.vercel.app",
+        port: "",
+        pathname: "/images/**"
       }
     ]
   },

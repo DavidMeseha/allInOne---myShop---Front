@@ -69,10 +69,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
         })
         .then((res) => res.data),
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-      console.log(lastPage, lastPageParam, allPageParams, allPages);
-      return lastPageParam + 1;
-    }
+    getNextPageParam: (_lastPage, _allPages, lastPageParam) => lastPageParam + 1
   });
   const lastPage = productsQuery.data?.pages.findLast((page) => page);
 
@@ -88,7 +85,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
 
   return (
     <>
-      <div className="  flex w-full flex-row items-center justify-start px-4 md:mt-0">
+      <div className="flex w-full flex-row items-center justify-start px-4 md:mt-0">
         <Image
           alt={vendor.name}
           className="h-[120px] w-[120px] rounded-md object-cover"

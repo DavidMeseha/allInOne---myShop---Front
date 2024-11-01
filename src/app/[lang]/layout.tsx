@@ -7,7 +7,6 @@ import "@/globals.css";
 import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { NextRequest } from "next/server";
 
 export const metadata: Metadata = {
   title: "Ticktock Shop",
@@ -34,7 +33,6 @@ export default async function RootLayout({
         <MainLayout dictionary={dictionary} lang={params.lang}>
           {children}
           <ToastContainer />
-          {/* <Test /> */}
         </MainLayout>
         <Analytics />
         <SpeedInsights />
@@ -42,17 +40,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-export const loader = async ({ req }: { req: NextRequest }) => {
-  const url = new URL(req.url);
-  const pathname = url.pathname;
-
-  // Use the pathname as needed
-  console.log(pathname);
-
-  return {
-    props: {
-      pathname
-    }
-  };
-};

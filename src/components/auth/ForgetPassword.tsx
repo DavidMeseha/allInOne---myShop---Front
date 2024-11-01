@@ -12,8 +12,6 @@ export default function ForgetPassword() {
   const submitHandle = () => {
     if (error) return;
     if (!email) return setError(t("auth.emailRequired"));
-
-    console.log("confirm");
   };
 
   const fieldChangeHandle = (value: string) => {

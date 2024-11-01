@@ -42,10 +42,7 @@ export default function CheckoutPage() {
       axiosInstanceNew.post(`/api/user/order/submit`, {
         ...form
       }),
-    onSuccess: (data) => {
-      console.log(data.data);
-      toast.success("Order Placed Successfully");
-    }
+    onSuccess: () => toast.success("Order Placed Successfully")
   });
 
   const preperPaymentMutation = useMutation({
@@ -89,19 +86,16 @@ export default function CheckoutPage() {
     // Create payment intent on the server
     await preperPaymentMutation.mutateAsync();
     if (!preperPaymentMutation.data) return;
-    console.log(preperPaymentMutation.data.data);
 
     const { paymentSecret } = preperPaymentMutation.data.data;
 
     // Confirm the payment with the card details
-    const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(paymentSecret, {
+    const { error: stripeError } = await stripe.confirmCardPayment(paymentSecret, {
       payment_method: {
         card: cardElement
       }
     });
 
-    console.log(stripeError);
-    console.log(paymentIntent);
     if (stripeError) return;
     else placeOrderMutation.mutate();
   };

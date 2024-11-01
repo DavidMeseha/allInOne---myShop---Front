@@ -3,6 +3,7 @@
   "extends": ["next", "next/core-web-vitals", "eslint:recommended", "plugin:react/recommended", "prettier"],
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "no-console": "error",
     "react-hooks/exhaustive-deps": "off",
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",

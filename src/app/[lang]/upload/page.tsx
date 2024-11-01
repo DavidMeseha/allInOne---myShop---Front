@@ -5,32 +5,51 @@ import { BiMinus, BiSolidCloudUpload } from "react-icons/bi";
 import { useRouter } from "next-nprogress-bar";
 import { useUser } from "@/context/user";
 import { FieldError } from "../../../types";
-// import createProduct from "../../../hooks/createProduct";
 import { TagsInput } from "react-tag-input-component";
 import "react-advanced-cropper/dist/style.css";
 import FormTextInput from "../../../components/FormTextInput";
 import { useGeneralStore } from "../../../stores/generalStore";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Cropper, CropperRef } from "react-advanced-cropper";
-// import useUploadImage from "../../../hooks/useUploadImage";
 import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import { useTranslation } from "@/context/Translation";
-import Checkbox from "@/components/Checkbox";
 import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstanceNew from "@/lib/axiosInstanceNew";
 
-const initialNewProduct = {
+type NewProduct = {
+  name: string;
+  description: string;
+  stock_quantity: number;
+  price: number;
+  old_price?: number;
+  pictures: string[];
+  tags: string[];
+  sku: string;
+  metaDescription: string;
+  metaKeywords: string;
+  metaTitle: string;
+  seName: string;
+  gender: string;
+  category: string;
+};
+
+const initialNewProduct: NewProduct = {
   name: "",
   description: "",
-  is_free_shipping: true,
   stock_quantity: 0,
   price: 0,
   old_price: 0,
-  video: {
-    file_name: ""
-  },
-  images: [],
-  tags: []
+  pictures: [],
+  tags: [],
+  sku: "",
+  metaDescription: "",
+  metaKeywords: "",
+  metaTitle: "",
+  seName: "",
+  gender: "",
+  category: ""
 };
 
 interface Errors {
@@ -69,26 +88,29 @@ export default function Upload() {
   const cropperRef = useRef<CropperRef>(null);
   const [cropping, setCropping] = useState<string | null>(null);
 
-  // const uploadImageMutation = useUploadImage({
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //     if (!data.success) return toast.error(t("upload.unableToUpload"));
-  //     const tempImages = [...images];
-  //     tempImages.push(data);
-  //     setImages(tempImages);
-  //     setProduct({
-  //       ...product,
-  //       images: tempImages.map((image, index) => ({
-  //         picture_id: image.pictureId,
-  //         position: index,
-  //         src: image.imageUrl
-  //       }))
-  //     });
-  //     setCropping(null);
-  //     toast.success("Image Uploaded");
-  //   },
-  //   onError: (e) => toast.error(e.message)
-  // });
+  const uploadImageMutation = useMutation({
+    mutationFn: (formData: FormData) =>
+      axiosInstanceNew
+        .post<{ imageUrl: string }>("/api/common/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then((res) => res.data),
+
+    onSuccess: (data) => {
+      const tempImages = [...images];
+      tempImages.push(data.imageUrl);
+      setImages(tempImages);
+      setProduct({
+        ...product,
+        pictures: [...tempImages]
+      });
+      setCropping(null);
+      toast.success("Image Uploaded");
+    },
+    onError: () => toast.error(t("upload.unableToUpload"))
+  });
 
   const validate = () => {
     setError(initialErrors);
@@ -103,7 +125,7 @@ export default function Upload() {
       errors = { ...errors, stock_quantity: t("upload.stockQuantityIsRequired") };
       isError = true;
     }
-    if (!product.images || !(product.images.length > 0)) {
+    if (!product.pictures || !(product.pictures.length > 0)) {
       errors = { ...errors, images: t("upload.oneImageAtLeastRequired") };
       isError = true;
     }
@@ -113,10 +135,6 @@ export default function Upload() {
     }
     if (!product.price || product.price <= 0) {
       errors = { ...errors, price: t("upload.positvePriceValueIsRequired") };
-      isError = true;
-    }
-    if (product.old_price <= 0) {
-      errors = { ...errors, old_price: t("upload.oldPriceShouldBePositveValue") };
       isError = true;
     }
     if (!product.tags || !product.tags.length) {
@@ -135,11 +153,11 @@ export default function Upload() {
   };
 
   const handleRemoveImage = (index: number) => {
-    const tempProductImages = [...product.images];
+    const tempProductImages = [...product.pictures];
     const tempViewImages = [...images];
     tempProductImages.splice(index, 1);
     tempViewImages.splice(index, 1);
-    setProduct({ ...product, images: [...tempProductImages] });
+    setProduct({ ...product, pictures: [...tempProductImages] });
     setImages(tempViewImages);
   };
 
@@ -161,8 +179,8 @@ export default function Upload() {
         if (blob) {
           const file = new File([blob], "croppedImg.webp", { type: blob.type });
           const formData = new FormData();
-          formData.append("file", file);
-          // uploadImageMutation.mutate(formData);
+          formData.append("image", file);
+          uploadImageMutation.mutate(formData);
         }
       }, "image/webp");
       setError({ ...error, images: false });
@@ -176,7 +194,6 @@ export default function Upload() {
     setIsUploading(true);
 
     try {
-      // await createProduct(product);
       toast.success(t("upload.productAddedSuccessfully"));
       setIsUploading(false);
     } catch (error) {
@@ -205,7 +222,7 @@ export default function Upload() {
                 <p className="mt-1 text-[13px] text-gray-500">{t("upload.OrDragAndDropFile")}</p>
                 <p className="mt-1 text-sm text-gray-400">JPEG, PNG</p>
                 <label
-                  className="mt-8 w-[80%] cursor-pointer rounded-sm bg-[#F02C56] px-2 py-1.5 text-[15px] text-white"
+                  className="mt-8 w-[80%] cursor-pointer rounded-sm bg-primary px-2 py-1.5 text-[15px] text-white"
                   htmlFor="fileInput"
                 >
                   {t("upload.selectFile")}
@@ -278,7 +295,7 @@ export default function Upload() {
                 </div>
               </div>
               <div className="my-auto flex h-full w-full max-w-[130px] justify-end text-center">
-                <button className="rounded-sm bg-[#F02C56] px-8 py-1.5 text-[15px] text-white">Edit</button>
+                <button className="rounded-sm bg-primary px-8 py-1.5 text-[15px] text-white">Edit</button>
               </div>
             </div> */}
 
@@ -295,7 +312,7 @@ export default function Upload() {
               inputType="number"
               name="old_price"
               placeholder={t("upload.oldPrice")}
-              value={product.old_price.toString()}
+              value={product.old_price?.toString() ?? "0"}
               onUpdate={inputChangeHandle}
             />
             <FormTextInput
@@ -352,24 +369,15 @@ export default function Upload() {
               </div>
             </div>
 
-            <Checkbox
-              checked={product.is_free_shipping}
-              className="mr-1 inline-block"
-              id="free-shipping"
-              label={t("upload.freeShipping")}
-              type="checkbox"
-              onChange={(e) => setProduct({ ...product, is_free_shipping: e.target.checked })}
-            />
-
             <div className="flex gap-3">
-              <a
-                // onClick={() => !isUploading && discard()}
+              <button
                 className="mt-8 rounded-sm border px-10 py-2.5 text-[16px] hover:bg-gray-100"
+                // onClick={() => !isUploading && discard()}
               >
                 {t("upload.discard")}
-              </a>
+              </button>
               <Button
-                className="mt-8 border bg-[#F02C56] text-[16px] text-white"
+                className="mt-8 border bg-primary text-[16px] text-white"
                 isLoading={isUploading}
                 onClick={createNewProduct}
               >

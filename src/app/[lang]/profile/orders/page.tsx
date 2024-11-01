@@ -12,7 +12,8 @@ export default function OrdersPage() {
     queryFn: () => axiosInstanceNew.get<IOrder[]>("/api/user/orders").then((res) => res.data)
   });
 
-  console.log(ordersQuery.data);
+  const orders = ordersQuery.data ?? [];
+
   return (
     <>
       <ul className=" ">
@@ -20,8 +21,8 @@ export default function OrdersPage() {
           <li className="flex w-full flex-col items-center justify-center py-2">
             <BiLoaderCircle className="animate-spin fill-primary" size={35} />
           </li>
-        ) : ordersQuery.data && ordersQuery.data?.length > 0 ? (
-          ordersQuery.data?.map((order) => <OrderItem key={order._id} order={order} />)
+        ) : orders.length > 0 ? (
+          orders.map((order) => <OrderItem key={order._id} order={order} />)
         ) : (
           <li className="text-center text-strongGray">No Orders Avilable</li>
         )}

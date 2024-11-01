@@ -20,10 +20,7 @@ export default function TagsView() {
         .get<{ data: ITag[]; pages: Pagination }>("/api/catalog/discover/tags", {
           params: { page: pageParam }
         })
-        .then((res) => {
-          console.log(res.data);
-          return res.data;
-        }),
+        .then((res) => res.data),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, _allPages, lastPageParam) => {
       return lastPageParam + 1;
@@ -34,7 +31,7 @@ export default function TagsView() {
   const lastPage = tagsPages?.findLast((page) => page);
 
   return (
-    <ul className=" mt-10 md:mt-0">
+    <ul className="mt-10 md:mt-0">
       {tagsQuery.isFetchedAfterMount ? (
         tagsPages ? (
           <div>

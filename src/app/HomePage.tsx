@@ -33,7 +33,6 @@ export default function HomePage({ products, loadMore }: Props) {
         if (res.data.length < 4) setHasMore(false);
         setProducts([...productsList, ...res.data]);
         setPage(page + 1);
-        console.log("next", page);
       });
     }
   }, [isInView]);

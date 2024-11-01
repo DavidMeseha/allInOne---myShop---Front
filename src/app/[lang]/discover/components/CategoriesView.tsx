@@ -19,10 +19,7 @@ export default function CategoriesView() {
         .get<{ data: ICategory[]; pages: Pagination }>("/api/catalog/discover/categories", {
           params: { page: pageParam }
         })
-        .then((res) => {
-          console.log(res.data);
-          return res.data;
-        }),
+        .then((res) => res.data),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, _allPages, lastPageParam) => {
       return lastPageParam + 1;
@@ -33,7 +30,7 @@ export default function CategoriesView() {
   const lastPage = tagsPages?.findLast((page) => page);
 
   return (
-    <ul className=" mt-10 md:mt-0">
+    <ul className="mt-10 md:mt-0">
       {tagsQuery.isFetchedAfterMount && tagsPages ? (
         tagsPages.map((page) =>
           page.data.map((tag) => <ListItem category={tag} key={tag._id} to={`/${lang}/profile/category/${tag._id}`} />)

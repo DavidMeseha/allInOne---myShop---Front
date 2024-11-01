@@ -55,8 +55,6 @@ function NavBar() {
 
   ClickRecognition(() => setSearchProducts([]), searchRef);
 
-  console.log(user);
-
   return (
     <div className="fixed z-30 hidden h-[60px] w-full items-center border-b bg-white md:flex" id="TopNav">
       <div className={`mx-auto flex w-full items-center justify-between gap-6 px-4`}>
@@ -114,9 +112,11 @@ function NavBar() {
 
         <div className="flex items-center gap-3">
           {user?.isVendor && (
-            <Button className="flex items-center rounded-sm border hover:bg-gray-100" onClick={() => goTo()}>
-              <AiOutlinePlus color="#000000" size="22" />
-              <span className="px-2 text-[15px] font-medium">{t("upload")}</span>
+            <Button className="rounded-sm border hover:bg-gray-100" onClick={() => goTo()}>
+              <div className="flex items-center">
+                <AiOutlinePlus color="#000000" size="22" />
+                <span className="px-2 text-[15px] font-medium">{t("upload")}</span>
+              </div>
             </Button>
           )}
 

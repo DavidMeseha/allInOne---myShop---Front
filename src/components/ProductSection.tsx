@@ -54,7 +54,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
 
   return (
     <div className="flex border-b py-6" id={`PostMain-${product._id}`}>
-      <div>
+      <div className="w-11">
         <Link aria-label="Navigate to specific vendor profile" href={`/${lang}/profile/vendor/${product.vendor._id}`}>
           <Image
             alt={product.vendor.name}

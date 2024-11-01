@@ -58,8 +58,6 @@ function UserProvider({ children }: ContextProps) {
     axiosInstanceNew.interceptors.response.use(
       (res) => res,
       (err: AxiosError) => {
-        console.log(err.status);
-        console.log(err.response?.status);
         if (err.status === 500) toast.error(t("serverFail"));
         if (err.status === 403) {
           queryClient.clear();
@@ -120,7 +118,9 @@ function UserProvider({ children }: ContextProps) {
   const registerMutation = useMutation({
     mutationKey: ["register"],
     mutationFn: (form: RegisterForm) =>
-      axiosInstanceNew.post<{ token: User }>("/api/auth/register", { ...form }).then((res) => res.data.token),
+      axiosInstanceNew
+        .post<{ token: User }>("/api/auth/register", { ...form, gender: !form.gender.length ? null : form.gender })
+        .then((res) => res.data.token),
 
     onSuccess: () => {
       toast.success(t("auth.successfullRegister"));

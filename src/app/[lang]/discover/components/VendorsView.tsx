@@ -23,10 +23,7 @@ export default function VendorsView() {
         .get<{ data: IVendor[]; pages: Pagination }>("/api/catalog/discover/vendors", {
           params: { page: pageParam }
         })
-        .then((res) => {
-          console.log(res.data);
-          return res.data;
-        }),
+        .then((res) => res.data),
     initialPageParam: 1,
     getNextPageParam: (_lastPage, _allPages, lastPageParam) => {
       return lastPageParam + 1;
@@ -37,7 +34,7 @@ export default function VendorsView() {
   const lastPage = vendorsPages?.findLast((page) => page);
 
   return (
-    <ul className=" mt-10 md:mt-0">
+    <ul className="mt-10 md:mt-0">
       {vendorsQuery.isFetchedAfterMount ? (
         vendorsPages ? (
           <div>

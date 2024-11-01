@@ -165,16 +165,7 @@ export default function AddressesPage() {
         {activeTap === "addresses" ? (
           addresses.data && addresses.data.length > 0 ? (
             addresses.data.map((address) => (
-              <AddressItem
-                address={address}
-                key={address._id}
-                handleDelete={(id) => {
-                  console.log(id);
-                }}
-                handleEdit={(id) => {
-                  console.log(id);
-                }}
-              />
+              <AddressItem address={address} handleDelete={() => {}} handleEdit={() => {}} key={address._id} />
             ))
           ) : (
             <div className="text-center">

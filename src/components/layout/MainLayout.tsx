@@ -17,9 +17,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
 export const queryClient = new QueryClient();
-const stripePromise = loadStripe(
-  "pk_test_51N00ChJp1pxddz1DcjxHlePPUR621MfopUXZ2vDocEhuQMYPv6Kwa5eD18Y1rF6HGnbHhn8bhmHZXPcF753UH1kg00LKLpjWbM"
-);
+const stripePromise = loadStripe(process.env.STRIP_KEY ?? "");
 
 export default function MainLayout({
   children,

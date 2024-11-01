@@ -4,7 +4,6 @@ import { Dictionaries } from "@/dictionary";
 import axiosInstanceNew from "@/lib/axiosInstanceNew";
 import { Metadata, ResolvingMetadata } from "next";
 import { IFullProduct } from "@/types";
-import { AxiosError } from "axios";
 import ProductNotFound from "@/app/product-not-found";
 
 type Props = {
@@ -41,11 +40,8 @@ export default async function Page({ params }: Props) {
       headers: { Authorization: `Bearer ${cookies().get("access_token")?.value}` }
     })
     .then((res) => res.data)
-    .catch((err: AxiosError) => {
-      console.log(err.response?.data);
-      return null;
-    });
+    .catch(() => null);
 
   if (!data) return <ProductNotFound />;
-  if (data) return <ProductPage product={data} />;
+  return <ProductPage product={data} />;
 }

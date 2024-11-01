@@ -13,7 +13,6 @@ export interface DropdownProps {
 }
 
 export default function FormDropdownInput({ value, label, error, onUpdate, options, name, isLoading }: DropdownProps) {
-  console.log(options);
   return (
     <div className="relative pb-1">
       <label>{label}</label>

@@ -7,19 +7,17 @@ import { passwordValidation } from "@/lib/formatValidation";
 import { FieldError } from "@/types";
 import React, { ChangeEvent, useState } from "react";
 
-type Props = {
-  params: { token: string };
-};
+// type Props = {
+//   params: { token: string };
+// };
 
-export default function Page({ params }: Props) {
+export default function Page() {
   const { t } = useTranslation();
   const [form, setForm] = useState({ password: "", confirm: "" });
   const [error, setError] = useState<{ password: FieldError; confirm: FieldError }>({
     password: false,
     confirm: false
   });
-
-  console.log(params.token);
 
   const fieldChangeHandle = (value: string, name: string) => {
     setError({ ...error, [name]: false });

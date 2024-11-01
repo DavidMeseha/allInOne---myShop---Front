@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BiUser } from "react-icons/bi";
+import { BiShoppingBag, BiUser } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 import { memo, useState } from "react";
@@ -57,15 +57,17 @@ function NavBar() {
   return (
     <div className="fixed z-30 hidden h-[60px] w-full items-center border-b bg-white md:flex" id="TopNav">
       <div className={`mx-auto flex w-full items-center justify-between gap-6 px-4`}>
-        <Link aria-label="to Home Page" href={`/${lang}`}>
-          <Image
+        <Link aria-label="to Home Page" className="flex items-center gap-2" href={`/${lang}`}>
+          {/* <Image
             alt="Tiktok"
             className="h-auto min-w-[115px] object-cover"
             height={115}
             priority
             src="/images/tiktok-logo.png"
             width={115}
-          />
+          /> */}
+          <BiShoppingBag size={40} />
+          <span className="text-2xl font-bold">TikShop</span>
         </Link>
 
         {/* <div

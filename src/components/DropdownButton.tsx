@@ -7,7 +7,7 @@ type DropdownProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
   isLoading?: boolean;
   onSelectItem: (selected: string) => void;
-  className: string;
+  className?: string;
 };
 
 export default function DropdownButton({
@@ -21,7 +21,7 @@ export default function DropdownButton({
   const [isOpen, setIsOpen] = useState(false);
   return (
     <button
-      className={`relative flex gap-1 rounded-sm px-4 py-2 ${className}`}
+      className={`relative flex gap-1 rounded-sm px-4 py-2 ${className ?? ""}`}
       onClick={() => setIsOpen(!isOpen)}
       {...props}
     >

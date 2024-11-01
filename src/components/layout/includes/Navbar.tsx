@@ -1,31 +1,30 @@
 "use client";
 
 import Link from "next/link";
-// import { debounce } from "debounce";
-import { usePathname } from "next/navigation";
-import { BiSearch, BiUser } from "react-icons/bi";
+import { BiUser } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
-import { ChangeEvent, memo, useRef, useState } from "react";
+import { memo, useState } from "react";
 import { useUser } from "@/context/user";
 import { useGeneralStore } from "@/stores/generalStore";
-import ClickRecognition from "@/hooks/useClickRecognition";
+// import ClickRecognition from "@/hooks/useClickRecognition";
 import Button from "@/components/Button";
 import { useTranslation } from "../../../context/Translation";
 import Image from "next/image";
 import { useRouter } from "next-nprogress-bar";
-import { IFullProduct } from "@/types";
+// import { IFullProduct } from "@/types";
+import DropdownButton from "@/components/DropdownButton";
 
 function NavBar() {
   const { user, logout } = useUser();
   const router = useRouter();
-  const pathname = usePathname();
-  const searchRef = useRef(null);
+  // const pathname = usePathname();
+  // const searchRef = useRef(null);
 
-  const [searchProducts, setSearchProducts] = useState<IFullProduct[]>([]);
+  // const [searchProducts, setSearchProducts] = useState<IFullProduct[]>([]);
   let [showMenu, setShowMenu] = useState<boolean>(false);
-  const { t, lang } = useTranslation();
-  const { setIsLoginOpen, setSearch, search } = useGeneralStore();
+  const { t, lang, changeLang } = useTranslation();
+  const { setIsLoginOpen } = useGeneralStore();
 
   // const handleSearch = debounce(async (event: { target: { value: string } }) => {
   //   if (event.target.value === "") return setSearchProducts([]);
@@ -34,26 +33,26 @@ function NavBar() {
   //   );
   // }, 500);
 
-  function HandleSearchOnChange(e: ChangeEvent<HTMLInputElement>) {
-    setSearch(e.target.value);
-    if (
-      pathname !== `/${lang}/discover` &&
-      pathname !== `/${lang}/discover/products` &&
-      pathname !== `/${lang}/discover/vendors` &&
-      pathname !== `/${lang}/discover/tags` &&
-      pathname !== `/${lang}/vendor/products`
-    ) {
-      return;
-    }
-    // handleSearch(e);
-  }
+  // function HandleSearchOnChange(e: ChangeEvent<HTMLInputElement>) {
+  //   setSearch(e.target.value);
+  //   if (
+  //     pathname !== `/${lang}/discover` &&
+  //     pathname !== `/${lang}/discover/products` &&
+  //     pathname !== `/${lang}/discover/vendors` &&
+  //     pathname !== `/${lang}/discover/tags` &&
+  //     pathname !== `/${lang}/vendor/products`
+  //   ) {
+  //     return;
+  //   }
+  //   // handleSearch(e);
+  // }
 
   const goTo = () => {
     if (!user || !user.isRegistered) return setIsLoginOpen(true);
     router.push(`/${lang}/upload`);
   };
 
-  ClickRecognition(() => setSearchProducts([]), searchRef);
+  // ClickRecognition(() => setSearchProducts([]), searchRef);
 
   return (
     <div className="fixed z-30 hidden h-[60px] w-full items-center border-b bg-white md:flex" id="TopNav">
@@ -69,7 +68,7 @@ function NavBar() {
           />
         </Link>
 
-        <div
+        {/* <div
           className="relative hidden w-full max-w-[430px] items-center justify-end rounded-full bg-[#F1F1F2] p-1 md:flex"
           ref={searchRef}
         >
@@ -108,7 +107,7 @@ function NavBar() {
               ))}
             </div>
           ) : null}
-        </div>
+        </div> */}
 
         <div className="flex items-center gap-3">
           {user?.isVendor && (
@@ -164,6 +163,15 @@ function NavBar() {
               </div>
             </div>
           )}
+
+          <DropdownButton
+            className="bg-transparent"
+            options={["en", "ar"]}
+            value={lang}
+            onSelectItem={(value) => changeLang(value as "en" | "ar")}
+          >
+            {lang}
+          </DropdownButton>
         </div>
       </div>
     </div>

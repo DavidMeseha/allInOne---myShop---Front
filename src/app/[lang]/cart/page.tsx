@@ -34,7 +34,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="fixed end-0 start-0 top-0 z-20 w-full bg-white px-2 md:hidden">
+      <div className="fixed end-0 start-0 top-0 z-20 w-full border-b bg-white px-2 md:hidden">
         <div className="flex justify-between py-2">
           <BackArrow onClick={() => router.back()} />
           <h1 className="text-lg font-bold">{t("cart")}</h1>

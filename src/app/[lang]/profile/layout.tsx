@@ -41,7 +41,7 @@ export default function ProfileLayout({ children, params }: Props) {
           <BackArrow onClick={() => router.back()} />
           <h1 className="text-lg font-bold">
             {pathname.includes("/profile/me")
-              ? (user?.firstName ?? "Profile" + " " + user?.lastName ?? "")
+              ? (user?.firstName || t("profile")) + " " + (user?.lastName || "")
               : pathname.includes("order-details")
                 ? "Order Details"
                 : titles[path]}

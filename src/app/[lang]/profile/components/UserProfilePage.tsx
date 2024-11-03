@@ -38,7 +38,7 @@ export default function UserProfilePage() {
         <div className="flex justify-between py-2">
           <BackArrow onClick={() => router.back()} />
           <h1 className="text-lg font-bold">{t("profile.yourProfile")}</h1>
-          <Link className="relative end-2" href={`/${lang}/profile/cart`}>
+          <Link className="relative end-2" href={`/${lang}/cart`}>
             <div className="absolute -end-2 -top-1 flex h-4 w-4 justify-center rounded-full bg-primary text-xs font-semibold text-white">
               {cartProducts.length}
             </div>

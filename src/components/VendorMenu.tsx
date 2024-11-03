@@ -2,25 +2,34 @@ import Link from "next/link";
 import React from "react";
 import SubMenuItem from "./SubMenuItem";
 import { useTranslation } from "@/context/Translation";
+import { BsCompass, BsCompassFill } from "react-icons/bs";
 
 export default function VendorMenu() {
   const { t, lang } = useTranslation();
   const menu = [
     {
       name: t("menu.dashboard"),
-      to: `/${lang}/vendor/dashboard`
+      to: `/${lang}/vendor/dashboard`,
+      Icon: <BsCompass size={20} />,
+      IconActive: <BsCompassFill size={20} />
     },
     {
       name: t("menu.yourProducts"),
-      to: `/${lang}/vendor/products`
+      to: `/${lang}/vendor/products`,
+      Icon: <BsCompass size={20} />,
+      IconActive: <BsCompassFill size={20} />
     },
     {
       name: t("menu.orders"),
-      to: `/${lang}/vendor/orders`
+      to: `/${lang}/vendor/orders`,
+      Icon: <BsCompass size={20} />,
+      IconActive: <BsCompassFill size={20} />
     },
     {
       name: t("menu.shipments"),
-      to: `/${lang}/vendor/shipments`
+      to: `/${lang}/vendor/shipments`,
+      Icon: <BsCompass size={20} />,
+      IconActive: <BsCompassFill size={20} />
     },
     {
       name: t("menu.reports"),
@@ -37,7 +46,9 @@ export default function VendorMenu() {
           name: t("menu.productsNeverPurchased"),
           to: `/${lang}/vendor/reports/neverpurchased`
         }
-      ]
+      ],
+      Icon: <BsCompass size={20} />,
+      IconActive: <BsCompassFill size={20} />
     }
   ];
 

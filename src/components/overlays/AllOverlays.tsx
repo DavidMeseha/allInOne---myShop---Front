@@ -12,6 +12,7 @@ import ProductMoreInfoOverlay from "./ProductMoreInfo";
 import Search from "./Search";
 import AddReviewOverlay from "./AddReviewOverlay";
 import AddNewAddress from "./AddNewAddress";
+import SearchOverlay from "./SearchOverlay";
 
 export default function AllOverlays() {
   const {
@@ -87,6 +88,7 @@ export default function AllOverlays() {
       {isSearchOpen ? <Search /> : null}
       {isAddReviewOpen ? <AddReviewOverlay /> : null}
       {isAddAddressOpen ? <AddNewAddress /> : null}
+      {<SearchOverlay />}
     </>
   );
 }

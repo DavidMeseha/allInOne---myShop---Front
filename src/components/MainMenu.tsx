@@ -60,7 +60,7 @@ export default function MainMenu() {
           {item.to ? (
             <Link
               href={item.to}
-              className={`mb-2 flex w-full items-center gap-1 rounded-md p-2 text-lg font-semibold hover:bg-lightGray ${
+              className={`mb-2 flex w-full items-center gap-2 rounded-md p-2 text-lg font-semibold hover:bg-lightGray ${
                 pathname === item.to ? "bg-lightGray text-primary" : ""
               }`}
             >

@@ -7,7 +7,7 @@ export default function SideNavMain() {
 
   return (
     <>
-      <div className="fixed z-20 hidden h-full w-[270px] overflow-auto border-e bg-white pe-2 pt-[70px] md:block">
+      <div className="fixed z-20 hidden h-full w-[230px] overflow-auto border-e bg-white pe-2 pt-[70px] md:block">
         <div className="mx-auto w-full">
           <MainMenu />
           {user?.isVendor ? <VendorMenu /> : null}

@@ -35,6 +35,7 @@ export default function DateDropdownNumbers({
     <div className="flex w-full gap-4">
       <Dropdown
         className="w-1/4"
+        dir="ltr"
         label="day"
         options={days}
         value={day}
@@ -42,6 +43,7 @@ export default function DateDropdownNumbers({
       />
       <Dropdown
         className="w-1/4"
+        dir="ltr"
         label="month"
         options={months}
         value={month}
@@ -49,6 +51,7 @@ export default function DateDropdownNumbers({
       />
       <Dropdown
         className="w-2/4"
+        dir="ltr"
         label="year"
         options={years}
         value={year}

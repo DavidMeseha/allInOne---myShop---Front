@@ -19,7 +19,7 @@ export default function OverlayLayout({ children, close, className, title, isLoa
   useClickRecognition(close, containerRef);
   return (
     <div className="fixed left-0 top-0 z-50 h-screen w-full overflow-auto bg-black bg-opacity-50">
-      <div className="mt-40 md:my-8 flex min-h-screen items-end justify-center md:items-center">
+      <div className="flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8">
         <div
           ref={containerRef}
           className={twMerge(

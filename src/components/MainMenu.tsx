@@ -1,27 +1,30 @@
 import Link from "next/link";
 import React from "react";
 import SubMenuItem from "./SubMenuItem";
-import { RiMessageFill, RiMessageLine, RiProfileFill, RiProfileLine } from "react-icons/ri";
+import { RiProfileFill, RiProfileLine } from "react-icons/ri";
 import { BsCompass, BsCompassFill, BsHouse, BsHouseFill } from "react-icons/bs";
 import { useTranslation } from "@/context/Translation";
 import { useUserStore } from "@/stores/userStore";
+import { usePathname } from "next/navigation";
+import { PiShoppingCart, PiShoppingCartFill } from "react-icons/pi";
 
 export default function MainMenu() {
   const { t, lang } = useTranslation();
   const { cartProducts } = useUserStore();
+  const pathname = usePathname();
 
   const menu = [
     {
       name: t("home"),
       to: `/${lang}`,
-      icon: <BsHouse className="mx-auto" size={25} />,
-      iconActive: <BsHouseFill className="mx-auto" size={25} />
+      Icon: <BsHouse size={20} />,
+      IconActive: <BsHouseFill size={20} />
     },
     {
       name: t("profile"),
       to: `/${lang}/profile/me`,
-      icon: <RiProfileLine className="mx-auto" size={25} />,
-      iconActive: <RiProfileFill className="mx-auto" size={25} />
+      Icon: <RiProfileLine size={20} />,
+      IconActive: <RiProfileFill size={20} />
     },
     {
       name: t("discover"),
@@ -39,14 +42,14 @@ export default function MainMenu() {
           to: `/${lang}/discover/tags`
         }
       ],
-      icon: <BsCompass className="mx-auto" size={25} />,
-      iconActive: <BsCompassFill className="mx-auto" size={25} />
+      Icon: <BsCompass size={20} />,
+      IconActive: <BsCompassFill size={20} />
     },
     {
-      name: "Cart" + ` (${cartProducts.length})`,
+      name: t("cart") + ` (${cartProducts.length})`,
       to: `/${lang}/cart`,
-      icon: <RiMessageLine className="mx-auto" size={25} />,
-      iconActive: <RiMessageFill className="mx-auto" size={25} />
+      Icon: <PiShoppingCart size={20} />,
+      IconActive: <PiShoppingCartFill size={20} />
     }
   ];
 
@@ -55,7 +58,13 @@ export default function MainMenu() {
       {menu.map((item, index) => (
         <li key={index}>
           {item.to ? (
-            <Link className="block w-full rounded-md p-2 text-lg font-semibold hover:bg-lightGray" href={item.to}>
+            <Link
+              href={item.to}
+              className={`mb-2 flex w-full items-center gap-1 rounded-md p-2 text-lg font-semibold hover:bg-lightGray ${
+                pathname === item.to ? "bg-lightGray text-primary" : ""
+              }`}
+            >
+              {pathname === item.to ? item.IconActive : item.Icon}
               {item.name}
             </Link>
           ) : (

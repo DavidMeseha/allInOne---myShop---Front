@@ -18,6 +18,8 @@ import axiosInstanceNew from "@/lib/axiosInstanceNew";
 import { useUserStore } from "@/stores/userStore";
 import { toast } from "react-toastify";
 import Button from "./Button";
+import { useUser } from "@/context/user";
+import { useGeneralStore } from "@/stores/generalStore";
 
 export default function ProductSection({ product }: { product: IFullProduct }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
@@ -25,6 +27,8 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
   const [readMore, setReadMore] = useState(false);
   const { t, lang } = useTranslation();
   const { following, setFollowedVendors } = useUserStore();
+  const { setIsLoginOpen } = useGeneralStore();
+  const { user } = useUser();
   const descriptionRef = useRef(manipulateDescription(product.fullDescription));
   const [main, extend] = descriptionRef.current;
 
@@ -45,6 +49,12 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
       toast.warning("Vendor unFollowed");
     }
   });
+
+  const handleFollowClick = () => {
+    if (user?.isRegistered)
+      following.includes(product.vendor._id) ? unfollowMutation.mutate() : followMutation.mutate();
+    else setIsLoginOpen(true);
+  };
 
   useEffect(() => {
     if (!carouselApi) return;
@@ -89,9 +99,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
           <Button
             className="border border-primary bg-white fill-primary px-5 py-0.5 text-sm font-semibold text-primary hover:bg-[#ffeef2]"
             isLoading={followMutation.isPending || unfollowMutation.isPending}
-            onClick={() =>
-              following.includes(product.vendor._id) ? unfollowMutation.mutate() : followMutation.mutate()
-            }
+            onClick={handleFollowClick}
           >
             {following.includes(product.vendor._id) ? t("unfollow") : t("follow")}
           </Button>

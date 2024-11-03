@@ -63,9 +63,7 @@ export default function VendorsView() {
             Load More
           </Button>
         </div>
-      ) : (
-        <div className="p-4 text-center">No More vendors</div>
-      )}
+      ) : null}
     </ul>
   );
 }

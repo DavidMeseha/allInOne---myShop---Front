@@ -23,7 +23,7 @@ export default function RateProductButton({ product }: Props) {
 
   const handleAddreviewClick = () => {
     if (!user) return;
-    if (!user.isRegistered) setIsLoginOpen(true);
+    if (!user.isRegistered) return setIsLoginOpen(true);
     if (!isReviewed) setIsAddReviewOpen(true, product._id);
   };
 

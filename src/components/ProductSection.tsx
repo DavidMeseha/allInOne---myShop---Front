@@ -79,7 +79,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
               {product.name}
             </Link>
             <p className="text-sm text-strongGray">
-              sold By:{" "}
+              {t("soldBy")}:{" "}
               <Link className="hover:text-primary" href={`/${lang}/vandor/${product.vendor._id}`}>
                 {product.vendor.name}
               </Link>

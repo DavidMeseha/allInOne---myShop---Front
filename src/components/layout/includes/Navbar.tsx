@@ -14,6 +14,7 @@ import Image from "next/image";
 import { useRouter } from "next-nprogress-bar";
 // import { IFullProduct } from "@/types";
 import DropdownButton from "@/components/DropdownButton";
+import { Dictionaries } from "@/dictionary";
 
 function NavBar() {
   const { user, logout } = useUser();
@@ -170,9 +171,9 @@ function NavBar() {
             className="bg-transparent"
             options={["en", "ar"]}
             value={lang}
-            onSelectItem={(value) => changeLang(value as "en" | "ar")}
+            onSelectItem={(value) => changeLang(value as Dictionaries)}
           >
-            {lang}
+            {lang.toUpperCase()}
           </DropdownButton>
         </div>
       </div>

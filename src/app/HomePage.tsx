@@ -3,7 +3,6 @@
 import ProductSection from "@/components/ProductSection";
 import { BsSearch } from "react-icons/bs";
 import { BiLoaderCircle, BiMenu } from "react-icons/bi";
-import Link from "next/link";
 import ProductSectionMobile from "@/components/ProductSectionMobile";
 import { useGeneralStore } from "@/stores/generalStore";
 import HomeMenu from "@/components/overlays/HomeMenu";
@@ -11,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useTranslation } from "@/context/Translation";
 import { IFullProduct, Pagination } from "../types";
+import Button from "@/components/Button";
 
 type Props = {
   products: IFullProduct[];
@@ -18,8 +18,8 @@ type Props = {
 };
 
 export default function HomePage({ products, loadMore }: Props) {
-  const { setIsHomeMenuOpen } = useGeneralStore();
-  const { t, lang } = useTranslation();
+  const { setIsHomeMenuOpen, setIsSearchOpen } = useGeneralStore();
+  const { t } = useTranslation();
 
   const [productsList, setProducts] = useState<IFullProduct[]>([...products]);
   const [hasMore, setHasMore] = useState(true);
@@ -56,9 +56,9 @@ export default function HomePage({ products, loadMore }: Props) {
               <BiMenu className="fill-white" size={35} />
             </button>
             <div className="w-6" />
-            <Link aria-label="ToSearchPage" href={`${lang}/search`}>
+            <Button aria-label="Open Search Page" onClick={() => setIsSearchOpen(true)}>
               <BsSearch className="fill-white" size={30} />
-            </Link>
+            </Button>
           </div>
         </div>
         <div className="relative">

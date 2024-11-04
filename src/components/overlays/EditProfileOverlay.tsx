@@ -33,7 +33,7 @@ interface ProfileErrors {
 const today = new Date();
 
 export default function EditProfileOverlay() {
-  const { setIsEditProfileOpen } = useGeneralStore();
+  const { setIsEditProfileOpen, isEditProfileOpen } = useGeneralStore();
   const { user } = useUser();
   const { t } = useTranslation();
   const cropperRef = useRef<CropperRef>(null);
@@ -68,7 +68,8 @@ export default function EditProfileOverlay() {
       axiosInstanceNew.get<UserProfile>("/api/user/info").then((res) => {
         setForm({ ...res.data });
         return res.data;
-      })
+      }),
+    enabled: isEditProfileOpen
   });
 
   const userInfoMutation = useMutation({
@@ -159,6 +160,7 @@ export default function EditProfileOverlay() {
   return (
     <>
       <OverlayLayout
+        isOpen={isEditProfileOpen}
         className="max-w-3xl"
         close={() => setIsEditProfileOpen(false)}
         isLoading={userInfoMutation.isPending || userInfoQuery.isFetching}

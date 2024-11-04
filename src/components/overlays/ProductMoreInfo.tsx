@@ -23,7 +23,7 @@ export default function ProductMoreInfoOverlay() {
   const { setCartProducts } = useUserStore();
   const { user } = useUser();
   const [activeTap, setActiveTap] = useState<"description" | "reviews">("description");
-  const { setIsProductMoreInfoOpen, overlayProductId } = useGeneralStore();
+  const { setIsProductMoreInfoOpen, overlayProductId, isProductMoreInfoOpen } = useGeneralStore();
   const { lang } = useTranslation();
   const [customAttributes, setCustomAttributes] = useState<IProductAttribute[]>([]);
 
@@ -49,7 +49,8 @@ export default function ProductMoreInfoOverlay() {
       axiosInstanceNew.get<IFullProduct>(`/api/catalog/product/${overlayProductId}`).then((res) => {
         setCustomAttributes(selectDefaultAttributes(res.data.productAttributes));
         return res.data;
-      })
+      }),
+    enabled: isProductMoreInfoOpen && !!overlayProductId
   });
 
   const product = productQuery.data;
@@ -77,7 +78,11 @@ export default function ProductMoreInfoOverlay() {
   };
 
   return (
-    <OverlayLayout className="relative h-screen overflow-auto" close={() => setIsProductMoreInfoOpen(false)}>
+    <OverlayLayout
+      isOpen={isProductMoreInfoOpen}
+      className="relative"
+      close={() => setIsProductMoreInfoOpen(false)}
+    >
       {product && product?.pictures.length > 1 ? (
         <>
           <Carousel dir="ltr" setApi={setCarouselApi}>

@@ -82,11 +82,11 @@ export const useGeneralStore = create<GeneralStore>()(
         setIsSearchOpen: (val: boolean) => set({ isSearchOpen: val }),
         setSearch: (val: string) => set({ search: val }),
         setIsProductMoreInfoOpen: (val: boolean, productId?: string) =>
-          set({ isProductMoreInfoOpen: val, overlayProductId: productId ?? null }),
+          set((prev) => ({ isProductMoreInfoOpen: val, overlayProductId: productId ?? prev.overlayProductId })),
         setShare: (val: boolean, shareAction: () => void = () => {}, url: string = "") =>
           set({ isShareOpen: val, shareUrl: window.location.origin + url, shareAction }),
         setIsAddReviewOpen: (val: boolean, productId?: string) =>
-          set({ isAddReviewOpen: val, overlayProductId: productId ?? null }),
+          set((prev) => ({ isAddReviewOpen: val, overlayProductId: productId ?? prev.overlayProductId })),
         setCountries: async () => set({ countries: await getCountries() }),
         setIsProductAttributesOpen: (
           val: boolean,

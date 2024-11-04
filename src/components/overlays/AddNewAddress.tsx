@@ -20,7 +20,7 @@ const initialErrors: FormErrors = { address: false, city: false, country: false 
 const initialForm = { _id: "", address: "", city: "", country: "" };
 
 export default function AddNewAddress() {
-  const { setIsAddAddressOpen } = useGeneralStore();
+  const { setIsAddAddressOpen, isAddAddressOpen } = useGeneralStore();
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState<FormErrors>(initialErrors);
   const { t } = useTranslation();
@@ -83,7 +83,12 @@ export default function AddNewAddress() {
   };
 
   return (
-    <OverlayLayout className="max-h-none" close={() => setIsAddAddressOpen(false)} title="Add New Address">
+    <OverlayLayout
+      isOpen={isAddAddressOpen}
+      className="max-h-none"
+      close={() => setIsAddAddressOpen(false)}
+      title="Add New Address"
+    >
       <FormTextInput
         error={error.address}
         inputType="text"

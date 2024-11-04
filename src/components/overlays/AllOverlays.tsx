@@ -9,7 +9,6 @@ import ProfileMenuOverlay from "./ProfileMenu";
 import { usePathname } from "next/navigation";
 import AttributesOverlay from "./AttributesOverlay";
 import ProductMoreInfoOverlay from "./ProductMoreInfo";
-import Search from "./Search";
 import AddReviewOverlay from "./AddReviewOverlay";
 import AddNewAddress from "./AddNewAddress";
 import SearchOverlay from "./SearchOverlay";
@@ -79,16 +78,15 @@ export default function AllOverlays() {
   ]);
   return (
     <>
-      {isLoginOpen ? <AuthOverlay /> : null}
-      {isEditProfileOpen ? <EditProfileOverlay /> : null}
-      {isShareOpen ? <ShareOverlay /> : null}
-      {isProfileMenuOpen ? <ProfileMenuOverlay /> : null}
-      {isAddToCartOpen ? <AttributesOverlay /> : null}
-      {isProductMoreInfoOpen ? <ProductMoreInfoOverlay /> : null}
-      {isSearchOpen ? <Search /> : null}
-      {isAddReviewOpen ? <AddReviewOverlay /> : null}
-      {isAddAddressOpen ? <AddNewAddress /> : null}
-      {<SearchOverlay />}
+      <AuthOverlay />
+      <EditProfileOverlay />
+      <ShareOverlay />
+      <ProfileMenuOverlay />
+      <AttributesOverlay />
+      <ProductMoreInfoOverlay />
+      <SearchOverlay />
+      <AddReviewOverlay />
+      <AddNewAddress />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import useClickRecognition from "@/hooks/useClickRecognition";
 import clsx from "clsx";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 import { RiCloseLine } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
@@ -11,15 +11,32 @@ type Props = {
   children: React.ReactNode;
   close: () => void;
   isLoading?: boolean;
+  isOpen: boolean;
 };
 
-export default function OverlayLayout({ children, close, className, title, isLoading }: Props) {
+export default function OverlayLayout({ children, close, className, title, isLoading, isOpen }: Props) {
+  const [isAnimating, setIsAnimating] = useState(false);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    let timeoutId: number;
+    if (!isOpen) {
+      timeoutId = window.setTimeout(() => setIsAnimating(false), 150);
+    } else {
+      setIsAnimating(true);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isOpen]);
 
   useClickRecognition(close, containerRef);
   return (
-    <div className="fixed left-0 top-0 z-50 h-screen w-full overflow-auto bg-black bg-opacity-50">
-      <div className="flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8">
+    <div
+      className={`fixed left-0 top-0 z-50 h-screen w-full overflow-auto bg-black bg-opacity-50 transition-opacity ${isOpen ? "opacity-100" : "opacity-0"} ${isAnimating ? "visible" : "invisible"}`}
+    >
+      <div
+        className={`flex min-h-screen items-end justify-center pt-40 transition-transform md:items-center md:py-8 ${isOpen ? "translate-y-0" : "translate-y-20"}`}
+      >
         <div
           ref={containerRef}
           className={twMerge(

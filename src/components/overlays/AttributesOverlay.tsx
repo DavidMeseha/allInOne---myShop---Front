@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BiLoaderCircle } from "react-icons/bi";
 
 export default function AttributesOverlay() {
-  const { setIsProductAttributesOpen, overlayProductId, action } = useGeneralStore();
+  const { setIsProductAttributesOpen, isAddToCartOpen, overlayProductId, action } = useGeneralStore();
   const [customAttributes, setCustomAttributes] = useState<IProductAttribute[]>([]);
 
   const productQuery = useQuery({
@@ -26,7 +26,8 @@ export default function AttributesOverlay() {
         .then((res) => {
           setCustomAttributes(selectDefaultAttributes(res.data.productAttributes));
           return res.data;
-        })
+        }),
+    enabled: isAddToCartOpen && !!overlayProductId
   });
   const product = productQuery.data;
 
@@ -44,8 +45,7 @@ export default function AttributesOverlay() {
   };
 
   return (
-    <OverlayLayout className="h-screen" close={() => setIsProductAttributesOpen(false)}>
-      <div className="mb-4 text-center text-2xl font-bold">{product?.name}</div>
+    <OverlayLayout isOpen={isAddToCartOpen} close={() => setIsProductAttributesOpen(false)} title={product?.name}>
       {!productQuery.isFetching && product ? (
         <ProductAttributes
           customAttributes={customAttributes}

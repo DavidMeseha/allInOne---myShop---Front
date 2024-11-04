@@ -13,7 +13,7 @@ import { BsCurrencyExchange, BsStar } from "react-icons/bs";
 import { PiPassword } from "react-icons/pi";
 
 export default function ProfileMenuOverlay() {
-  const { setIsProfileMenuOpen } = useGeneralStore();
+  const { setIsProfileMenuOpen, isProfileMenuOpen } = useGeneralStore();
   const { logout } = useUser();
   const [activeTap, setActiveTap] = useState("main");
   const { t, changeLang, languages, lang } = useTranslation();
@@ -45,7 +45,7 @@ export default function ProfileMenuOverlay() {
   ];
 
   return (
-    <OverlayLayout close={() => setIsProfileMenuOpen(false)}>
+    <OverlayLayout isOpen={isProfileMenuOpen} close={() => setIsProfileMenuOpen(false)}>
       <>
         {activeTap === "main" && (
           <ul>

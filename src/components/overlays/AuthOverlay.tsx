@@ -9,12 +9,13 @@ import Button from "../Button";
 import ForgetPassword from "../auth/ForgetPassword";
 
 export default function AuthOverlay() {
-  const { setIsLoginOpen } = useGeneralStore();
+  const { setIsLoginOpen, isLoginOpen } = useGeneralStore();
   const [tap, setTap] = useState<"register" | "login" | "forgetpassword">("login");
   const { t } = useTranslation();
 
   return (
     <OverlayLayout
+      isOpen={isLoginOpen}
       className="px-6"
       close={() => setIsLoginOpen(false)}
       title={tap === "register" ? t("auth.register") : tap === "login" ? t("auth.login") : t("auth.forgetPassword")}

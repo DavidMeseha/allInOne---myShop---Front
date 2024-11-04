@@ -8,7 +8,7 @@ import OverlayLayout from "./OverlayLayout";
 export default function ShareOverlay() {
   const { shareUrl, setShare, shareAction, isShareOpen } = useGeneralStore();
   return (
-    <OverlayLayout isOpen={isShareOpen} close={() => setShare(false)}>
+    <OverlayLayout close={() => setShare(false)} isOpen={isShareOpen}>
       <FacebookShare url={shareUrl} onClick={() => shareAction()} />
       <TwitterShare url={shareUrl} onClick={() => shareAction()} />
       <RedditShare url={shareUrl} onClick={() => shareAction()} />

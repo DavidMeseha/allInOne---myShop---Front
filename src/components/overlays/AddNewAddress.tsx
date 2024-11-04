@@ -84,9 +84,9 @@ export default function AddNewAddress() {
 
   return (
     <OverlayLayout
-      isOpen={isAddAddressOpen}
       className="max-h-none"
       close={() => setIsAddAddressOpen(false)}
+      isOpen={isAddAddressOpen}
       title="Add New Address"
     >
       <FormTextInput

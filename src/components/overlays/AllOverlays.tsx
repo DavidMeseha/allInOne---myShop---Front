@@ -61,7 +61,8 @@ export default function AllOverlays() {
       isProductMoreInfoOpen ||
       isAdvancedSearchOpen ||
       isAddReviewOpen ||
-      isAddAddressOpen
+      isAddAddressOpen ||
+      isSearchOpen
     )
       document.body.style.overflow = "hidden";
     else document.body.style.overflow = "auto";
@@ -74,7 +75,8 @@ export default function AllOverlays() {
     isProductMoreInfoOpen,
     isAdvancedSearchOpen,
     isAddReviewOpen,
-    isAddAddressOpen
+    isAddAddressOpen,
+    isSearchOpen
   ]);
   return (
     <>

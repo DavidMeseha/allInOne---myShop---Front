@@ -42,7 +42,7 @@ export default function ViewCategoryProfile({ category }: Props) {
 
   return (
     <>
-      <div className="mb-2   flex w-full flex-row items-center justify-between px-2 md:mt-0">
+      <div className="mb-2 flex w-full flex-row items-center justify-between px-2 md:mt-0">
         <h1 className="inline-block truncate text-[30px] font-bold capitalize">{category.name}</h1>
         <p className="whitespace-nowrap" dir="ltr">
           <span className="font-bold">{category.productsCount}</span> products

@@ -42,7 +42,7 @@ export default function ViewtagProfile({ tag }: Props) {
 
   return (
     <>
-      <div className="mb-2 ms-2   flex w-full flex-row items-center justify-between px-4 md:mt-0">
+      <div className="mb-2 ms-2 flex w-full flex-row items-center justify-between px-4 md:mt-0">
         <p className="inline-block truncate text-[30px] font-bold" dir="ltr">
           #{tag.name}
         </p>

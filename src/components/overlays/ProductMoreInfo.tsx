@@ -78,11 +78,7 @@ export default function ProductMoreInfoOverlay() {
   };
 
   return (
-    <OverlayLayout
-      isOpen={isProductMoreInfoOpen}
-      className="relative"
-      close={() => setIsProductMoreInfoOpen(false)}
-    >
+    <OverlayLayout className="relative" close={() => setIsProductMoreInfoOpen(false)} isOpen={isProductMoreInfoOpen}>
       {product && product?.pictures.length > 1 ? (
         <>
           <Carousel dir="ltr" setApi={setCarouselApi}>

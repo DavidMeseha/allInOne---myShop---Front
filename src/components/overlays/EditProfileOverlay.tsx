@@ -160,10 +160,10 @@ export default function EditProfileOverlay() {
   return (
     <>
       <OverlayLayout
-        isOpen={isEditProfileOpen}
         className="max-w-3xl"
         close={() => setIsEditProfileOpen(false)}
         isLoading={userInfoMutation.isPending || userInfoQuery.isFetching}
+        isOpen={isEditProfileOpen}
         title="Edit Profile"
       >
         {!cropping ? (

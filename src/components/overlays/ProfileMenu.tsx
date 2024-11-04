@@ -45,7 +45,7 @@ export default function ProfileMenuOverlay() {
   ];
 
   return (
-    <OverlayLayout isOpen={isProfileMenuOpen} close={() => setIsProfileMenuOpen(false)}>
+    <OverlayLayout close={() => setIsProfileMenuOpen(false)} isOpen={isProfileMenuOpen}>
       <>
         {activeTap === "main" && (
           <ul>

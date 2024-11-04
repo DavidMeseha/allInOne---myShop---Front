@@ -45,7 +45,7 @@ export default function AttributesOverlay() {
   };
 
   return (
-    <OverlayLayout isOpen={isAddToCartOpen} close={() => setIsProductAttributesOpen(false)} title={product?.name}>
+    <OverlayLayout close={() => setIsProductAttributesOpen(false)} isOpen={isAddToCartOpen} title={product?.name}>
       {!productQuery.isFetching && product ? (
         <ProductAttributes
           customAttributes={customAttributes}

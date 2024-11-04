@@ -46,9 +46,9 @@ export default function AddReviewOverlay() {
 
   return (
     <OverlayLayout
-      isOpen={isAddReviewOpen}
       className="max-h-none"
       close={() => setIsAddReviewOpen(false)}
+      isOpen={isAddReviewOpen}
       title="Add Review"
     >
       <RatingStars

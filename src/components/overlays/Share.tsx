@@ -6,7 +6,7 @@ import { EmailShare, FacebookShare, RedditShare, TelegramShare, TwitterShare, Wh
 import OverlayLayout from "./OverlayLayout";
 
 export default function ShareOverlay() {
-  const { shareUrl, setShare, shareAction, isShareOpen } = useGeneralStore();
+  const { shareUrl, setShare, shareAction } = useGeneralStore();
   return (
     <OverlayLayout close={() => setShare(false)}>
       <FacebookShare url={shareUrl} onClick={() => shareAction()} />

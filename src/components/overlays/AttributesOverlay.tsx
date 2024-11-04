@@ -11,9 +11,8 @@ import { useQuery } from "@tanstack/react-query";
 import { BiLoaderCircle } from "react-icons/bi";
 
 export default function AttributesOverlay() {
-  const { setIsProductAttributesOpen, isAddToCartOpen, overlayProductId, action } = useGeneralStore();
+  const { setIsProductAttributesOpen, overlayProductId, action } = useGeneralStore();
   const [customAttributes, setCustomAttributes] = useState<IProductAttribute[]>([]);
-  const [id, setId] = useState()
 
   const productQuery = useQuery({
     queryKey: ["productAttributes", overlayProductId],
@@ -27,7 +26,7 @@ export default function AttributesOverlay() {
         .then((res) => {
           setCustomAttributes(selectDefaultAttributes(res.data.productAttributes));
           return res.data;
-        }),
+        })
   });
   const product = productQuery.data;
 

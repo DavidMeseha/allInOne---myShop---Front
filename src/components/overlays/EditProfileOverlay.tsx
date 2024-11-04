@@ -33,7 +33,7 @@ interface ProfileErrors {
 const today = new Date();
 
 export default function EditProfileOverlay() {
-  const { setIsEditProfileOpen, isEditProfileOpen } = useGeneralStore();
+  const { setIsEditProfileOpen } = useGeneralStore();
   const { user } = useUser();
   const { t } = useTranslation();
   const cropperRef = useRef<CropperRef>(null);

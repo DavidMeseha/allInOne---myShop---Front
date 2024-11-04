@@ -1,6 +1,5 @@
-import useClickRecognition from "@/hooks/useClickRecognition";
 import clsx from "clsx";
-import React, { useRef, useState } from "react";
+import React from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 import { RiCloseLine } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
@@ -28,19 +27,19 @@ const popupVariants: Variants = {
 
 export default function OverlayLayout({ children, close, className, title, isLoading }: Props) {
   return (
-    <motion.div initial="hidden" animate="visible" exit="exit">
+    <motion.div animate="visible" exit="exit" initial="hidden">
       <motion.div
-        onClick={close}
         className="fixed left-0 top-0 z-50 h-screen w-screen bg-black bg-opacity-50"
         variants={bgVariants}
+        onClick={close}
       >
         <motion.div className="h-full w-full overflow-auto transition-transform" variants={popupVariants}>
           <div className="flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8">
             <div
-              onClick={(e) => e.stopPropagation()}
               className={twMerge(
                 clsx("w-full rounded-b-none rounded-t-md bg-white p-4 md:max-w-[470px] md:rounded-lg", className)
               )}
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="mb-3 flex w-full items-center justify-between">
                 <div className="text-xl font-semibold text-gray-700">{title}</div>

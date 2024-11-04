@@ -15,7 +15,7 @@ type FormError = {
 };
 
 export default function AddReviewOverlay() {
-  const { setIsAddReviewOpen, isAddReviewOpen, overlayProductId } = useGeneralStore();
+  const { setIsAddReviewOpen, overlayProductId } = useGeneralStore();
   const { setReviewedProducts } = useUserStore();
   const [form, setForm] = useState({ reviewText: "", rating: 0 });
   const [error, setError] = useState<FormError>({ reviewText: false, rating: false });
@@ -45,12 +45,7 @@ export default function AddReviewOverlay() {
   };
 
   return (
-    <OverlayLayout
-      className="max-h-none"
-      close={() => setIsAddReviewOpen(false)}
-      isOpen={isAddReviewOpen}
-      title="Add Review"
-    >
+    <OverlayLayout className="max-h-none" close={() => setIsAddReviewOpen(false)} title="Add Review">
       <RatingStars
         className="mb-2"
         isEditable

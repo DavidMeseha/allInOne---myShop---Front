@@ -23,7 +23,7 @@ export default function ProductMoreInfoOverlay() {
   const { setCartProducts } = useUserStore();
   const { user } = useUser();
   const [activeTap, setActiveTap] = useState<"description" | "reviews">("description");
-  const { setIsProductMoreInfoOpen, overlayProductId, isProductMoreInfoOpen } = useGeneralStore();
+  const { setIsProductMoreInfoOpen, overlayProductId } = useGeneralStore();
   const { lang } = useTranslation();
   const [customAttributes, setCustomAttributes] = useState<IProductAttribute[]>([]);
 

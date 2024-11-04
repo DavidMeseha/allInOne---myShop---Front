@@ -31,11 +31,11 @@ export default function OverlayLayout({ children, close, className, title, isLoa
     <motion.div initial="hidden" animate="visible" exit="exit">
       <motion.div
         onClick={close}
-        className={`fixed left-0 top-0 z-50 h-screen w-full bg-black bg-opacity-50 transition-opacity`}
+        className="fixed left-0 top-0 z-50 h-screen w-screen bg-black bg-opacity-50"
         variants={bgVariants}
       >
-        <motion.div className={`h-full w-full overflow-auto transition-transform`} variants={popupVariants}>
-          <div className={`flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8`}>
+        <motion.div className="h-full w-full overflow-auto transition-transform" variants={popupVariants}>
+          <div className="flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8">
             <div
               onClick={(e) => e.stopPropagation()}
               className={twMerge(

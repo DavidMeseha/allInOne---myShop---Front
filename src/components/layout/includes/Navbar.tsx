@@ -27,7 +27,7 @@ function NavBar() {
   };
 
   return (
-    <div className="fixed z-30 hidden h-[60px] w-full items-center border-b bg-white md:flex" id="TopNav">
+    <div className="fixed z-30 hidden h-[60px] w-screen items-center border-b bg-white md:flex" id="TopNav">
       <div className={`mx-auto flex w-full items-center justify-between gap-6 px-4`}>
         <Link aria-label="to Home Page" className="flex items-center gap-2" href={`/${lang}`}>
           {/* <Image

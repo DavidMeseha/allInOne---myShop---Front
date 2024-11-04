@@ -17,7 +17,6 @@ export default function AuthOverlay() {
     <OverlayLayout
       className="px-6"
       close={() => setIsLoginOpen(false)}
-      isOpen={isLoginOpen}
       title={tap === "register" ? t("auth.register") : tap === "login" ? t("auth.login") : t("auth.forgetPassword")}
     >
       {tap === "register" ? (

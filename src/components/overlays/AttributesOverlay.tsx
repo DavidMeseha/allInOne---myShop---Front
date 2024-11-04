@@ -13,6 +13,7 @@ import { BiLoaderCircle } from "react-icons/bi";
 export default function AttributesOverlay() {
   const { setIsProductAttributesOpen, isAddToCartOpen, overlayProductId, action } = useGeneralStore();
   const [customAttributes, setCustomAttributes] = useState<IProductAttribute[]>([]);
+  const [id, setId] = useState()
 
   const productQuery = useQuery({
     queryKey: ["productAttributes", overlayProductId],
@@ -27,7 +28,6 @@ export default function AttributesOverlay() {
           setCustomAttributes(selectDefaultAttributes(res.data.productAttributes));
           return res.data;
         }),
-    enabled: isAddToCartOpen && !!overlayProductId
   });
   const product = productQuery.data;
 
@@ -45,7 +45,7 @@ export default function AttributesOverlay() {
   };
 
   return (
-    <OverlayLayout close={() => setIsProductAttributesOpen(false)} isOpen={isAddToCartOpen} title={product?.name}>
+    <OverlayLayout close={() => setIsProductAttributesOpen(false)} title={product?.name}>
       {!productQuery.isFetching && product ? (
         <ProductAttributes
           customAttributes={customAttributes}

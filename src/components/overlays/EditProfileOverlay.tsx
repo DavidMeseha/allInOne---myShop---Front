@@ -68,8 +68,7 @@ export default function EditProfileOverlay() {
       axiosInstanceNew.get<UserProfile>("/api/user/info").then((res) => {
         setForm({ ...res.data });
         return res.data;
-      }),
-    enabled: isEditProfileOpen
+      })
   });
 
   const userInfoMutation = useMutation({
@@ -163,7 +162,6 @@ export default function EditProfileOverlay() {
         className="max-w-3xl"
         close={() => setIsEditProfileOpen(false)}
         isLoading={userInfoMutation.isPending || userInfoQuery.isFetching}
-        isOpen={isEditProfileOpen}
         title="Edit Profile"
       >
         {!cropping ? (

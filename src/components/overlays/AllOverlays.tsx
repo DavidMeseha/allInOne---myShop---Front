@@ -12,6 +12,7 @@ import ProductMoreInfoOverlay from "./ProductMoreInfo";
 import AddReviewOverlay from "./AddReviewOverlay";
 import AddNewAddress from "./AddNewAddress";
 import SearchOverlay from "./SearchOverlay";
+import { AnimatePresence } from "framer-motion";
 
 export default function AllOverlays() {
   const {
@@ -28,7 +29,6 @@ export default function AllOverlays() {
     setIsProductAttributesOpen,
     setIsEditProfileOpen,
     setIsSearchOpen,
-    setSearch,
     setShare,
     setIsProfileMenuOpen,
     setIsProductMoreInfoOpen,
@@ -48,7 +48,7 @@ export default function AllOverlays() {
     setIsSearchOpen(false);
     setIsAdvancedSearchOpen(false);
     setIsAddAddressOpen(false);
-    setSearch("");
+    setIsSearchOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -64,8 +64,8 @@ export default function AllOverlays() {
       isAddAddressOpen ||
       isSearchOpen
     )
-      document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "auto";
+      document.body.style.overflowY = "hidden";
+    else document.body.style.overflowY = "auto";
   }, [
     isLoginOpen,
     isEditProfileOpen,
@@ -78,17 +78,18 @@ export default function AllOverlays() {
     isAddAddressOpen,
     isSearchOpen
   ]);
+
   return (
-    <>
-      <AuthOverlay />
-      <EditProfileOverlay />
-      <ShareOverlay />
-      <ProfileMenuOverlay />
-      <AttributesOverlay />
-      <ProductMoreInfoOverlay />
-      <SearchOverlay />
-      <AddReviewOverlay />
-      <AddNewAddress />
-    </>
+    <AnimatePresence>
+      {isLoginOpen ? <AuthOverlay /> : null}
+      {isEditProfileOpen ? <EditProfileOverlay /> : null}
+      {isShareOpen ? <ShareOverlay /> : null}
+      {isProfileMenuOpen ? <ProfileMenuOverlay /> : null}
+      {isAddToCartOpen ? <AttributesOverlay /> : null}
+      {isProductMoreInfoOpen ? <ProductMoreInfoOverlay /> : null}
+      {isSearchOpen ? <SearchOverlay /> : null}
+      {isAddReviewOpen ? <AddReviewOverlay /> : null}
+      {isAddAddressOpen ? <AddNewAddress /> : null}
+    </AnimatePresence>
   );
 }

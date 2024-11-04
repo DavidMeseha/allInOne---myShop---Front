@@ -94,11 +94,11 @@ export const useGeneralStore = create<GeneralStore>()(
           actionName?: string,
           action?: (attr: IProductAttribute[]) => void
         ) =>
-          set({
+          set((prev) => ({
             isAddToCartOpen: val,
-            overlayProductId: productId,
+            overlayProductId: productId ?? prev.overlayProductId,
             action: { name: actionName ?? null, fn: action ?? null }
-          })
+          }))
       }),
       {
         name: "store",

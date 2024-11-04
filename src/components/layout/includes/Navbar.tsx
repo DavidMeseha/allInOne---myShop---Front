@@ -1,59 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { BiShoppingBag, BiUser } from "react-icons/bi";
+import { BiSearch, BiShoppingBag, BiUser } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 import { memo, useState } from "react";
 import { useUser } from "@/context/user";
 import { useGeneralStore } from "@/stores/generalStore";
-// import ClickRecognition from "@/hooks/useClickRecognition";
 import Button from "@/components/Button";
 import { useTranslation } from "../../../context/Translation";
 import Image from "next/image";
 import { useRouter } from "next-nprogress-bar";
-// import { IFullProduct } from "@/types";
 import DropdownButton from "@/components/DropdownButton";
 import { Dictionaries } from "@/dictionary";
 
 function NavBar() {
   const { user, logout } = useUser();
   const router = useRouter();
-  // const pathname = usePathname();
-  // const searchRef = useRef(null);
-
-  // const [searchProducts, setSearchProducts] = useState<IFullProduct[]>([]);
-  let [showMenu, setShowMenu] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
   const { t, lang, changeLang } = useTranslation();
-  const { setIsLoginOpen } = useGeneralStore();
-
-  // const handleSearch = debounce(async (event: { target: { value: string } }) => {
-  //   if (event.target.value === "") return setSearchProducts([]);
-  //   setSearchProducts(
-  //     allProducts.filter((product) => product.name.toLowerCase().includes(event.target.value.toLowerCase()))
-  //   );
-  // }, 500);
-
-  // function HandleSearchOnChange(e: ChangeEvent<HTMLInputElement>) {
-  //   setSearch(e.target.value);
-  //   if (
-  //     pathname !== `/${lang}/discover` &&
-  //     pathname !== `/${lang}/discover/products` &&
-  //     pathname !== `/${lang}/discover/vendors` &&
-  //     pathname !== `/${lang}/discover/tags` &&
-  //     pathname !== `/${lang}/vendor/products`
-  //   ) {
-  //     return;
-  //   }
-  //   // handleSearch(e);
-  // }
+  const { setIsLoginOpen, setIsSearchOpen } = useGeneralStore();
 
   const goTo = () => {
     if (!user || !user.isRegistered) return setIsLoginOpen(true);
     router.push(`/${lang}/upload`);
   };
-
-  // ClickRecognition(() => setSearchProducts([]), searchRef);
 
   return (
     <div className="fixed z-30 hidden h-[60px] w-full items-center border-b bg-white md:flex" id="TopNav">
@@ -71,47 +42,6 @@ function NavBar() {
           <span className="text-2xl font-bold">TikShop</span>
         </Link>
 
-        {/* <div
-          className="relative hidden w-full max-w-[430px] items-center justify-end rounded-full bg-[#F1F1F2] p-1 md:flex"
-          ref={searchRef}
-        >
-          <input
-            className="m-0 my-2 w-full border-none bg-transparent p-0 ps-3 text-[15px] placeholder-[#838383] focus:ring-0"
-            placeholder={t("search")}
-            type="text"
-            value={search}
-            onChange={HandleSearchOnChange}
-            onFocus={HandleSearchOnChange}
-          />
-          <div className="flex items-center border-s border-l-gray-300 px-3 py-1">
-            <BiSearch color="#A1A2A7" size="22" />
-          </div>
-
-          {searchProducts.length > 0 ? (
-            <div className="absolute left-0 top-12 z-20 h-auto max-h-96 w-full max-w-[910px] overflow-auto border bg-white">
-              {searchProducts.map((product, index) => (
-                <div key={index}>
-                  <Link
-                    className="flex w-full cursor-pointer items-center justify-between p-2 hover:bg-primary hover:text-white"
-                    href={`/${lang}/product/${product?._id}`}
-                  >
-                    <div className="flex items-center">
-                      <Image
-                        alt={product.name}
-                        className="w-10 rounded-md"
-                        height={50}
-                        src={product?.pictures[0].imageUrl}
-                        width={50}
-                      />
-                      <div className="ml-2 truncate">{product?.name}</div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          ) : null}
-        </div> */}
-
         <div className="flex items-center gap-3">
           {user?.isVendor && (
             <Button className="rounded-sm border hover:bg-gray-100" onClick={() => goTo()}>
@@ -121,6 +51,10 @@ function NavBar() {
               </div>
             </Button>
           )}
+
+          <Button className="me-2 border-e pe-4 text-black" onClick={() => setIsSearchOpen(true)}>
+            <BiSearch size={25} />
+          </Button>
 
           {!user || !user.isRegistered ? (
             <Button className="bg-primary text-white" onClick={() => setIsLoginOpen(true)}>

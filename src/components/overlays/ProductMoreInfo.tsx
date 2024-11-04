@@ -49,8 +49,7 @@ export default function ProductMoreInfoOverlay() {
       axiosInstanceNew.get<IFullProduct>(`/api/catalog/product/${overlayProductId}`).then((res) => {
         setCustomAttributes(selectDefaultAttributes(res.data.productAttributes));
         return res.data;
-      }),
-    enabled: isProductMoreInfoOpen && !!overlayProductId
+      })
   });
 
   const product = productQuery.data;
@@ -78,7 +77,7 @@ export default function ProductMoreInfoOverlay() {
   };
 
   return (
-    <OverlayLayout className="relative" close={() => setIsProductMoreInfoOpen(false)} isOpen={isProductMoreInfoOpen}>
+    <OverlayLayout className="relative" close={() => setIsProductMoreInfoOpen(false)}>
       {product && product?.pictures.length > 1 ? (
         <>
           <Carousel dir="ltr" setApi={setCarouselApi}>

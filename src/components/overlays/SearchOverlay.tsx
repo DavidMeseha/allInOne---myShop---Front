@@ -9,11 +9,13 @@ import { RiCloseLine } from "react-icons/ri";
 import Button from "../Button";
 import { useGeneralStore } from "@/stores/generalStore";
 import { Variants, motion } from "framer-motion";
+import Link from "next/link";
+import { useTranslation } from "@/context/Translation";
 
-type SearchResponse = {
+type SearchResponseItem = {
   item: IFullProduct | IVendor | ITag | ICategory;
   type: "product" | "category" | "vendor" | "tag";
-}[];
+};
 
 const bgVariants: Variants = {
   hidden: { opacity: 0 },
@@ -28,6 +30,7 @@ const popupVariants: Variants = {
 };
 
 export default function SearchOverlay() {
+  const { t, lang } = useTranslation();
   const { setIsSearchOpen, isSearchOpen } = useGeneralStore();
   const [searchText, setSearchText] = useState("");
   const [options, setOptions] = useState({
@@ -49,7 +52,7 @@ export default function SearchOverlay() {
   const searchQuery = useQuery({
     queryKey: ["find", searchText, options],
     queryFn: () =>
-      axiosInstanceNew.post<SearchResponse>("/api/common/find", {
+      axiosInstanceNew.post<SearchResponseItem[]>("/api/common/find", {
         ...options,
         searchText
       }),
@@ -58,10 +61,14 @@ export default function SearchOverlay() {
 
   const items = searchQuery.data?.data ?? [];
 
+  const setupItemLink = (item: SearchResponseItem) => {
+    return `/${lang}/${item.type === "product" ? `product/${item.item._id}` : `profile/${item.type}/${item.item._id}`}`;
+  };
+
   return (
     <motion.div animate="visible" exit="exit" initial="hidden">
       <motion.div
-        className="fixed z-40 h-screen w-full bg-lightGray bg-opacity-90 backdrop-blur-lg transition-opacity"
+        className="fixed z-40 h-screen w-screen bg-lightGray bg-opacity-90 backdrop-blur-lg"
         variants={bgVariants}
       >
         <motion.div className="mx-auto mt-4 max-w-[1200px] px-4 md:mt-14 md:px-28" variants={popupVariants}>
@@ -85,7 +92,7 @@ export default function SearchOverlay() {
           </div>
           <div>
             {items.map((item) => (
-              <div className="flex gap-2 p-4" key={item.item._id}>
+              <Link href={setupItemLink(item)} className="flex cursor-pointer gap-2 p-4" key={item.item._id}>
                 {"pictures" in item.item ? (
                   <div>
                     <Image
@@ -112,7 +119,7 @@ export default function SearchOverlay() {
                   <h3 className="font-semibold">{item.item.name}</h3>
                   <p className="text-sm text-strongGray">{item.type}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </motion.div>

@@ -6,9 +6,10 @@ import { RiArrowDropDownLine, RiArrowDropLeftLine, RiArrowDropRightLine } from "
 type Props = {
   item: {
     name: string;
-    sup: { name: string; to: string }[];
+    sup?: { name: string; to: string }[];
     Icon: React.ReactNode;
     IconActive: React.ReactNode;
+    to?: string;
   };
 };
 

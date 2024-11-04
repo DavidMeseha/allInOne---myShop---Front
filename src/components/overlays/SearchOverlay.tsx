@@ -30,7 +30,7 @@ const popupVariants: Variants = {
 };
 
 export default function SearchOverlay() {
-  const { t, lang } = useTranslation();
+  const { lang } = useTranslation();
   const { setIsSearchOpen, isSearchOpen } = useGeneralStore();
   const [searchText, setSearchText] = useState("");
   const [options, setOptions] = useState({

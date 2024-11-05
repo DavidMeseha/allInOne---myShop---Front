@@ -31,35 +31,32 @@ export default function TagsView() {
   const lastPage = tagsPages?.findLast((page) => page);
 
   return (
-    <ul className="mt-10 md:mt-0">
-      {tagsQuery.isFetchedAfterMount ? (
-        tagsPages ? (
-          <div>
-            {tagsPages.map((page) =>
+    <div className="mt-10 p-4 md:mt-0">
+      <ul>
+        <li className="hidden text-3xl font-bold md:inline-block">Tags</li>
+        {tagsPages
+          ? tagsPages.map((page) =>
               page.data.map((tag) => <ListItem key={tag._id} tag={tag} to={`/${lang}/profile/tag/${tag._id}`} />)
-            )}
-          </div>
-        ) : (
-          <div className="py-14 text-center text-strongGray">You Created No Reviews Yet</div>
-        )
-      ) : null}
+            )
+          : null}
 
-      {!tagsQuery.isFetchedAfterMount ? (
-        <div className="flex w-full flex-col items-center justify-center py-2">
-          <BiLoaderCircle className="animate-spin fill-primary" size={35} />
-        </div>
-      ) : lastPage && lastPage.pages.hasNext ? (
-        <div className="px-w py-4 text-center">
-          <Button
-            className="w-full bg-primary text-white"
-            isLoading={tagsQuery.isFetchingNextPage}
-            onClick={() => tagsQuery.fetchNextPage()}
-          >
-            Load More
-          </Button>
-        </div>
-      ) : null}
-    </ul>
+        {!tagsQuery.isFetchedAfterMount ? (
+          <div className="flex w-full flex-col items-center justify-center py-2">
+            <BiLoaderCircle className="animate-spin fill-primary" size={35} />
+          </div>
+        ) : lastPage && lastPage.pages.hasNext ? (
+          <div className="px-w py-4 text-center">
+            <Button
+              className="w-full bg-primary text-white"
+              isLoading={tagsQuery.isFetchingNextPage}
+              onClick={() => tagsQuery.fetchNextPage()}
+            >
+              Load More
+            </Button>
+          </div>
+        ) : null}
+      </ul>
+    </div>
   );
 }
 
@@ -70,21 +67,12 @@ type ListItemProps = {
 
 function ListItem({ tag, to }: ListItemProps) {
   return (
-    <li className="flex items-center justify-between px-4 py-2">
-      <div className="flex w-full items-center gap-3">
-        <div className="flex items-center justify-center rounded-full border p-1.5">
-          <BsHash size={25} />
-        </div>
-
-        <div>
-          <Link className="font-bold" href={to}>
-            {tag.name}
-          </Link>
-        </div>
-      </div>
-      <div>
-        <p className="w-max text-sm text-strongGray">{tag.productCount} products</p>
-      </div>
+    <li className="mx-2 my-2 inline-flex items-center rounded-full border px-4 py-2">
+      <BsHash size={35} />
+      <Link className="text-sm font-bold" href={to}>
+        <p>{tag.name}</p>
+        <p className="w-max text-xs text-strongGray">{tag.productCount} products</p>
+      </Link>
     </li>
   );
 }

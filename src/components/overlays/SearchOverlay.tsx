@@ -46,7 +46,7 @@ export default function SearchOverlay() {
 
     timeoutRef.current = window.setTimeout(() => {
       setSearchText(value);
-    }, 1000);
+    }, 500);
   };
 
   const searchQuery = useQuery({
@@ -92,7 +92,7 @@ export default function SearchOverlay() {
           </div>
           <div>
             {items.map((item) => (
-              <Link href={setupItemLink(item)} className="flex cursor-pointer gap-2 p-4" key={item.item._id}>
+              <Link className="flex cursor-pointer gap-2 p-4" href={setupItemLink(item)} key={item.item._id}>
                 {"pictures" in item.item ? (
                   <div>
                     <Image

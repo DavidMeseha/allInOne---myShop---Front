@@ -29,7 +29,7 @@ export default async function RootLayout({
 
   return (
     <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>
-      <body className="w-screen overflow-x-hidden md:pr-4">
+      <body className={`w-screen overflow-x-hidden ${params.lang === "ar" ? "md:ms-4" : ""} md:pr-4`} dir="ltr">
         <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
           <MainLayout dictionary={dictionary} lang={params.lang}>
             {children}

@@ -28,7 +28,7 @@ function NavBar() {
 
   return (
     <div className="fixed z-30 hidden h-[60px] w-screen items-center border-b bg-white md:flex" id="TopNav">
-      <div className={`mx-auto flex w-full items-center justify-between gap-6 px-4`}>
+      <div className={`mx-auto flex w-full items-center justify-between gap-6 pe-8 ps-4`}>
         <Link aria-label="to Home Page" className="flex items-center gap-2" href={`/${lang}`}>
           {/* <Image
             alt="Tiktok"
@@ -56,19 +56,28 @@ function NavBar() {
             <BiSearch size={25} />
           </Button>
 
+          <DropdownButton
+            className="bg-transparent px-0"
+            options={["en", "ar"]}
+            value={lang}
+            onSelectItem={(value) => changeLang(value as Dictionaries)}
+          >
+            {lang.toUpperCase()}
+          </DropdownButton>
+
           {!user || !user.isRegistered ? (
             <Button className="bg-primary text-white" onClick={() => setIsLoginOpen(true)}>
               <span className="mx-4 whitespace-nowrap text-[15px] font-medium">{t("login")}</span>
             </Button>
           ) : (
-            <div className="flex items-center">
+            <div className="me-4 flex items-center">
               <div className="relative">
                 <button className="mt-1 rounded-full border border-gray-200" onClick={() => setShowMenu(!showMenu)}>
                   <Image
                     alt={user.firstName || ""}
                     className="h-[35px] w-[35px] rounded-full"
                     height={45}
-                    src="/images/placeholder.png"
+                    src={user.imageUrl}
                     width={45}
                   />
                 </button>
@@ -76,39 +85,30 @@ function NavBar() {
                 {showMenu ? (
                   <div className="absolute end-0 top-12 w-[200px] rounded-lg border bg-white shadow-xl">
                     <button
-                      className="flex w-full cursor-pointer items-center justify-start px-2 py-3 hover:bg-gray-100"
+                      className="flex w-full gap-1 px-2 py-3 hover:bg-gray-100"
                       onClick={() => {
                         router.push(`/${lang}/profile/me`);
                         setShowMenu(false);
                       }}
                     >
                       <BiUser size="20" />
-                      <span className="pl-2 text-sm font-semibold">{t("menu.profile")}</span>
+                      <span className="text-sm font-semibold">{t("menu.profile")}</span>
                     </button>
                     <button
-                      className="flex w-full cursor-pointer items-center justify-start border-t px-1.5 py-3 hover:bg-gray-100"
+                      className="flex w-full gap-1 border-t px-2 py-3 hover:bg-gray-100"
                       onClick={() => {
                         logout();
                         setShowMenu(false);
                       }}
                     >
                       <FiLogOut size={20} />
-                      <span className="pl-2 text-sm font-semibold">{t("logout")}</span>
+                      <span className="text-sm font-semibold">{t("logout")}</span>
                     </button>
                   </div>
                 ) : null}
               </div>
             </div>
           )}
-
-          <DropdownButton
-            className="bg-transparent"
-            options={["en", "ar"]}
-            value={lang}
-            onSelectItem={(value) => changeLang(value as Dictionaries)}
-          >
-            {lang.toUpperCase()}
-          </DropdownButton>
         </div>
       </div>
     </div>

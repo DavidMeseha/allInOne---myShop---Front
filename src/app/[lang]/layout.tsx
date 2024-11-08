@@ -29,13 +29,15 @@ export default async function RootLayout({
 
   return (
     <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>
-      <body className="b w-screen overflow-x-hidden md:pr-4">
-        <MainLayout dictionary={dictionary} lang={params.lang}>
-          {children}
-          <ToastContainer />
-        </MainLayout>
-        <Analytics />
-        <SpeedInsights />
+      <body className="w-screen overflow-x-hidden md:pr-4">
+        <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
+          <MainLayout dictionary={dictionary} lang={params.lang}>
+            {children}
+            <ToastContainer />
+          </MainLayout>
+          <Analytics />
+          <SpeedInsights />
+        </div>
       </body>
     </html>
   );

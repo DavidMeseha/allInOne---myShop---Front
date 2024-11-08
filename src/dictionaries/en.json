@@ -42,6 +42,7 @@
   "readMore": "Read More",
   "readLess": "Read Less",
   "soldBy": "Sold by",
+  "productNotFound": "Product Not Found!",
 
   "auth.password": "Password",
   "auth.login": "Login",

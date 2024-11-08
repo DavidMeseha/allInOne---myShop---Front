@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -21,7 +22,7 @@ export default function DropdownButton({
   const [isOpen, setIsOpen] = useState(false);
   return (
     <button
-      className={`relative flex gap-1 rounded-sm px-4 py-2 ${className ?? ""}`}
+      className={cn(`relative flex gap-1 rounded-sm px-4 py-2`, className)}
       onClick={() => setIsOpen(!isOpen)}
       {...props}
     >

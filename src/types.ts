@@ -36,6 +36,7 @@ export interface User {
   isLogin: boolean;
   isVendor: boolean;
   isRegistered: boolean;
+  imageUrl: string;
   _id: string;
   language: string;
 }

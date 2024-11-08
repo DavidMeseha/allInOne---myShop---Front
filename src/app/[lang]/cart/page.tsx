@@ -4,7 +4,7 @@ import CartItem from "@/components/CartItem";
 import Link from "next/link";
 import { useTranslation } from "@/context/Translation";
 import { useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { IFullProduct, IProductAttribute } from "@/types";
 import Button from "@/components/Button";
 import { useUser } from "@/context/user";
@@ -21,7 +21,7 @@ export default function Page() {
   const checkoutQuery = useQuery({
     queryKey: ["cartProducts"],
     queryFn: () =>
-      axiosInstanceNew
+      axios
         .get<{
           total: number;
           cartItems: { product: IFullProduct; quantity: number; attributes: IProductAttribute[] }[];

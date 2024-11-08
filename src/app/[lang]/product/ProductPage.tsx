@@ -8,7 +8,7 @@ import Image from "next/image";
 import { IFullProduct, IProductReview } from "@/types";
 import ProductHeader from "@/components/post/ProductHeader";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import RatingStars from "@/components/RatingStars";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
@@ -28,7 +28,7 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
   const addReviewMutation = useMutation({
     mutationKey: ["AddReview"],
     mutationFn: (productId: string) =>
-      axiosInstanceNew.post(`/api/user/addReview/${productId}`, {
+      axios.post(`/api/user/addReview/${productId}`, {
         reviewText: review,
         rating: rate
       }),
@@ -52,7 +52,7 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
 
   const reviewsQuery = useQuery({
     queryKey: ["productReviews", product._id],
-    queryFn: () => axiosInstanceNew.get<IProductReview[]>(`/api/product/reviews/${product._id}`).then((res) => res.data)
+    queryFn: () => axios.get<IProductReview[]>(`/api/product/reviews/${product._id}`).then((res) => res.data)
   });
 
   return (

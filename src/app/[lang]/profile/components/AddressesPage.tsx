@@ -9,7 +9,7 @@ import { useTranslation } from "@/context/Translation";
 import BackArrow from "@/components/BackArrow";
 import AddressItem from "./AddressItem";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import Button from "@/components/Button";
 import { useGeneralStore } from "@/stores/generalStore";
 import { toast } from "react-toastify";
@@ -38,13 +38,13 @@ export default function AddressesPage() {
 
   const addresses = useQuery({
     queryKey: ["userAddresses"],
-    queryFn: () => axiosInstanceNew.get<IAddress[]>("/api/user/addresses").then((res) => res.data)
+    queryFn: () => axios.get<IAddress[]>("/api/user/addresses").then((res) => res.data)
   });
 
   const newAddressMutation = useMutation({
     mutationKey: ["addAddress"],
     mutationFn: () =>
-      axiosInstanceNew.post("/api/user/addresses/add", {
+      axios.post("/api/user/addresses/add", {
         city: form.city,
         country: form.country,
         address: form.address
@@ -58,7 +58,7 @@ export default function AddressesPage() {
   const updateAddressMutation = useMutation({
     mutationKey: ["addAddress"],
     mutationFn: () =>
-      axiosInstanceNew.put(`/api/user/addresses/edit/${form._id}`, {
+      axios.put(`/api/user/addresses/edit/${form._id}`, {
         city: form.city,
         country: form.country,
         address: form.address
@@ -72,12 +72,10 @@ export default function AddressesPage() {
   const citiesQuery = useQuery({
     queryKey: ["cities", form.country],
     queryFn: () =>
-      axiosInstanceNew
-        .get<{ name: string; code: string; _id: string }[]>(`/api/common/cities/${form.country}`)
-        .then((res) => {
-          setForm({ ...form, city: res.data[0]._id });
-          return res.data;
-        }),
+      axios.get<{ name: string; code: string; _id: string }[]>(`/api/common/cities/${form.country}`).then((res) => {
+        setForm({ ...form, city: res.data[0]._id });
+        return res.data;
+      }),
     enabled: !!form.country
   });
 

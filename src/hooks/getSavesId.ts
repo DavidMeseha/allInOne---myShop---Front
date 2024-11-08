@@ -1,8 +1,8 @@
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 
 const getSavesId = async () => {
   try {
-    const items = await axiosInstanceNew.get<string[]>("/api/user/savesId");
+    const items = await axios.get<string[]>("/api/user/savesId");
     return items.data;
   } catch {
     return [];

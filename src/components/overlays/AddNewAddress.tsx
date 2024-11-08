@@ -4,7 +4,7 @@ import { useGeneralStore } from "@/stores/generalStore";
 import { FieldError } from "@/types";
 import Button from "../Button";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { toast } from "react-toastify";
 import { useTranslation } from "@/context/Translation";
 import FormTextInput from "../FormTextInput";
@@ -29,7 +29,7 @@ export default function AddNewAddress() {
   const newAddressMutation = useMutation({
     mutationKey: ["addAddress"],
     mutationFn: () =>
-      axiosInstanceNew.post("/api/user/addresses/add", {
+      axios.post("/api/user/addresses/add", {
         city: form.city,
         country: form.country,
         address: form.address
@@ -42,12 +42,10 @@ export default function AddNewAddress() {
   const citiesQuery = useQuery({
     queryKey: ["cities", form.country],
     queryFn: () =>
-      axiosInstanceNew
-        .get<{ name: string; code: string; _id: string }[]>(`/api/common/cities/${form.country}`)
-        .then((res) => {
-          setForm({ ...form, city: res.data[0]._id });
-          return res.data;
-        }),
+      axios.get<{ name: string; code: string; _id: string }[]>(`/api/common/cities/${form.country}`).then((res) => {
+        setForm({ ...form, city: res.data[0]._id });
+        return res.data;
+      }),
     enabled: !!form.country
   });
 

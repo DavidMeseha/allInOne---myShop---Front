@@ -9,7 +9,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/components/layout/MainLayout";
 import { useTranslation } from "./Translation";
 import { RegisterForm, User, FieldError } from "../types";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 
 interface UserContextTypes {
@@ -49,13 +49,13 @@ function UserProvider({ children }: ContextProps) {
   const { t } = useTranslation();
 
   useEffect(() => {
-    axiosInstanceNew.interceptors.request.use((config) => {
+    axios.interceptors.request.use((config) => {
       const access_token = parseCookies(document.cookie)?.filter((cookie) => cookie.name === "access_token")[0]?.value;
       config.headers.Authorization = `Bearer ${access_token}`;
       return config;
     });
 
-    axiosInstanceNew.interceptors.response.use(
+    axios.interceptors.response.use(
       (res) => res,
       (err: AxiosError) => {
         if (err.status === 500) toast.error(t("serverFail"));
@@ -82,7 +82,7 @@ function UserProvider({ children }: ContextProps) {
   useQuery({
     queryKey: ["tokenCheck"],
     queryFn: () =>
-      axiosInstanceNew
+      axios
         .get<User>("/api/auth/check")
         .then((res) => {
           setUser(res.data);
@@ -98,6 +98,7 @@ function UserProvider({ children }: ContextProps) {
             setUser(null);
             freshTokenMutation.mutate();
           }
+          return null;
         }),
 
     refetchInterval: 120000
@@ -105,7 +106,7 @@ function UserProvider({ children }: ContextProps) {
 
   const freshTokenMutation = useMutation({
     mutationKey: ["guestToken"],
-    mutationFn: () => axiosInstanceNew.get<{ user: User; token: string }>("/api/auth/guest"),
+    mutationFn: () => axios.get<{ user: User; token: string }>("/api/auth/guest"),
     onSuccess: (res) => {
       document.cookie = `access_token=;path=/`;
       document.cookie = `access_token=${res.data.token};path=/`;
@@ -118,7 +119,7 @@ function UserProvider({ children }: ContextProps) {
   const registerMutation = useMutation({
     mutationKey: ["register"],
     mutationFn: (form: RegisterForm) =>
-      axiosInstanceNew
+      axios
         .post<{ token: User }>("/api/auth/register", { ...form, gender: !form.gender.length ? null : form.gender })
         .then((res) => res.data.token),
 
@@ -133,7 +134,7 @@ function UserProvider({ children }: ContextProps) {
   const loginMutation = useMutation({
     mutationKey: ["login"],
     mutationFn: (form: { email: string; password: string }) =>
-      axiosInstanceNew.post<{ user: User; token: string }>("/api/auth/login", { ...form }).then((data) => data.data),
+      axios.post<{ user: User; token: string }>("/api/auth/login", { ...form }).then((data) => data.data),
 
     onSuccess: (res) => {
       toast.success(t("auth.successfullLogin"));
@@ -151,7 +152,7 @@ function UserProvider({ children }: ContextProps) {
 
   const logoutMutation = useMutation({
     mutationKey: ["logout"],
-    mutationFn: () => axiosInstanceNew.post("/api/auth/logout"),
+    mutationFn: () => axios.post("/api/auth/logout"),
     onSuccess: () => {
       queryClient.clear();
       setUser(null);

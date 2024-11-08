@@ -8,7 +8,7 @@ import Button from "@/components/Button";
 import Image from "next/image";
 import { IFullProduct, IVendor, Pagination } from "@/types";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useInView } from "react-intersection-observer";
 import { BiLoaderCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
@@ -40,7 +40,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
 
   const followMutation = useMutation({
     mutationKey: ["followVendor", vendor._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/followVendor/${vendor._id}`),
+    mutationFn: () => axios.post(`/api/user/followVendor/${vendor._id}`),
     onSuccess: () => {
       setFollowedVendors();
       toast.success("Vendor followed successfully");
@@ -50,7 +50,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
 
   const unfollowMutation = useMutation({
     mutationKey: ["followVendor", vendor._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/unfollowVendor/${vendor._id}`),
+    mutationFn: () => axios.post(`/api/user/unfollowVendor/${vendor._id}`),
     onSuccess: () => {
       setFollowedVendors();
       toast.warning("Vendor unFollowed");
@@ -61,7 +61,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
   const productsQuery = useInfiniteQuery({
     queryKey: ["vendorProducts", vendor._id],
     queryFn: ({ pageParam }) =>
-      axiosInstanceNew
+      axios
         .get<{ data: IFullProduct[]; pages: Pagination }>(`/api/catalog/VendorProducts/${vendor._id}`, {
           params: {
             page: pageParam

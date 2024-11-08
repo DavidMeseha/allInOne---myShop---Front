@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import RatingStars from "@/components/RatingStars";
 import { useTranslation } from "@/context/Translation";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { IProductReview, Pagination } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -14,7 +14,7 @@ export default function ReviewsPage() {
   const myReviewsQuery = useInfiniteQuery({
     queryKey: ["myReviews"],
     queryFn: ({ pageParam }) =>
-      axiosInstanceNew
+      axios
         .get<{ data: IProductReview[]; pages: Pagination }>("/api/user/reviews", {
           params: { page: pageParam }
         })

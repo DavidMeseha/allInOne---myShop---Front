@@ -6,7 +6,7 @@ import { useGeneralStore } from "@/stores/generalStore";
 import { IProductAttribute } from "@/types";
 import { selectDefaultAttributes } from "@/lib/misc";
 import ProductAttributes from "../ProductAttributes";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { BiLoaderCircle } from "react-icons/bi";
 
@@ -17,7 +17,7 @@ export default function AttributesOverlay() {
   const productQuery = useQuery({
     queryKey: ["productAttributes", overlayProductId],
     queryFn: () =>
-      axiosInstanceNew
+      axios
         .get<{
           _id: string;
           productAttributes: IProductAttribute[];

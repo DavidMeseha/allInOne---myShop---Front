@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "@/context/Translation";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 
 type NewProduct = {
   name: string;
@@ -90,7 +90,7 @@ export default function Upload() {
 
   const uploadImageMutation = useMutation({
     mutationFn: (formData: FormData) =>
-      axiosInstanceNew
+      axios
         .post<{ imageUrl: string }>("/api/common/upload", formData, {
           headers: {
             "Content-Type": "multipart/form-data"

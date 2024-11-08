@@ -42,7 +42,7 @@ export default function MainLayout({
                   <>
                     <AllOverlays />
                     <TopNav />
-                    <div className="mx-auto flex w-full justify-between px-0 lg:px-2.5">
+                    <div className="mx-auto flex w-full justify-between px-0">
                       <SideNavMain />
                       <div className="relative mx-auto mb-[80px] mt-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
                         <div className="m-auto max-w-[1200px] md:px-4">{children}</div>

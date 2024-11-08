@@ -426,13 +426,11 @@ export interface ICategory {
 
 export interface IPicture {
   imageUrl: string;
-  title: string;
-  alternateText: string;
   _id: string;
 }
 
 export interface IPrice {
-  oldPrice: number;
+  old: number;
   price: number;
 }
 
@@ -450,7 +448,7 @@ export interface IProductAttributeValue {
 }
 
 export interface IProductReview {
-  product: IFullProduct;
+  product?: IFullProduct;
   customer: {
     firstName: string;
     lastName: string;
@@ -481,18 +479,14 @@ export interface ITag {
 export interface IFullProduct {
   gender: string[];
   category: ICategory;
-  defaultPicture: IPicture;
   pictures: IPicture[];
   name: string;
   shortDescription: string;
   fullDescription: string;
-  metaKeywords: string;
-  metaDescription: string;
-  metaTitle: string;
   seName: string;
   sku: string;
   vendor: IVendor;
-  productPrice: IPrice;
+  price: IPrice;
   productTags: ITag[];
   productAttributes: IProductAttribute[];
   hasAttributes: boolean;
@@ -505,9 +499,6 @@ export interface IFullProduct {
   saves: number;
   productReviews: IProductReview[];
   inStock: boolean;
-  price: {
-    old: number;
-    price: number;
-  };
   _id: string;
+  updatedAt: string;
 }

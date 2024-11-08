@@ -2,7 +2,7 @@
 
 import { useTranslation } from "@/context/Translation";
 import { useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { IFullProduct, IOrder, IProductAttribute } from "@/types";
 import Image from "next/image";
 
@@ -11,7 +11,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
 
   const orderQuery = useQuery({
     queryKey: ["order", params.id],
-    queryFn: () => axiosInstanceNew.get<IOrder>(`/api/user/order/${params.id}`).then((res) => res.data)
+    queryFn: () => axios.get<IOrder>(`/api/user/order/${params.id}`).then((res) => res.data)
   });
 
   const order = orderQuery.data ?? null;

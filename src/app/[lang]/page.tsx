@@ -1,13 +1,13 @@
 import { IFullProduct, Pagination } from "@/types";
 import HomePage from "../HomePage";
 import { cookies } from "next/headers";
-import axiosInstance from "@/lib/axiosInstance";
+import axios from "@/lib/axios";
 
 export default async function Page() {
   const getProducts = async (page = 1) => {
     "use server";
-    const res = await axiosInstance
-      .get<{ data: IFullProduct[]; page: Pagination }>("api/catalog/homefeed", {
+    const res = await axios
+      .get<{ data: IFullProduct[]; pages: Pagination }>("api/catalog/homefeed", {
         params: {
           page: page
         },
@@ -15,14 +15,14 @@ export default async function Page() {
           Authorization: `Bearer ${cookies().get("access_token")?.value}`
         }
       })
-      .catch(() => ({ data: { data: [], page: { totalDocs: 0, total: 0, current: 0, limit: 0, hasNext: false } } }));
+      .catch(() => ({ data: { data: [], pages: { current: 0, limit: 0, hasNext: false } } }));
 
     return res.data ?? [];
   };
 
   const products = (await getProducts()).data;
 
-  const loadMore = async (page: number): Promise<{ data: IFullProduct[]; page: Pagination }> => {
+  const loadMore = async (page: number): Promise<{ data: IFullProduct[]; pages: Pagination }> => {
     "use server";
     const moreProducts = await getProducts(page);
     return moreProducts || [];

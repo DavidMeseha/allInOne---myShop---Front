@@ -1,4 +1,4 @@
-import axios from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 
 const getFollowingIds = async () => {
   try {

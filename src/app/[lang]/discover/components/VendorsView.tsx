@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { IVendor, Pagination } from "@/types";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { BiLoaderCircle } from "react-icons/bi";
 import Button from "@/components/Button";
 import { toast } from "react-toastify";
@@ -19,7 +19,7 @@ export default function VendorsView() {
   const vendorsQuery = useInfiniteQuery({
     queryKey: ["vendorsDiscover"],
     queryFn: ({ pageParam }) =>
-      axiosInstanceNew
+      axios
         .get<{ data: IVendor[]; pages: Pagination }>("/api/catalog/discover/vendors", {
           params: { page: pageParam }
         })
@@ -80,7 +80,7 @@ function ListItem({ vendor, to }: ListItemProps) {
 
   const followMutation = useMutation({
     mutationKey: ["followVendor", vendor._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/followVendor/${vendor._id}`),
+    mutationFn: () => axios.post(`/api/user/followVendor/${vendor._id}`),
     onSuccess: () => {
       setFollowedVendors();
       toast.success("Vendor followed successfully");

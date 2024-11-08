@@ -3,7 +3,7 @@ import { IFullProduct, IProductAttribute } from "@/types";
 import { create } from "zustand";
 import { persist, devtools, createJSONStorage } from "zustand/middleware";
 
-interface GeneralStore {
+export interface GeneralStore {
   isLoginOpen: boolean;
   isEditProfileOpen: boolean;
   isShareOpen: boolean;

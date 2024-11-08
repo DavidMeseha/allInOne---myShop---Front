@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import { queryClient } from "@/components/layout/MainLayout";
 import { useTranslation } from "@/context/Translation";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 import { IVendor } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 export default function FollowingPage() {
   const follwingVendorsQuery = useQuery({
     queryKey: ["following"],
-    queryFn: () => axiosInstanceNew.get<IVendor[]>("/api/user/followingVendors").then((res) => res.data)
+    queryFn: () => axios.get<IVendor[]>("/api/user/followingVendors").then((res) => res.data)
   });
   return <ul>{follwingVendorsQuery.data?.map((vendor) => <ListItem key={vendor._id} vendor={vendor} />)}</ul>;
 }
@@ -26,7 +26,7 @@ function ListItem({ vendor }: { vendor: IVendor }) {
 
   const unfollowMutation = useMutation({
     mutationKey: ["followVendor", vendor._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/unfollowVendor/${vendor._id}`),
+    mutationFn: () => axios.post(`/api/user/unfollowVendor/${vendor._id}`),
     onSuccess: () => {
       setFollowedVendors();
       queryClient.fetchQuery({ queryKey: ["following"] });

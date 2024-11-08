@@ -2,14 +2,14 @@
 
 import { useQuery } from "@tanstack/react-query";
 import OrderItem from "../components/OrderItem";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { IOrder } from "@/types";
 import { BiLoaderCircle } from "react-icons/bi";
 
 export default function OrdersPage() {
   const ordersQuery = useQuery({
     queryKey: ["orders"],
-    queryFn: () => axiosInstanceNew.get<IOrder[]>("/api/user/orders").then((res) => res.data)
+    queryFn: () => axios.get<IOrder[]>("/api/user/orders").then((res) => res.data)
   });
 
   const orders = ordersQuery.data ?? [];

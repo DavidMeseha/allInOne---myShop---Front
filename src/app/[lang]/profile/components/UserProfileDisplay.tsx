@@ -1,5 +1,5 @@
 import { useTranslation } from "@/context/Translation";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useGeneralStore } from "@/stores/generalStore";
 import { useUserStore } from "@/stores/userStore";
 import { IFullProduct, IProductAttribute, UserProfile } from "@/types";
@@ -23,24 +23,24 @@ export default function UserProfileDisplay() {
   const cartProductsQuery = useQuery({
     queryKey: ["cartProducts"],
     queryFn: () =>
-      axiosInstanceNew
+      axios
         .get<{ product: IFullProduct; quantity: number; attributes: IProductAttribute[] }[]>("/api/common/cart")
         .then((res) => res.data)
   });
 
   const savedProductsQuery = useQuery({
     queryKey: ["savedProducts"],
-    queryFn: () => axiosInstanceNew.get<IFullProduct[]>("/api/user/savedProducts").then((res) => res.data)
+    queryFn: () => axios.get<IFullProduct[]>("/api/user/savedProducts").then((res) => res.data)
   });
 
   const likedProductsQuery = useQuery({
     queryKey: ["likedProducts"],
-    queryFn: () => axiosInstanceNew.get<IFullProduct[]>("/api/user/likedProducts").then((res) => res.data)
+    queryFn: () => axios.get<IFullProduct[]>("/api/user/likedProducts").then((res) => res.data)
   });
 
   const userInfoQuery = useQuery({
     queryKey: ["userInfo"],
-    queryFn: () => axiosInstanceNew.get<UserProfile>("/api/user/info").then((res) => res.data)
+    queryFn: () => axios.get<UserProfile>("/api/user/info").then((res) => res.data)
   });
 
   const userInfo = userInfoQuery.data;
@@ -66,7 +66,7 @@ export default function UserProfileDisplay() {
   if (!userInfo) return;
 
   return (
-    <div className="relative">
+    <div className="relative pt-4">
       <Link
         className="absolute end-4 top-4 rounded-sm bg-primary px-4 py-2 text-xs text-white md:end-0 md:text-base"
         href={"/checkout"}

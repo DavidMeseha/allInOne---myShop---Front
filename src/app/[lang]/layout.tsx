@@ -29,14 +29,7 @@ export default async function RootLayout({
 
   return (
     <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>
-      <body
-        style={{
-          width: "100vw",
-          overflowX: "hidden",
-          paddingRight: 15,
-          boxSizing: "border-box"
-        }}
-      >
+      <body className="b w-screen overflow-x-hidden md:pr-4">
         <MainLayout dictionary={dictionary} lang={params.lang}>
           {children}
           <ToastContainer />

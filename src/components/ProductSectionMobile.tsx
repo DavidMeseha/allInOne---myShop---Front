@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IFullProduct } from "../types";
 import { useGeneralStore } from "../stores/generalStore";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
@@ -14,7 +14,6 @@ import Image from "next/image";
 import { useTranslation } from "@/context/Translation";
 
 export default function ProductSectionMobile({ product }: { product: IFullProduct }) {
-  const productRef = useRef<HTMLDivElement>(null);
   const { setIsProductMoreInfoOpen } = useGeneralStore();
   const { t } = useTranslation();
   //Carosel states
@@ -30,7 +29,7 @@ export default function ProductSectionMobile({ product }: { product: IFullProduc
   return (
     <>
       <div className="relative h-screen w-full snap-start bg-black" id={product._id.toString()}>
-        <div className="relative flex h-[calc(100dvh-58px)] items-center" ref={productRef}>
+        <div className="relative flex h-[calc(100dvh-58px)] items-center">
           <Carousel className="w-full" dir="ltr" setApi={setCarouselApi}>
             <CarouselContent>
               {product.pictures.map((img, index) => (

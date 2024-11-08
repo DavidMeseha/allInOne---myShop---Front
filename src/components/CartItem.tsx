@@ -9,7 +9,7 @@ import { useTranslation } from "@/context/Translation";
 import Image from "next/image";
 import { IFullProduct, IProductAttribute } from "@/types";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import ProductAttributes from "./ProductAttributes";
 import { queryClient } from "./layout/MainLayout";
 
@@ -27,7 +27,7 @@ export default function CartItem({ product, attributes, quantity, canEdit = fals
   const { t } = useTranslation();
   const removeFromCartMutation = useMutation({
     mutationKey: ["removeFromCart", product._id],
-    mutationFn: () => axiosInstanceNew.delete(`/api/common/cart/remove/${product._id}`),
+    mutationFn: () => axios.delete(`/api/common/cart/remove/${product._id}`),
     onSuccess: () => {
       setCartProducts();
       queryClient.fetchQuery({ queryKey: ["cartProducts"] });

@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import axiosInstanceNew from "./lib/axiosInstanceNew";
+import axios from "./lib/axios";
 import { FieldError, User } from "./types";
 
 export async function actionLogin(prevState: any, form: FormData): Promise<{ message: FieldError } | User> {
@@ -7,7 +7,7 @@ export async function actionLogin(prevState: any, form: FormData): Promise<{ mes
   const password = form.get("password");
 
   try {
-    const res = await axiosInstanceNew
+    const res = await axios
       .post<{ user: User; token: string }>("/api/auth/login", { email, password })
       .then((data) => data.data);
 

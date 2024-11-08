@@ -7,7 +7,7 @@ import { TFunction } from "../dictionary";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 
 type Props = { translation: Translation; children: React.ReactNode; lang: Dictionaries };
 type TContext = {
@@ -31,7 +31,7 @@ export function TranslationProvider({ translation, children, lang }: Props) {
   const changeLanguageMutation = useMutation({
     mutationKey: ["change-language"],
     mutationFn: (newLang: Dictionaries) =>
-      axiosInstanceNew.post(`/api/common/changeLanguage/${newLang}`).then(() => {
+      axios.post(`/api/common/changeLanguage/${newLang}`).then(() => {
         let newPathname = pathname.replace(`/${lang}`, `/${newLang.toLocaleLowerCase()}`);
 
         router.push(newPathname);

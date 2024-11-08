@@ -4,7 +4,7 @@ import ProductCard from "../../../../components/ProductCard";
 import { useTranslation } from "@/context/Translation";
 import { IFullProduct, ITag, Pagination } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { BiLoaderCircle } from "react-icons/bi";
@@ -20,7 +20,7 @@ export default function ViewtagProfile({ tag }: Props) {
   const productsQuery = useInfiniteQuery({
     queryKey: ["tagProducts", tag._id],
     queryFn: ({ pageParam }) =>
-      axiosInstanceNew
+      axios
         .get<{ data: IFullProduct[]; pages: Pagination }>(`/api/Catalog/TagProducts/${tag._id}`, {
           params: {
             page: pageParam

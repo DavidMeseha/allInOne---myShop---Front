@@ -6,7 +6,7 @@ import Link from "next/link";
 import React from "react";
 import Button from "@/components/Button";
 import { BiLoaderCircle } from "react-icons/bi";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function CategoriesView() {
@@ -15,7 +15,7 @@ export default function CategoriesView() {
   const tagsQuery = useInfiniteQuery({
     queryKey: ["tagsDiscover"],
     queryFn: ({ pageParam }) =>
-      axiosInstanceNew
+      axios
         .get<{ data: ICategory[]; pages: Pagination }>("/api/catalog/discover/categories", {
           params: { page: pageParam }
         })

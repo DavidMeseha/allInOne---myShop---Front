@@ -14,7 +14,7 @@ import { manipulateDescription } from "@/lib/misc";
 import DOMPurify from "dompurify";
 import { IFullProduct } from "@/types";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 import { toast } from "react-toastify";
 import Button from "./Button";
@@ -34,7 +34,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
 
   const followMutation = useMutation({
     mutationKey: ["followVendor", product.vendor._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/followVendor/${product.vendor._id}`),
+    mutationFn: () => axios.post(`/api/user/followVendor/${product.vendor._id}`),
     onSuccess: () => {
       setFollowedVendors();
       toast.success("Vendor followed successfully");
@@ -43,7 +43,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
 
   const unfollowMutation = useMutation({
     mutationKey: ["followVendor", product.vendor._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/unfollowVendor/${product.vendor._id}`),
+    mutationFn: () => axios.post(`/api/user/unfollowVendor/${product.vendor._id}`),
     onSuccess: () => {
       setFollowedVendors();
       toast.warning("Vendor unFollowed");

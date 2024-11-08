@@ -9,7 +9,7 @@ import Image from "next/image";
 import OverlayLayout from "./OverlayLayout";
 import { useTranslation } from "@/context/Translation";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import RadioGroup from "../RadioGroup";
 import DateDropdownNumbers from "../DateDropdownNumbers";
 import { toast } from "react-toastify";
@@ -65,7 +65,7 @@ export default function EditProfileOverlay() {
   const userInfoQuery = useQuery({
     queryKey: ["userInfo"],
     queryFn: () =>
-      axiosInstanceNew.get<UserProfile>("/api/user/info").then((res) => {
+      axios.get<UserProfile>("/api/user/info").then((res) => {
         setForm({ ...res.data });
         return res.data;
       })
@@ -73,7 +73,7 @@ export default function EditProfileOverlay() {
 
   const userInfoMutation = useMutation({
     mutationKey: ["updateUserInfo"],
-    mutationFn: () => axiosInstanceNew.put("/api/user/info", { ...form }),
+    mutationFn: () => axios.put("/api/user/info", { ...form }),
     onSuccess: () => {
       toast.success("Profile Updated Successfuly");
       queryClient.fetchQuery({ queryKey: ["userInfo"] });
@@ -82,7 +82,7 @@ export default function EditProfileOverlay() {
 
   const uploadImageMutation = useMutation({
     mutationFn: (formData: FormData) =>
-      axiosInstanceNew.post<{ imageUrl: string }>("/api/common/upload", formData, {
+      axios.post<{ imageUrl: string }>("/api/common/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

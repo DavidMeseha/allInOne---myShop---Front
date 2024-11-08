@@ -14,7 +14,7 @@ import { useUser } from "@/context/user";
 import ProductAttributes from "../ProductAttributes";
 import Image from "next/image";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { IFullProduct, IProductAttribute } from "../../types";
 
 export default function ProductMoreInfoOverlay() {
@@ -36,7 +36,7 @@ export default function ProductMoreInfoOverlay() {
   const addToCartMutation = useMutation({
     mutationKey: ["addToCart"],
     mutationFn: (props: { productId: string; attributes: IProductAttribute[]; quantity: number }) =>
-      axiosInstanceNew.post(`/api/common/cart/add/${props.productId}`),
+      axios.post(`/api/common/cart/add/${props.productId}`),
     onSuccess: () => {
       setIsProductMoreInfoOpen(false);
       setCartProducts();
@@ -46,7 +46,7 @@ export default function ProductMoreInfoOverlay() {
   const productQuery = useQuery({
     queryKey: ["product", overlayProductId],
     queryFn: () =>
-      axiosInstanceNew.get<IFullProduct>(`/api/catalog/product/${overlayProductId}`).then((res) => {
+      axios.get<IFullProduct>(`/api/catalog/product/${overlayProductId}`).then((res) => {
         setCustomAttributes(selectDefaultAttributes(res.data.productAttributes));
         return res.data;
       })

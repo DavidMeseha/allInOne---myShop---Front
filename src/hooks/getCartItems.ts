@@ -1,8 +1,8 @@
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 
 const getCartIds = async () => {
   try {
-    const items = await axiosInstanceNew.get<{ product: string; quantity: number }[]>(`/api/common/cart/ids`);
+    const items = await axios.get<{ product: string; quantity: number }[]>(`/api/common/cart/ids`);
     return items.data;
   } catch {
     return [];

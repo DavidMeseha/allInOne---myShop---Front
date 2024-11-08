@@ -8,7 +8,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { usePathname } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { IFullProduct } from "@/types";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 
 type Props = {
@@ -30,7 +30,7 @@ export default function LikeProductButton({ product }: Props) {
 
   const likeMutation = useMutation({
     mutationKey: ["Like", product._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/likeProduct/${product._id}`),
+    mutationFn: () => axios.post(`/api/user/likeProduct/${product._id}`),
     onSuccess: () => {
       setCounter(count + 1);
       setItem(true);
@@ -40,7 +40,7 @@ export default function LikeProductButton({ product }: Props) {
 
   const unlikeMutation = useMutation({
     mutationKey: ["Unlike", product._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/unlikeProduct/${product._id}`),
+    mutationFn: () => axios.post(`/api/user/unlikeProduct/${product._id}`),
     onSuccess: () => {
       setCounter(count - 1);
       setItem(false);

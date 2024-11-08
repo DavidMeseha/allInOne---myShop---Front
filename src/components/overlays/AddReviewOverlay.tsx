@@ -5,7 +5,7 @@ import { FieldError } from "@/types";
 import RatingStars from "../RatingStars";
 import Button from "../Button";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/stores/userStore";
 
@@ -22,7 +22,7 @@ export default function AddReviewOverlay() {
 
   const addReviewMutation = useMutation({
     mutationKey: ["AddReview"],
-    mutationFn: (productId: string) => axiosInstanceNew.post(`/api/user/addReview/${productId}`, { ...form }),
+    mutationFn: (productId: string) => axios.post(`/api/user/addReview/${productId}`, { ...form }),
 
     onSuccess: () => {
       toast.success("Review Added Successfully");

@@ -14,7 +14,7 @@ import Button from "@/components/Button";
 
 type Props = {
   products: IFullProduct[];
-  loadMore: (page: number) => Promise<{ data: IFullProduct[]; page: Pagination }>;
+  loadMore: (page: number) => Promise<{ data: IFullProduct[]; pages: Pagination }>;
 };
 
 export default function HomePage({ products, loadMore }: Props) {
@@ -30,7 +30,7 @@ export default function HomePage({ products, loadMore }: Props) {
     if (isInView && hasMore && loadMore) {
       loadMore(page + 1).then((res) => {
         if (res.data.length < 1) return setHasMore(false);
-        if (res.data.length < 4) setHasMore(false);
+        setHasMore(res.pages.hasNext);
         setProducts([...productsList, ...res.data]);
         setPage(page + 1);
       });
@@ -71,7 +71,7 @@ export default function HomePage({ products, loadMore }: Props) {
         </div>
       </div>
       <HomeMenu />
-      <div className="absolute bottom-0 -z-40 h-screen w-full md:h-[700px]" ref={ref}></div>
+      <div className="absolute bottom-0 -z-40 h-screen w-full md:h-[700px]" data-testid="load-more" ref={ref}></div>
     </div>
   );
 }

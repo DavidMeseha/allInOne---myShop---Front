@@ -8,7 +8,7 @@ import { useUserStore } from "@/stores/userStore";
 import { useUser } from "../context/user";
 import { IFullProduct } from "@/types";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { useGeneralStore } from "@/stores/generalStore";
 
 type Props = {
@@ -25,7 +25,7 @@ export default function SaveProductButton({ product }: Props) {
 
   const saveMutation = useMutation({
     mutationKey: ["save", product._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/saveProduct/${product._id}`),
+    mutationFn: () => axios.post(`/api/user/saveProduct/${product._id}`),
     onSuccess: () => {
       setSavedProducts();
       setItem(true);
@@ -35,7 +35,7 @@ export default function SaveProductButton({ product }: Props) {
 
   const unsaveMutation = useMutation({
     mutationKey: ["unsave", product._id],
-    mutationFn: () => axiosInstanceNew.post(`/api/user/unsaveProduct/${product._id}`),
+    mutationFn: () => axios.post(`/api/user/unsaveProduct/${product._id}`),
     onSuccess: () => {
       setSavedProducts();
       setItem(false);

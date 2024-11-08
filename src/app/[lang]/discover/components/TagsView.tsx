@@ -6,7 +6,7 @@ import React from "react";
 import { BsHash } from "react-icons/bs";
 import { ITag, Pagination } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import Button from "@/components/Button";
 import { BiLoaderCircle } from "react-icons/bi";
 
@@ -16,7 +16,7 @@ export default function TagsView() {
   const tagsQuery = useInfiniteQuery({
     queryKey: ["tagsDiscover"],
     queryFn: ({ pageParam }) =>
-      axiosInstanceNew
+      axios
         .get<{ data: ITag[]; pages: Pagination }>("/api/catalog/discover/tags", {
           params: { page: pageParam }
         })

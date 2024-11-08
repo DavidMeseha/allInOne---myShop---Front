@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "@/context/Translation";
 import { ICategory, IFullProduct, Pagination } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import ProductCard from "@/components/ProductCard";
 import { BiLoaderCircle } from "react-icons/bi";
 import { useInView } from "react-intersection-observer";
@@ -20,7 +20,7 @@ export default function ViewCategoryProfile({ category }: Props) {
   const productsQuery = useInfiniteQuery({
     queryKey: ["categoryProducts", category._id],
     queryFn: ({ pageParam }) =>
-      axiosInstanceNew
+      axios
         .get<{ data: IFullProduct[]; pages: Pagination }>(`/api/catalog/CategoryProducts/${category._id}`, {
           params: {
             page: pageParam

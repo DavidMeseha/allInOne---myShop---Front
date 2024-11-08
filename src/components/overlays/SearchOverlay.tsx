@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import Input from "../Input";
 import { useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import Checkbox from "../Checkbox";
 import { ICategory, IFullProduct, ITag, IVendor } from "@/types";
 import Image from "next/image";
@@ -52,7 +52,7 @@ export default function SearchOverlay() {
   const searchQuery = useQuery({
     queryKey: ["find", searchText, options],
     queryFn: () =>
-      axiosInstanceNew.post<SearchResponseItem[]>("/api/common/find", {
+      axios.post<SearchResponseItem[]>("/api/common/find", {
         ...options,
         searchText
       }),

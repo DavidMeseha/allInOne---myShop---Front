@@ -1,13 +1,13 @@
 import ViewCategoryProfile from "../../components/ViewCategoryProfile";
 import { ICategory } from "@/types";
 import { cookies } from "next/headers";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import NotFound from "@/components/NotFound";
 
 type Props = { params: { id: string } };
 
 export default async function Page({ params }: Props) {
-  const data = await axiosInstanceNew
+  const data = await axios
     .get<ICategory>(`/api/Catalog/Category/${params.id}`, {
       headers: {
         Authorization: `Bearer ${cookies().get("access_token")?.value}`

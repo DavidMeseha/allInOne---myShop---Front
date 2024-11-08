@@ -6,7 +6,7 @@ import { useUser } from "@/context/user";
 import { useGeneralStore } from "../stores/generalStore";
 import { useUserStore } from "../stores/userStore";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 
 type Props = {
   product: IFullProduct;
@@ -21,7 +21,7 @@ export default function AddToCartButton({ product }: Props) {
   const addToCartMutation = useMutation({
     mutationKey: ["addToCart"],
     mutationFn: (props: { productId: string; attributes: IProductAttribute[]; quantity: number }) =>
-      axiosInstanceNew.post(`/api/common/cart/add/${props.productId}`, {
+      axios.post(`/api/common/cart/add/${props.productId}`, {
         attributes: props.attributes,
         quantity: props.quantity
       }),
@@ -34,7 +34,7 @@ export default function AddToCartButton({ product }: Props) {
 
   const removeFromCartMutation = useMutation({
     mutationKey: ["removeFromCart", product._id],
-    mutationFn: () => axiosInstanceNew.delete(`/api/common/cart/remove/${product._id}`),
+    mutationFn: () => axios.delete(`/api/common/cart/remove/${product._id}`),
     onSuccess: () => {
       setCartProducts();
       setCartItem(false);

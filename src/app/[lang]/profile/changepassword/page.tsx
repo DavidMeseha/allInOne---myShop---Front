@@ -6,7 +6,7 @@ import { FieldError } from "@/types";
 import React, { useState } from "react";
 import { useTranslation } from "@/context/Translation";
 import { useMutation } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
 
@@ -26,7 +26,7 @@ export default function ChangePasswordPage() {
 
   const changePasswordMutation = useMutation({
     mutationFn: () =>
-      axiosInstanceNew.post("/api/user/ChangePassword", {
+      axios.post("/api/user/ChangePassword", {
         password: form.original,
         newPassword: form.new
       }),

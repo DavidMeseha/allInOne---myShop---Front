@@ -7,7 +7,7 @@ import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
 import { useTranslation } from "@/context/Translation";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import FormDropdownInput from "@/components/FormDropdownInput";
@@ -39,7 +39,7 @@ export default function CheckoutPage() {
   const placeOrderMutation = useMutation({
     mutationKey: ["placeOrder"],
     mutationFn: () =>
-      axiosInstanceNew.post(`/api/user/order/submit`, {
+      axios.post(`/api/user/order/submit`, {
         ...form
       }),
     onSuccess: () => toast.success("Order Placed Successfully")
@@ -47,13 +47,13 @@ export default function CheckoutPage() {
 
   const preperPaymentMutation = useMutation({
     mutationKey: ["preperPayment"],
-    mutationFn: () => axiosInstanceNew.get<{ paymentSecret: string }>("/api/user/preperPayment")
+    mutationFn: () => axios.get<{ paymentSecret: string }>("/api/user/preperPayment")
   });
 
   const checkoutQuery = useQuery({
     queryKey: ["cartProducts"],
     queryFn: () =>
-      axiosInstanceNew
+      axios
         .get<{
           total: number;
           cartItems: {

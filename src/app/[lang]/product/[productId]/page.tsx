@@ -1,7 +1,7 @@
 import ProductPage from "../ProductPage";
 import { cookies } from "next/headers";
 import { Dictionaries } from "@/dictionary";
-import axiosInstanceNew from "@/lib/axiosInstanceNew";
+import axios from "@/lib/axios";
 import { Metadata, ResolvingMetadata } from "next";
 import { IFullProduct } from "@/types";
 import ProductNotFound from "@/app/product-not-found";
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const product = await axiosInstanceNew
+  const product = await axios
     .get<IFullProduct>(`/api/product/details/${params.productId}`, {
       headers: { Authorization: `Bearer ${cookies().get("access_token")?.value}` }
     })
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 }
 
 export default async function Page({ params }: Props) {
-  const data = await axiosInstanceNew
+  const data = await axios
     .get<IFullProduct>(`/api/product/details/${params.productId}`, {
       headers: { Authorization: `Bearer ${cookies().get("access_token")?.value}` }
     })

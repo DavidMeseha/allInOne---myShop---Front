@@ -1,4 +1,4 @@
-import axios from "@/lib/axiosInstance";
+import axios from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 

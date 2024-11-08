@@ -67,8 +67,8 @@ function ReviewItem({ review }: { review: IProductReview }) {
   return (
     <li className="border-b py-6">
       <div className="flex justify-between">
-        <Link className="mt-2 font-bold text-primary hover:underline" href={`/${lang}/product/${review.product._id}`}>
-          {review.product.name}
+        <Link className="mt-2 font-bold text-primary hover:underline" href={`/${lang}/product/${review.product?._id}`}>
+          {review.product?.name}
         </Link>
         <div>
           <RatingStars rate={review.rating} size={14} />

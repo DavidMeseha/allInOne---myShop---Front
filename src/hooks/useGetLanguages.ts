@@ -1,4 +1,4 @@
-import axios from "@/lib/axiosInstance";
+import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 

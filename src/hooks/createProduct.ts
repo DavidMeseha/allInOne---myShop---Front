@@ -1,4 +1,4 @@
-import axios from "@/lib/axiosInstance";
+import axios from "@/lib/axios";
 import { IFullProduct } from "@/types";
 
 const createProduct = async (product: IFullProduct) => {

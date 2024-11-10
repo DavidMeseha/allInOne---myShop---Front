@@ -66,7 +66,7 @@ export default function SearchOverlay() {
   };
 
   return (
-    <motion.div animate="visible" exit="exit" initial="hidden">
+    <motion.div data-testid="search-overlay" animate="visible" exit="exit" initial="hidden">
       <motion.div
         className="fixed z-40 h-screen w-screen bg-lightGray bg-opacity-90 backdrop-blur-lg"
         variants={bgVariants}

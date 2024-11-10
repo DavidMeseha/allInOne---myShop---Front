@@ -45,16 +45,20 @@ export default function HomePage({ products, loadMore }: Props) {
             <ProductSection key={index} product={product} />
           ))}
           <div className="flex justify-center py-7 text-center">
-            {hasMore ? <BiLoaderCircle className="animate-spin fill-primary" size={35} /> : t("endOfContent")}
+            {hasMore ? (
+              <BiLoaderCircle className="animate-spin fill-primary" data-testid="loading" size={35} />
+            ) : (
+              t("endOfContent")
+            )}
           </div>
         </div>
       </div>
       <div className="block md:hidden">
         <div className="fixed end-0 start-0 top-0 z-20 w-full px-2 md:hidden">
           <div className="flex justify-between py-2">
-            <button aria-label="Main Menu" onClick={() => setIsHomeMenuOpen(true)}>
+            <Button aria-label="Open Main Menu" onClick={() => setIsHomeMenuOpen(true)}>
               <BiMenu className="fill-white" size={35} />
-            </button>
+            </Button>
             <div className="w-6" />
             <Button aria-label="Open Search Page" onClick={() => setIsSearchOpen(true)}>
               <BsSearch className="fill-white" size={30} />
@@ -67,7 +71,11 @@ export default function HomePage({ products, loadMore }: Props) {
             : null}
         </div>
         <div className="flex justify-center py-7 text-center">
-          {hasMore ? <BiLoaderCircle className="animate-spin fill-primary" size={35} /> : t("endOfContent")}
+          {hasMore ? (
+            <BiLoaderCircle className="animate-spin fill-primary" data-testid="loading" size={35} />
+          ) : (
+            t("endOfContent")
+          )}
         </div>
       </div>
       <HomeMenu />

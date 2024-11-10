@@ -3,7 +3,10 @@ import { GeneralStore } from "@/stores/generalStore";
 import { IFullProduct } from "@/types";
 import { render } from "@testing-library/react";
 import { create } from "zustand";
+import { Dictionaries, Translation } from "@/dictionary";
 import en from "@/dictionaries/en.json";
+import ar from "@/dictionaries/ar.json";
+import React from "react";
 
 export const mockGeneralStore = create<GeneralStore>(() => ({
   isLoginOpen: false,
@@ -138,9 +141,13 @@ export const mockHomeProduct: IFullProduct = {
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis aspernatur nemo aliquid, sint ab possimus quis numquam animi unde. Sunt non obcaecati laudantium ut at sint nemo iste accusantium soluta, ab tenetur quam cupiditate aspernatur sequi maxime pariatur impedit consequuntur voluptatum vitae quod! Ut error laborum, natus veniam enim omnis ab sunt, deleniti pariatur libero labore beatae? Odit harum nulla autem esse impedit, quod accusantium quaerat. Minima excepturi amet inventore maiores eaque, impedit iure qui, non magnam tempore omnis tenetur eum minus facilis, deserunt numquam ex distinctio necessitatibus fuga accusamus sint possimus. Commodi illum tempora deleniti ex dignissimos ad consequuntur!"
 };
 
-export const renderWithProviders = (ui: React.ReactNode) => {
+export const renderWithProviders = async (
+  ui: React.ReactNode,
+  lang: Dictionaries = "en",
+  dictionary: Translation = en
+) => {
   return render(
-    <MainLayout lang="en" dictionary={en}>
+    <MainLayout dictionary={dictionary} lang={lang}>
       {ui}
     </MainLayout>
   );

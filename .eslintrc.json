@@ -8,7 +8,7 @@
       }
     },
     {
-      "files": ["**/__tests__/**/*.[jt]s?(x)"],
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "/mocks/**/*.tsx"],
       "rules": {
         "no-unused-expressions": "off",
         "no-undef": "off"

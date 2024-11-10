@@ -37,7 +37,7 @@ export default function SubMenuItem({ item }: Props) {
                 pathname === supItem.to ? "bg-lightGray text-primary" : ""
               }`}
             >
-              <RiArrowDropLeftLine className="ltr:hidden" size={20} />
+              <RiArrowDropLeftLine className="hidden rtl:block" size={20} />
               <RiArrowDropRightLine className="rtl:hidden" size={20} />
               {supItem.name}
             </Link>

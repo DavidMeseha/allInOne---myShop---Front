@@ -1,17 +1,21 @@
-import { screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import HomePage from "@/app/HomePage";
 import { useInView } from "react-intersection-observer";
 import { mockHomeProduct, renderWithProviders } from "../mocks/values";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
-import en from "@/dictionaries/en.json";
 import useEmblaCarousel from "embla-carousel-react";
+import { resizeWindow } from "../test-mic";
+import en from "@/dictionaries/en.json";
 
 describe("HomePage", () => {
   const mockLoadMore = jest.fn();
 
-  beforeEach(() => {
+  afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  beforeEach(() => {
     (usePathname as jest.Mock).mockReturnValue("/en");
     (useRouter as jest.Mock).mockReturnValue({
       push: jest.fn()
@@ -37,10 +41,14 @@ describe("HomePage", () => {
     ]);
   });
 
-  it("loads initial products correctly", async () => {
+  it("loads initial products correctly and shows loading for more products", () => {
     renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
 
     expect(screen.getByText(mockHomeProduct.name)).toBeInTheDocument();
+    const loading = screen.getAllByTestId("loading");
+    loading.forEach((element) => {
+      expect(element).toBeInTheDocument();
+    });
   });
 
   it("loads more products and shows end of content", async () => {
@@ -52,7 +60,7 @@ describe("HomePage", () => {
       pages: { currentPage: 2, totalPages: 2, hasNext: false }
     });
 
-    (useInView as jest.Mock).mockReturnValue([jest.fn(), true]);
+    (useInView as jest.Mock).mockReturnValueOnce([jest.fn(), true]);
     renderWithProviders(
       <HomePage
         loadMore={mockLoadMore}
@@ -63,22 +71,55 @@ describe("HomePage", () => {
       />
     );
 
-    expect(mockLoadMore).toHaveBeenCalledWith(2);
+    const loading = screen.getAllByTestId("loading");
+    loading.forEach((element) => {
+      expect(element).toBeInTheDocument();
+    });
 
     expect(screen.getByText("Product 1")).toBeInTheDocument();
     expect(screen.getByText("Product 2")).toBeInTheDocument();
 
+    expect(mockLoadMore).toHaveBeenCalledWith(2);
+
     await waitFor(() => {
       expect(screen.getByText("Product 3")).toBeInTheDocument();
       expect(screen.getByText("Product 4")).toBeInTheDocument();
+      expect(screen.queryByTestId("loading")).not.toBeInTheDocument();
       const eocElements = screen.getAllByText(en["endOfContent"]);
       eocElements.forEach((element) => {
         expect(element).toBeInTheDocument();
-        console.log(element);
       });
     });
   });
 
-  // it("displays end of content message when no more products are available", async () => {
-  // });
+  it("open & close main menu on mobile", async () => {
+    renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+    expect(screen.getByLabelText("Open Main Menu")).toBeInTheDocument();
+    expect(screen.getByTestId("main-menu")).toBeInTheDocument();
+    expect(screen.getByTestId("close-main-menu")).toBeInTheDocument();
+    expect(screen.getByTestId("main-menu")).toHaveClass("-start-full");
+
+    await act(async () => {
+      fireEvent.click(screen.getByLabelText("Open Main Menu"));
+    });
+    expect(screen.getByTestId("main-menu")).toHaveClass("start-0");
+
+    await act(async () => {
+      fireEvent.click(screen.getByTestId("close-main-menu"));
+    });
+    expect(screen.getByTestId("main-menu")).toHaveClass("-start-full");
+  });
+
+  it("opens search popup on mobile", async () => {
+    renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+    expect(screen.getByLabelText("Open Search Page")).toBeInTheDocument();
+    expect(screen.getByTestId("main-menu")).toBeInTheDocument();
+    expect(screen.getByTestId("close-main-menu")).toBeInTheDocument();
+    expect(screen.getByTestId("main-menu")).toHaveClass("-start-full");
+
+    await act(async () => {
+      fireEvent.click(screen.getByLabelText("Open Search Page"));
+    });
+    expect(screen.getByTestId("search-overlay")).toBeInTheDocument();
+  });
 });

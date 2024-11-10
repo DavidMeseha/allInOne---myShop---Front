@@ -5,7 +5,6 @@ import { mockHomeProduct, renderWithProviders } from "../mocks/values";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import useEmblaCarousel from "embla-carousel-react";
-import { resizeWindow } from "../test-mic";
 import en from "@/dictionaries/en.json";
 
 describe("HomePage", () => {

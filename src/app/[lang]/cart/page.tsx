@@ -29,7 +29,6 @@ export default function Page() {
         .then((res) => res.data)
   });
 
-  console.log(checkoutQuery.data?.cartItems);
   const cartItems = checkoutQuery.data?.cartItems ?? [];
   const total = checkoutQuery.data?.total ?? 0;
 

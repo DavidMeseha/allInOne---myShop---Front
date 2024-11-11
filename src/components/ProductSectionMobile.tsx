@@ -61,14 +61,14 @@ export default function ProductSectionMobile({ product }: { product: IFullProduc
             <p dangerouslySetInnerHTML={{ __html: product.fullDescription ?? "" }}></p>
           </div> */}
 
-          <button
+          {/* <button
             className="absolute bottom-8 start-1/3 z-10 p-1 text-sm text-primary underline"
             onClick={() => setIsProductMoreInfoOpen(true, product._id)}
           >
             {t("showMore")}...
-          </button>
+          </button> */}
 
-          <div className="absolute bottom-2 end-0">
+          <div className="absolute bottom-1 end-0">
             <div className="relative bottom-0 end-0 flex flex-col" id={`PostMainLikes-${product?._id}`}>
               <ProductVendorButton vendor={product.vendor} />
               <LikeProductButton product={product} />

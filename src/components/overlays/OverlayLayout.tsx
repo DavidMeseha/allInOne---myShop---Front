@@ -33,11 +33,11 @@ export default function OverlayLayout({ children, close, className, title, isLoa
         variants={bgVariants}
         onClick={close}
       >
-        <motion.div className="h-full w-full overflow-auto transition-transform" variants={popupVariants}>
+        <motion.div className="pb- h-full w-full overflow-auto transition-transform" variants={popupVariants}>
           <div className="flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8">
             <div
               className={twMerge(
-                clsx("w-full rounded-b-none rounded-t-md bg-white p-4 md:max-w-[470px] md:rounded-lg", className)
+                clsx("w-full rounded-b-none rounded-t-md bg-white p-4 pb-20 md:max-w-[470px] md:rounded-lg", className)
               )}
               onClick={(e) => e.stopPropagation()}
             >

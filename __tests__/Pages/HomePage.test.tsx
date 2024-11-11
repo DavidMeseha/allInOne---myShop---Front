@@ -7,7 +7,6 @@ import { useRouter } from "next-nprogress-bar";
 import useEmblaCarousel from "embla-carousel-react";
 import en from "@/dictionaries/en.json";
 import { renderWithProviders } from "../../test-mic";
-import axios from "@/lib/axios";
 
 describe("HomePage", () => {
   const mockLoadMore = jest.fn();

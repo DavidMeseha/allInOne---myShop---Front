@@ -25,10 +25,11 @@ export default function Page() {
         .get<{
           total: number;
           cartItems: { product: IFullProduct; quantity: number; attributes: IProductAttribute[] }[];
-        }>("/api/user/checkout")
+        }>("/api/common/checkout")
         .then((res) => res.data)
   });
 
+  console.log(checkoutQuery.data?.cartItems);
   const cartItems = checkoutQuery.data?.cartItems ?? [];
   const total = checkoutQuery.data?.total ?? 0;
 

@@ -22,18 +22,18 @@ export default function CheckboxGroup({ values, options, title, onChange, classN
   };
 
   return (
-    <div data-testid="checkbox-group" className={className}>
+    <div className={className} data-testid="checkbox-group">
       <div className="mb-2 text-lg">{title}</div>
       <div className="flex flex-wrap gap-4">
         {options.map((option, index) => (
           <Checkbox
-            id={option.name}
-            label={option.name}
-            key={index}
-            onChange={handleChange}
-            value={option.value}
-            className="p-0"
             checked={values.includes(option.value)}
+            className="p-0"
+            id={option.name}
+            key={index}
+            label={option.name}
+            value={option.value}
+            onChange={handleChange}
           />
         ))}
       </div>

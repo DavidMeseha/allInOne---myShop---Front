@@ -1,5 +1,12 @@
 // Learn more: https://github.com/testing-library/jest-dom
+import getCartIds from "@/hooks/getCartItems";
+import getCountries from "@/hooks/getCountries";
+import getFollowingIds from "@/hooks/getFollowingIds";
+import getLikeIds from "@/hooks/getLikesId";
+import getReviewedIds from "@/hooks/getReviewIds";
+import getSavesId from "@/hooks/getSavesId";
 import "@testing-library/jest-dom";
+import { act } from "@testing-library/react";
 
 class IntersectionObserver {
   constructor(callback) {
@@ -66,3 +73,12 @@ jest.mock("./src/hooks/getFollowingIds.ts", () => jest.fn());
 jest.mock("./src/hooks/getLikesId.ts", () => jest.fn());
 jest.mock("./src/hooks/getReviewIds.ts", () => jest.fn());
 jest.mock("./src/hooks/getSavesId.ts", () => jest.fn());
+
+act(() => {
+  getCartIds.mockResolvedValue([]);
+  getCountries.mockResolvedValue([]);
+  getFollowingIds.mockResolvedValue([]);
+  getLikeIds.mockResolvedValue([]);
+  getReviewedIds.mockResolvedValue([]);
+  getSavesId.mockResolvedValue([]);
+});

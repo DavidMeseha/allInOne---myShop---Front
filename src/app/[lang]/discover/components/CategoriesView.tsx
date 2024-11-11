@@ -10,7 +10,7 @@ import axios from "@/lib/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function CategoriesView() {
-  const { lang } = useTranslation();
+  const { lang, t } = useTranslation();
 
   const categoriesQuery = useInfiniteQuery({
     queryKey: ["tagsDiscover"],
@@ -43,7 +43,7 @@ export default function CategoriesView() {
 
       {!categoriesQuery.isFetchedAfterMount ? (
         <div className="flex w-full flex-col items-center justify-center py-2">
-          <BiLoaderCircle role="status" className="animate-spin fill-primary" size={35} />
+          <BiLoaderCircle className="animate-spin fill-primary" role="status" size={35} />
         </div>
       ) : lastPage && lastPage.pages.hasNext ? (
         <div className="px-w py-4 text-center">
@@ -52,7 +52,7 @@ export default function CategoriesView() {
             isLoading={categoriesQuery.isFetchingNextPage}
             onClick={() => categoriesQuery.fetchNextPage()}
           >
-            Load More
+            {t("loadMore")}
           </Button>
         </div>
       ) : null}

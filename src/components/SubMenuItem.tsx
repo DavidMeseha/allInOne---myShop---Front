@@ -30,8 +30,8 @@ export default function SubMenuItem({ item }: Props) {
         <RiArrowDropDownLine size={25} />
       </button>
       <ul
-        data-testid="sub-items"
         className={`${isOpen ? "max-h-52" : "max-h-0"} overflow-hidden transition-all duration-500`}
+        data-testid="sub-items"
       >
         {item.sup?.map((supItem, index) => (
           <li className="my-2 w-10/12 md:w-full" key={index}>
@@ -41,8 +41,8 @@ export default function SubMenuItem({ item }: Props) {
                 pathname === supItem.to ? "bg-lightGray text-primary" : ""
               }`}
             >
-              <RiArrowDropLeftLine data-testid="sub-menu-left-icon" className="hidden rtl:block" size={20} />
-              <RiArrowDropRightLine data-testid="sub-menu-right-icon" className="rtl:hidden" size={20} />
+              <RiArrowDropLeftLine className="hidden rtl:block" data-testid="sub-menu-left-icon" size={20} />
+              <RiArrowDropRightLine className="rtl:hidden" data-testid="sub-menu-right-icon" size={20} />
               {supItem.name}
             </Link>
           </li>

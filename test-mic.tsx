@@ -2,21 +2,23 @@ import { Dictionaries, Translation } from "@/dictionary";
 import en from "@/dictionaries/en.json";
 import ar from "@/dictionaries/ar.json";
 import MainLayout from "@/components/layout/MainLayout";
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TranslationProvider } from "@/context/Translation";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export const renderWithProviders = async (
   ui: React.ReactNode,
   lang: Dictionaries = "en",
   dictionary: Translation = en
 ) => {
-  return render(
-    <MainLayout dictionary={dictionary} lang={lang}>
-      {ui}
-    </MainLayout>
+  return await act(async () =>
+    render(
+      <MainLayout dictionary={dictionary} lang={lang}>
+        {ui}
+      </MainLayout>
+    )
   );
 };
 

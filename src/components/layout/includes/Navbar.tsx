@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { BiSearch, BiShoppingBag, BiUser } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
@@ -29,7 +29,7 @@ function NavBar() {
   return (
     <div className="fixed z-30 hidden h-[60px] w-screen items-center border-b bg-white md:flex" id="TopNav">
       <div className={`mx-auto flex w-full items-center justify-between gap-6 pe-8 ps-4`}>
-        <Link aria-label="to Home Page" className="flex items-center gap-2" href={`/${lang}`}>
+        <LocalLink aria-label="to Home Page" className="flex items-center gap-2" href="/">
           {/* <Image
             alt="Tiktok"
             className="h-auto min-w-[115px] object-cover"
@@ -40,7 +40,7 @@ function NavBar() {
           /> */}
           <BiShoppingBag size={40} />
           <span className="text-2xl font-bold">TikShop</span>
-        </Link>
+        </LocalLink>
 
         <div className="flex items-center gap-3">
           {user?.isVendor && (

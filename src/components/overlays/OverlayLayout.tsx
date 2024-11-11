@@ -37,7 +37,10 @@ export default function OverlayLayout({ children, close, className, title, isLoa
           <div className="flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8">
             <div
               className={twMerge(
-                clsx("w-full rounded-b-none rounded-t-md bg-white p-4 pb-20 md:max-w-[470px] md:rounded-lg", className)
+                clsx(
+                  "w-full rounded-b-none rounded-t-md bg-white p-4 pb-20 md:max-w-[470px] md:rounded-lg md:pb-0",
+                  className
+                )
               )}
               onClick={(e) => e.stopPropagation()}
             >

@@ -4,7 +4,7 @@ import BackArrow from "@/components/BackArrow";
 import { useTranslation } from "@/context/Translation";
 import { useGeneralStore } from "@/stores/generalStore";
 import { useRouter } from "next-nprogress-bar";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { usePathname } from "next/navigation";
 import React, { ReactNode } from "react";
 import { BsSearch } from "react-icons/bs";
@@ -29,23 +29,23 @@ export default function Layout({ children }: { children: ReactNode }) {
           <li
             className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "vendors" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
           >
-            <Link className="flex justify-center py-2" href="vendors">
+            <LocalLink className="flex justify-center py-2" href="/discover/vendors">
               {t("discover.vendors")}
-            </Link>
+            </LocalLink>
           </li>
           <li
             className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "categories" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
           >
-            <Link className="flex justify-center py-2" href="categories">
+            <LocalLink className="flex justify-center py-2" href="/discover/categories">
               {t("discover.categories")}
-            </Link>
+            </LocalLink>
           </li>
           <li
             className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "tags" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
           >
-            <Link className="flex justify-center py-2" href="tags">
+            <LocalLink className="flex justify-center py-2" href="/discover/tags">
               {t("discover.tags")}
-            </Link>
+            </LocalLink>
           </li>
         </ul>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CarouselIndecator from "./CarouselIndecator";
 import LikeProductButton from "./LikeProductButton";
@@ -25,7 +25,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);
   const [readMore, setReadMore] = useState(false);
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const { following, setFollowedVendors } = useUserStore();
   const { setIsLoginOpen } = useGeneralStore();
   const { user } = useUser();
@@ -65,7 +65,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
   return (
     <div className="flex border-b py-6" id={`PostMain-${product._id}`}>
       <div className="w-11">
-        <Link aria-label="Navigate to specific vendor profile" href={`/${lang}/profile/vendor/${product.vendor._id}`}>
+        <LocalLink aria-label="Navigate to specific vendor profile" href={`/profile/vendor/${product.vendor._id}`}>
           <Image
             alt={product.vendor.name}
             className="h-14 w-14 rounded-full object-cover"
@@ -75,24 +75,24 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             src={product.vendor?.imageUrl}
             width={56}
           />
-        </Link>
+        </LocalLink>
       </div>
 
       <div className="grow pe-4 ps-3">
         <div className="flex items-center justify-between pb-1">
           <div>
-            <Link
+            <LocalLink
               aria-label="Navigate to product page"
               className="cursor-pointer font-bold hover:underline"
               href={`/product/${product._id}`}
             >
               {product.name}
-            </Link>
+            </LocalLink>
             <p className="text-sm text-strongGray">
               {t("soldBy")}:{" "}
-              <Link className="hover:text-primary" href={`/${lang}/vandor/${product.vendor._id}`}>
+              <LocalLink className="hover:text-primary" href={`/vandor/${product.vendor._id}`}>
                 {product.vendor.name}
-              </Link>
+              </LocalLink>
             </p>
           </div>
 
@@ -124,15 +124,15 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
         <div className="pb-0.5 text-[14px] text-gray-500">
           {product.productTags.length > 0
             ? product.productTags.map((tag) => (
-                <Link
+                <LocalLink
                   aria-label="Navigate to a tag products"
                   className="me-4 hover:underline"
                   dir="ltr"
-                  href={`/${lang}/profile/tag/${tag._id}`}
+                  href={`/profile/tag/${tag._id}`}
                   key={tag._id}
                 >
                   #{tag.name}
-                </Link>
+                </LocalLink>
               ))
             : null}
         </div>

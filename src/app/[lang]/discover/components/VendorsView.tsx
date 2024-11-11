@@ -1,7 +1,6 @@
 "use client";
 
-import { useTranslation } from "@/context/Translation";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import Image from "next/image";
 import { IVendor, Pagination } from "@/types";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
@@ -14,8 +13,6 @@ import { useUser } from "@/context/user";
 import { useGeneralStore } from "@/stores/generalStore";
 
 export default function VendorsView() {
-  const { lang } = useTranslation();
-
   const vendorsQuery = useInfiniteQuery({
     queryKey: ["vendorsDiscover"],
     queryFn: ({ pageParam }) =>
@@ -40,7 +37,7 @@ export default function VendorsView() {
           <div>
             {vendorsPages.map((page) =>
               page.data.map((vendor) => (
-                <ListItem key={vendor._id} to={`/${lang}/profile/vendor/${vendor._id}`} vendor={vendor} />
+                <ListItem key={vendor._id} to={`/profile/vendor/${vendor._id}`} vendor={vendor} />
               ))
             )}
           </div>
@@ -105,9 +102,9 @@ function ListItem({ vendor, to }: ListItemProps) {
         />
 
         <div>
-          <Link className="font-bold" href={to}>
+          <LocalLink className="font-bold" href={to}>
             {vendor.name}
-          </Link>
+          </LocalLink>
           <p className="text-strongGray">Products: {vendor.productCount}</p>
         </div>
       </div>

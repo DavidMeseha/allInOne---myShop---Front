@@ -1,9 +1,8 @@
 "use client";
 
 import Reviews from "@/components/post/Reviews";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { AiOutlineClose } from "react-icons/ai";
-import { useTranslation } from "@/context/Translation";
 import Image from "next/image";
 import { IFullProduct, IProductReview } from "@/types";
 import ProductHeader from "@/components/post/ProductHeader";
@@ -19,7 +18,6 @@ import { toast } from "react-toastify";
 import { queryClient } from "@/components/layout/MainLayout";
 
 export default function ProductPage({ product }: { product: IFullProduct }) {
-  const { lang } = useTranslation();
   const [review, setReview] = useState<string>("");
   const [rate, setRate] = useState(0);
   const { user } = useUser();
@@ -59,12 +57,12 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
     <>
       <div className="z-30 h-screen justify-between overflow-auto bg-black lg:flex" id="PostPage">
         <div className="relative md:h-full lg:w-[calc(100%-540px)]">
-          <Link
+          <LocalLink
             className="absolute start-0 z-20 m-5 rounded-full bg-gray-700 p-1.5 text-white hover:bg-gray-800"
-            href={`/${lang}`}
+            href={``}
           >
             <AiOutlineClose size="27" />
-          </Link>
+          </LocalLink>
 
           <>
             <Image

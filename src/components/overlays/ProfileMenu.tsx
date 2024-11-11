@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import OverlayLayout from "./OverlayLayout";
 import { useGeneralStore } from "@/stores/generalStore";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { FiLogOut } from "react-icons/fi";
 import { useUser } from "@/context/user";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
@@ -52,10 +52,10 @@ export default function ProfileMenuOverlay() {
             {userMenuNav.map((item, index) => (
               <li key={index}>
                 {item.to ? (
-                  <Link className="flex items-center gap-4 py-2 font-semibold" href={item.to}>
+                  <LocalLink className="flex items-center gap-4 py-2 font-semibold" href={item.to}>
                     {item.icon}
                     {item.name}
-                  </Link>
+                  </LocalLink>
                 ) : (
                   <button
                     className="flex items-center gap-4 py-2 font-semibold"

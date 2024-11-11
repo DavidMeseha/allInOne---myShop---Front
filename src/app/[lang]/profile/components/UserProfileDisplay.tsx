@@ -11,7 +11,7 @@ import { FiSettings } from "react-icons/fi";
 import { BsBookmark, BsCart, BsHeart } from "react-icons/bs";
 import ProductProfileCard from "@/components/ProductProfileCard";
 import { BiPencil } from "react-icons/bi";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 
 export default function UserProfileDisplay() {
   const { t, lang } = useTranslation();
@@ -67,12 +67,12 @@ export default function UserProfileDisplay() {
 
   return (
     <div className="relative pt-4">
-      <Link
+      <LocalLink
         className="absolute end-4 top-4 rounded-sm bg-primary px-4 py-2 text-xs text-white md:end-0 md:text-base"
         href={"/checkout"}
       >
         Checkout Cart({cartProducts.length})
-      </Link>
+      </LocalLink>
       <div className="flex w-full flex-col items-center md:mt-0">
         <Image
           alt={userInfo.firstName + " " + userInfo.lastName}

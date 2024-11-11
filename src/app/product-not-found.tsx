@@ -1,11 +1,9 @@
 "use client";
 
-import { useTranslation } from "@/context/Translation";
 import Image from "next/image";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 
 export default function NotFound() {
-  const { lang } = useTranslation();
   return (
     <div className="mt-28 flex flex-col items-center justify-center">
       <Image
@@ -16,9 +14,9 @@ export default function NotFound() {
         width={400}
       />
       <h1 className="text-4xl font-bold text-strongGray">Product Not Found</h1>
-      <Link className="text-primary hover:underline" href={`/${lang}`}>
+      <LocalLink className="text-primary hover:underline" href={``}>
         Go Home {" >"}
-      </Link>
+      </LocalLink>
     </div>
   );
 }

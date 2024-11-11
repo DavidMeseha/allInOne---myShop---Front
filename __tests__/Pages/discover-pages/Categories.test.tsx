@@ -1,6 +1,5 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { usePathname } from "next/navigation";
-
 import { renderDiscoverPages } from "../../../test-mic";
 import CategoriesView from "@/app/[lang]/discover/components/CategoriesView";
 import axios from "@/lib/axios";

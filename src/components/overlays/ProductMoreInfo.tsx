@@ -7,8 +7,7 @@ import { selectDefaultAttributes } from "@/lib/misc";
 import { useUserStore } from "@/stores/userStore";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CarouselIndecator from "../CarouselIndecator";
-import Link from "next/link";
-import { useTranslation } from "@/context/Translation";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { BiLoaderCircle } from "react-icons/bi";
 import { useUser } from "@/context/user";
 import ProductAttributes from "../ProductAttributes";
@@ -24,7 +23,6 @@ export default function ProductMoreInfoOverlay() {
   const { user } = useUser();
   const [activeTap, setActiveTap] = useState<"description" | "reviews">("description");
   const { setIsProductMoreInfoOpen, overlayProductId } = useGeneralStore();
-  const { lang } = useTranslation();
   const [customAttributes, setCustomAttributes] = useState<IProductAttribute[]>([]);
 
   useEffect(() => {
@@ -107,19 +105,19 @@ export default function ProductMoreInfoOverlay() {
         </div>
       )}
       <h1 className="text-2xl font-bold">{product?.name}</h1>
-      <Link
+      <LocalLink
         className="text-base text-strongGray hover:text-primary hover:underline"
         href={`/vendor/${product?.vendor._id}`}
       >
         Sold By: {product?.vendor.name}
-      </Link>
+      </LocalLink>
       <div className="mb-2 text-lg font-bold">{product?.price.price}$</div>
       <div className="mb-4 text-center text-sm text-strongGray">
         {product?.productTags
           ? product?.productTags.map((tag, index) => (
-              <Link className="me-4 hover:underline" dir="ltr" href={`/${lang}/profile/tag/${tag._id}`} key={index}>
+              <LocalLink className="me-4 hover:underline" dir="ltr" href={`/profile/tag/${tag._id}`} key={index}>
                 #{tag.name}
-              </Link>
+              </LocalLink>
             ))
           : null}
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
-import { useTranslation } from "@/context/Translation";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import React from "react";
 import { PiPlus } from "react-icons/pi";
 import Image from "next/image";
@@ -17,7 +16,6 @@ type Props = {
 };
 
 export default function ProductVendorButton({ vendor }: Props) {
-  const { lang } = useTranslation();
   const { following, setFollowedVendors } = useUserStore();
   const followMutation = useMutation({
     mutationKey: ["followVendor", vendor._id],
@@ -30,7 +28,7 @@ export default function ProductVendorButton({ vendor }: Props) {
 
   return (
     <div className="relative mx-2 mb-7">
-      <Link aria-label="Navigate to vendor profile" href={`/${lang}/profile/vendor/${vendor._id}`}>
+      <LocalLink aria-label="Navigate to vendor profile" href={`/profile/vendor/${vendor._id}`}>
         <Image
           alt={vendor.name}
           className="h-10 w-10 rounded-full object-cover"
@@ -38,7 +36,7 @@ export default function ProductVendorButton({ vendor }: Props) {
           src={vendor.imageUrl}
           width={50}
         />
-      </Link>
+      </LocalLink>
       {!following.includes(vendor._id) ? (
         <button className="absolute -bottom-2 flex w-full justify-center" onClick={() => followMutation.mutate()}>
           <div className="rounded-full bg-primary p-1">

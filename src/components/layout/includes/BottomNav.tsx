@@ -1,7 +1,7 @@
 import { useUserStore } from "@/stores/userStore";
 import { useTranslation } from "@/context/Translation";
 import { useUser } from "@/context/user";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { BsCompass, BsCompassFill, BsHouse, BsHouseFill } from "react-icons/bs";
@@ -47,7 +47,7 @@ export default function BottomNav() {
       <div className="m-auto flex w-11/12 justify-between text-center font-bold">
         {bottomNav.map((item, index) => (
           <React.Fragment key={index}>
-            <Link className="block w-1/4 p-2" href={item.to} scroll={false}>
+            <LocalLink className="block w-1/4 p-2" href={item.to} scroll={false}>
               <div className="relative inline-block">
                 {pathname === item.to ? item.iconActive : item.icon}
                 <div className="text-xs capitalize">{item.name}</div>
@@ -57,7 +57,7 @@ export default function BottomNav() {
                   </div>
                 )}
               </div>
-            </Link>
+            </LocalLink>
           </React.Fragment>
         ))}
       </div>

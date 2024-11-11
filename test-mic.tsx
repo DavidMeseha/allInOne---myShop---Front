@@ -36,6 +36,20 @@ export const renderDiscoverPages = async (
   );
 };
 
+export const renderWithTransation = async (
+  ui: React.ReactNode,
+  lang: Dictionaries = "en",
+  dictionary: Translation = en
+) => {
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <TranslationProvider lang={lang} translation={dictionary}>
+        {ui}
+      </TranslationProvider>
+    </QueryClientProvider>
+  );
+};
+
 const dictionaries = {
   en: en,
   ar: ar

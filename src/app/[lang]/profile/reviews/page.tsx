@@ -2,11 +2,10 @@
 
 import Button from "@/components/Button";
 import RatingStars from "@/components/RatingStars";
-import { useTranslation } from "@/context/Translation";
 import axios from "@/lib/axios";
 import { IProductReview, Pagination } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import React from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 
@@ -63,13 +62,12 @@ export default function ReviewsPage() {
 }
 
 function ReviewItem({ review }: { review: IProductReview }) {
-  const { lang } = useTranslation();
   return (
     <li className="border-b py-6">
       <div className="flex justify-between">
-        <Link className="mt-2 font-bold text-primary hover:underline" href={`/${lang}/product/${review.product?._id}`}>
+        <LocalLink className="mt-2 font-bold text-primary hover:underline" href={`/product/${review.product?._id}`}>
           {review.product?.name}
-        </Link>
+        </LocalLink>
         <div>
           <RatingStars rate={review.rating} size={14} />
         </div>

@@ -15,7 +15,7 @@ describe("Radio input group", () => {
   });
 
   beforeEach(() => {
-    render(<RadioGroup options={options} onChange={onChange} title={title} value="option1" className="p-2" />);
+    render(<RadioGroup className="p-2" options={options} title={title} value="option1" onChange={onChange} />);
   });
 
   it("renders correctly with props", () => {

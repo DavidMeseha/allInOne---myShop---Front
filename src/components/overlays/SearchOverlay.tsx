@@ -9,7 +9,7 @@ import { RiCloseLine } from "react-icons/ri";
 import Button from "../Button";
 import { useGeneralStore } from "@/stores/generalStore";
 import { Variants, motion } from "framer-motion";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { useTranslation } from "@/context/Translation";
 
 type SearchResponseItem = {
@@ -61,7 +61,7 @@ export default function SearchOverlay() {
 
   const items = searchQuery.data?.data ?? [];
 
-  const setupItemLink = (item: SearchResponseItem) => {
+  const setupItemLocalLink = (item: SearchResponseItem) => {
     return `/${lang}/${item.type === "product" ? `product/${item.item._id}` : `profile/${item.type}/${item.item._id}`}`;
   };
 
@@ -92,7 +92,7 @@ export default function SearchOverlay() {
           </div>
           <div>
             {items.map((item) => (
-              <Link className="flex cursor-pointer gap-2 p-4" href={setupItemLink(item)} key={item.item._id}>
+              <LocalLink className="flex cursor-pointer gap-2 p-4" href={setupItemLocalLink(item)} key={item.item._id}>
                 {"pictures" in item.item ? (
                   <div>
                     <Image
@@ -119,7 +119,7 @@ export default function SearchOverlay() {
                   <h3 className="font-semibold">{item.item.name}</h3>
                   <p className="text-sm text-strongGray">{item.type}</p>
                 </div>
-              </Link>
+              </LocalLink>
             ))}
           </div>
         </motion.div>

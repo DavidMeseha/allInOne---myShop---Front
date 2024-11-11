@@ -2,11 +2,11 @@ import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import HomePage from "@/app/HomePage";
 import { useInView } from "react-intersection-observer";
 import { mockHomeProduct } from "../../mocks/values";
-import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import useEmblaCarousel from "embla-carousel-react";
 import en from "@/dictionaries/en.json";
 import { renderWithProviders } from "../../test-mic";
+import { usePathname } from "next/navigation";
 
 describe("HomePage", () => {
   const mockLoadMore = jest.fn();

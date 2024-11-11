@@ -1,7 +1,6 @@
 "use client";
 
 import CartItem from "@/components/CartItem";
-import Link from "next/link";
 import { useTranslation } from "@/context/Translation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
@@ -11,6 +10,7 @@ import { useUser } from "@/context/user";
 import { useGeneralStore } from "@/stores/generalStore";
 import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
+import { LocalLink } from "../../../components/LocalizedNavigation";
 
 export default function Page() {
   const { t } = useTranslation();
@@ -71,9 +71,9 @@ export default function Page() {
         <>
           <div className="mt-44 flex flex-col items-center justify-center gap-2">
             <div className="text-2xl font-bold">{t("cart.empty")}</div>
-            <Link className="bg-primary px-4 py-2 font-bold text-white" href="/">
+            <LocalLink className="bg-primary px-4 py-2 font-bold text-white" href="/">
               {t("cart.shopNow")}
-            </Link>
+            </LocalLink>
           </div>
         </>
       )}

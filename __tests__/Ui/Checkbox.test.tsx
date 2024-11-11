@@ -12,12 +12,12 @@ describe("Checkbox group", () => {
   beforeEach(() => {
     render(
       <Checkbox
+        checked={true}
+        className="p-0"
         id={option.name}
         label={option.name}
-        onChange={onChange}
         value={option.value}
-        className="p-0"
-        checked={true}
+        onChange={onChange}
       />
     );
   });

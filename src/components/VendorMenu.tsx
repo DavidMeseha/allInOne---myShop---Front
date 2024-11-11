@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import React from "react";
 import SubMenuItem from "./SubMenuItem";
 import { useTranslation } from "@/context/Translation";
@@ -58,9 +58,12 @@ export default function VendorMenu() {
         {menu.map((item, index) => (
           <li key={index}>
             {item.to ? (
-              <Link className="block w-full rounded-md p-2 text-lg font-semibold hover:bg-lightGray" href={item.to}>
+              <LocalLink
+                className="block w-full rounded-md p-2 text-lg font-semibold hover:bg-lightGray"
+                href={item.to}
+              >
                 {item.name}
-              </Link>
+              </LocalLink>
             ) : (
               item.sup && <SubMenuItem item={item} />
             )}

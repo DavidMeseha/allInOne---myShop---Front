@@ -2,7 +2,7 @@
 
 import { ICategory, Pagination } from "@/types";
 import { useTranslation } from "@/context/Translation";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import React from "react";
 import Button from "@/components/Button";
 import { BiLoaderCircle } from "react-icons/bi";
@@ -31,15 +31,13 @@ export default function CategoriesView() {
 
   return (
     <ul className="mt-10 md:mt-0">
-      {categoriesQuery.isFetchedAfterMount && categoriesPages ? (
-        categoriesPages.map((page) =>
-          page.data.map((category) => (
-            <ListItem category={category} key={category._id} to={`/${lang}/profile/category/${category._id}`} />
-          ))
-        )
-      ) : (
-        <div className="py-6 text-center text-strongGray">Could not find any categories</div>
-      )}
+      {categoriesQuery.isFetchedAfterMount && categoriesPages
+        ? categoriesPages.map((page) =>
+            page.data.map((category) => (
+              <ListItem category={category} key={category._id} to={`/${lang}/profile/category/${category._id}`} />
+            ))
+          )
+        : null}
 
       {!categoriesQuery.isFetchedAfterMount ? (
         <div className="flex w-full flex-col items-center justify-center py-2">
@@ -70,9 +68,9 @@ function ListItem({ to, category }: ListItemProps) {
   return (
     <li className="flex items-center justify-between px-4 py-2">
       <div className="flex items-center gap-3">
-        <Link className="font-bold" href={to}>
+        <LocalLink className="font-bold" href={to}>
           {category.name}
-        </Link>
+        </LocalLink>
       </div>
       <p className="text-strongGray">
         {t("discover.products")}: {category.productsCount || 0}

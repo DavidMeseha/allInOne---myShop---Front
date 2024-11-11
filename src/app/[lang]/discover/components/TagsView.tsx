@@ -1,7 +1,6 @@
 "use client";
 
-import { useTranslation } from "@/context/Translation";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import React from "react";
 import { BsHash } from "react-icons/bs";
 import { ITag, Pagination } from "@/types";
@@ -11,8 +10,6 @@ import Button from "@/components/Button";
 import { BiLoaderCircle } from "react-icons/bi";
 
 export default function TagsView() {
-  const { lang } = useTranslation();
-
   const tagsQuery = useInfiniteQuery({
     queryKey: ["tagsDiscover"],
     queryFn: ({ pageParam }) =>
@@ -36,7 +33,7 @@ export default function TagsView() {
         <li className="hidden text-3xl font-bold md:inline-block">Tags</li>
         {tagsPages
           ? tagsPages.map((page) =>
-              page.data.map((tag) => <ListItem key={tag._id} tag={tag} to={`/${lang}/profile/tag/${tag._id}`} />)
+              page.data.map((tag) => <ListItem key={tag._id} tag={tag} to={`/profile/tag/${tag._id}`} />)
             )
           : null}
 
@@ -69,10 +66,10 @@ function ListItem({ tag, to }: ListItemProps) {
   return (
     <li className="mx-2 my-2 inline-flex items-center rounded-full border px-4 py-2">
       <BsHash size={35} />
-      <Link className="text-sm font-bold" href={to}>
+      <LocalLink className="text-sm font-bold" href={to}>
         <p>{tag.name}</p>
         <p className="w-max text-xs text-strongGray">{tag.productCount} products</p>
-      </Link>
+      </LocalLink>
     </li>
   );
 }

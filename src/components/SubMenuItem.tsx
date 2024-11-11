@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import React, { useState } from "react";
 import { RiArrowDropDownLine, RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
+import { useLocalPathname } from "./LocalizedNavigation";
 
 type Props = {
   item: {
@@ -15,7 +15,7 @@ type Props = {
 
 export default function SubMenuItem({ item }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const { pathname } = useLocalPathname();
 
   return (
     <>
@@ -35,7 +35,7 @@ export default function SubMenuItem({ item }: Props) {
       >
         {item.sup?.map((supItem, index) => (
           <li className="my-2 w-10/12 md:w-full" key={index}>
-            <Link
+            <LocalLink
               href={supItem.to}
               className={`flex w-full items-center gap-1 rounded-md p-2 ps-6 text-lg font-semibold hover:bg-lightGray ${
                 pathname === supItem.to ? "bg-lightGray text-primary" : ""
@@ -44,7 +44,7 @@ export default function SubMenuItem({ item }: Props) {
               <RiArrowDropLeftLine className="hidden rtl:block" data-testid="sub-menu-left-icon" size={20} />
               <RiArrowDropRightLine className="rtl:hidden" data-testid="sub-menu-right-icon" size={20} />
               {supItem.name}
-            </Link>
+            </LocalLink>
           </li>
         ))}
       </ul>

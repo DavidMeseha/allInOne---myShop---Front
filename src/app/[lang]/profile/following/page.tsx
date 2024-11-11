@@ -8,7 +8,7 @@ import { useUserStore } from "@/stores/userStore";
 import { IVendor } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import React from "react";
 import { toast } from "react-toastify";
 
@@ -21,7 +21,7 @@ export default function FollowingPage() {
 }
 
 function ListItem({ vendor }: { vendor: IVendor }) {
-  const { lang, t } = useTranslation();
+  const { t } = useTranslation();
   const { setFollowedVendors } = useUserStore();
 
   const unfollowMutation = useMutation({
@@ -45,9 +45,9 @@ function ListItem({ vendor }: { vendor: IVendor }) {
         />
 
         <div>
-          <Link className="font-bold" href={`/${lang}/profile/vendor/${vendor._id}`}>
+          <LocalLink className="font-bold" href={`/profile/vendor/${vendor._id}`}>
             {vendor.name}
-          </Link>
+          </LocalLink>
           <p className="text-strongGray">{vendor.productCount} Products</p>
         </div>
       </div>

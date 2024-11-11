@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useUser } from "@/context/user";
 import { useUserStore } from "@/stores/userStore";
 import { useGeneralStore } from "@/stores/generalStore";
-import Link from "next/link";
+import { LocalLink } from "@/components/LocalizedNavigation";
 import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
 import { useTranslation } from "@/context/Translation";
@@ -13,7 +13,7 @@ import { BiLoaderCircle } from "react-icons/bi";
 import UserProfileDisplay from "./UserProfileDisplay";
 
 export default function UserProfilePage() {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useUser();
   const { cartProducts } = useUserStore();
   const { setIsLoginOpen } = useGeneralStore();
@@ -38,12 +38,12 @@ export default function UserProfilePage() {
         <div className="flex justify-between py-2">
           <BackArrow onClick={() => router.back()} />
           <h1 className="text-lg font-bold">{t("profile.yourProfile")}</h1>
-          <Link className="relative end-2" href={`/${lang}/cart`}>
+          <LocalLink className="relative end-2" href="/cart">
             <div className="absolute -end-2 -top-1 flex h-4 w-4 justify-center rounded-full bg-primary text-xs font-semibold text-white">
               {cartProducts.length}
             </div>
             <BsCartFill size={20} />
-          </Link>
+          </LocalLink>
         </div>
       </div>
       <div className="mt-44 flex justify-center">

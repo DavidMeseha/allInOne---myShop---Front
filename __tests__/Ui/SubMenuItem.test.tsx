@@ -1,7 +1,8 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, screen } from "@testing-library/react";
 import SubMenuItem from "@/components/SubMenuItem";
 import en from "@/dictionaries/en.json";
 import { BsCompass, BsCompassFill } from "react-icons/bs";
+import { renderWithTransation } from "../../test-mic";
 import { usePathname } from "next/navigation";
 
 describe("Sub Menu Item", () => {
@@ -10,15 +11,15 @@ describe("Sub Menu Item", () => {
     sup: [
       {
         name: en["categories"],
-        to: `/en/discover/categories`
+        to: `/discover/categories`
       },
       {
         name: en["vendors"],
-        to: `/en/discover/vendors`
+        to: `/discover/vendors`
       },
       {
         name: en["tags"],
-        to: `/en/discover/tags`
+        to: `/discover/tags`
       }
     ],
     Icon: <BsCompass data-testid="discover-item-icon" size={20} />,
@@ -30,15 +31,16 @@ describe("Sub Menu Item", () => {
   });
 
   beforeEach(() => {
-    (usePathname as jest.Mock).mockReturnValue(menuItem.sup[0].to);
-    render(<SubMenuItem item={menuItem} />);
+    // (useLocalPathname as jest.Mock).mockReturnValue({ pathname: menuItem.sup[0].to });
+    (usePathname as jest.Mock).mockReturnValue("/en" + menuItem.sup[0].to);
+    renderWithTransation(<SubMenuItem item={menuItem} />);
   });
 
   it("renders correctly", () => {
     expect(screen.getByText(menuItem.name)).toBeInTheDocument();
     menuItem.sup.forEach((item) => {
       expect(screen.getByText(item.name)).toBeInTheDocument();
-      expect(screen.getByText(item.name)).toHaveAttribute("href", item.to);
+      expect(screen.getByText(item.name)).toHaveAttribute("href", "/en" + item.to);
     });
     expect(screen.getByTestId("sub-items")).toHaveClass("max-h-0");
     expect(screen.getByTestId("discover-item-icon")).toBeInTheDocument();

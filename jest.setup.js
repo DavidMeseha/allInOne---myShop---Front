@@ -1,4 +1,5 @@
 // Learn more: https://github.com/testing-library/jest-dom
+import { LocalLink } from "@/components/LocalizedNavigation";
 import getCartIds from "@/hooks/getCartItems";
 import getCountries from "@/hooks/getCountries";
 import getFollowingIds from "@/hooks/getFollowingIds";

@@ -57,9 +57,9 @@ export default function ProductSectionMobile({ product }: { product: IFullProduc
             />
           </div>
 
-          <div className="absolute bottom-8 h-24 max-w-[80%] overflow-clip text-ellipsis bg-gradient-to-b from-white to-transparent bg-clip-text ps-4 text-transparent">
+          {/* <div className="absolute bottom-8 h-24 max-w-[80%] overflow-clip text-ellipsis bg-gradient-to-b from-white to-transparent bg-clip-text ps-4 text-transparent">
             <p dangerouslySetInnerHTML={{ __html: product.fullDescription ?? "" }}></p>
-          </div>
+          </div> */}
 
           <button
             className="absolute bottom-8 start-1/3 z-10 p-1 text-sm text-primary underline"
@@ -68,7 +68,7 @@ export default function ProductSectionMobile({ product }: { product: IFullProduc
             {t("showMore")}...
           </button>
 
-          <div className="absolute bottom-0 end-0">
+          <div className="absolute bottom-2 end-0">
             <div className="relative bottom-0 end-0 flex flex-col" id={`PostMainLikes-${product?._id}`}>
               <ProductVendorButton vendor={product.vendor} />
               <LikeProductButton product={product} />

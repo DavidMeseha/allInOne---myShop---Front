@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { IFullProduct } from "../types";
-import { useGeneralStore } from "../stores/generalStore";
+// import { useGeneralStore } from "../stores/generalStore";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CarouselIndecator from "./CarouselIndecator";
 import ProductVendorButton from "./ProductVendorButton";
@@ -11,11 +11,11 @@ import RateProductButton from "./RateProductButton";
 import SaveProductButton from "./SaveProductButton";
 import AddToCartButton from "./AddToCartButton";
 import Image from "next/image";
-import { useTranslation } from "@/context/Translation";
+// import { useTranslation } from "@/context/Translation";
 
 export default function ProductSectionMobile({ product }: { product: IFullProduct }) {
-  const { setIsProductMoreInfoOpen } = useGeneralStore();
-  const { t } = useTranslation();
+  // const { setIsProductMoreInfoOpen } = useGeneralStore();
+  // const { t } = useTranslation();
   //Carosel states
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);

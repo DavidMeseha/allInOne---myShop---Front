@@ -16,6 +16,7 @@ type Props = {
 export default function SubMenuItem({ item }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+
   return (
     <>
       <button
@@ -28,7 +29,10 @@ export default function SubMenuItem({ item }: Props) {
         </div>
         <RiArrowDropDownLine size={25} />
       </button>
-      <ul className={`${isOpen ? "max-h-52" : "max-h-0"} overflow-hidden transition-all duration-500`}>
+      <ul
+        data-testid="sub-items"
+        className={`${isOpen ? "max-h-52" : "max-h-0"} overflow-hidden transition-all duration-500`}
+      >
         {item.sup?.map((supItem, index) => (
           <li className="my-2 w-10/12 md:w-full" key={index}>
             <Link
@@ -37,8 +41,8 @@ export default function SubMenuItem({ item }: Props) {
                 pathname === supItem.to ? "bg-lightGray text-primary" : ""
               }`}
             >
-              <RiArrowDropLeftLine className="hidden rtl:block" size={20} />
-              <RiArrowDropRightLine className="rtl:hidden" size={20} />
+              <RiArrowDropLeftLine data-testid="sub-menu-left-icon" className="hidden rtl:block" size={20} />
+              <RiArrowDropRightLine data-testid="sub-menu-right-icon" className="rtl:hidden" size={20} />
               {supItem.name}
             </Link>
           </li>

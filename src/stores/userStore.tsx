@@ -6,7 +6,7 @@ import getSavesId from "@/hooks/getSavesId";
 import getFollowingIds from "@/hooks/getFollowingIds";
 import getReviewedIds from "@/hooks/getReviewIds";
 
-interface PostStore {
+export interface UserStore {
   reviewedProducts: string[];
   cartProducts: { product: string; quantity: number }[];
   savedProducts: string[];
@@ -19,7 +19,7 @@ interface PostStore {
   setReviewedProducts: () => void;
 }
 
-export const useUserStore = create<PostStore>()(
+export const useUserStore = create<UserStore>()(
   devtools(
     persist(
       (set) => ({

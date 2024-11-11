@@ -1,13 +1,15 @@
 import React, { ChangeEvent } from "react";
+import Checkbox from "./Checkbox";
 
 type Props = {
+  className?: string;
   title: string;
   values: string | string[];
   options: { name: string; value: string }[];
   onChange: (value: string[]) => void;
 };
 
-export default function CheckboxGroup({ values, options, title, onChange }: Props) {
+export default function CheckboxGroup({ values, options, title, onChange, className }: Props) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let tempValues = [];
     if (typeof values === "object") tempValues = [...values];
@@ -20,23 +22,21 @@ export default function CheckboxGroup({ values, options, title, onChange }: Prop
   };
 
   return (
-    <>
+    <div data-testid="checkbox-group" className={className}>
       <div className="mb-2 text-lg">{title}</div>
       <div className="flex flex-wrap gap-4">
         {options.map((option, index) => (
-          <label className="mb-2" htmlFor={option.name} key={index}>
-            <input
-              checked={values.includes(option.value)}
-              className="me-2 border-primary bg-red-100 text-primary focus:ring-red-200"
-              id={option.name}
-              type="checkbox"
-              value={option.value}
-              onChange={handleChange}
-            />
-            {option.name}
-          </label>
+          <Checkbox
+            id={option.name}
+            label={option.name}
+            key={index}
+            onChange={handleChange}
+            value={option.value}
+            className="p-0"
+            checked={values.includes(option.value)}
+          />
         ))}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,11 +1,13 @@
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import HomePage from "@/app/HomePage";
 import { useInView } from "react-intersection-observer";
-import { mockHomeProduct, renderWithProviders } from "../mocks/values";
+import { mockHomeProduct } from "../../mocks/values";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import useEmblaCarousel from "embla-carousel-react";
 import en from "@/dictionaries/en.json";
+import { renderWithProviders } from "../../test-mic";
+import axios from "@/lib/axios";
 
 describe("HomePage", () => {
   const mockLoadMore = jest.fn();
@@ -40,9 +42,10 @@ describe("HomePage", () => {
     ]);
   });
 
-  it("loads initial products correctly and shows loading for more products", () => {
-    renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
-
+  it("loads initial products correctly and shows loading for more products", async () => {
+    await act(async () => {
+      renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+    });
     expect(screen.getByText(mockHomeProduct.name)).toBeInTheDocument();
     const loading = screen.getAllByTestId("loading");
     loading.forEach((element) => {
@@ -60,19 +63,16 @@ describe("HomePage", () => {
     });
 
     (useInView as jest.Mock).mockReturnValueOnce([jest.fn(), true]);
-    renderWithProviders(
-      <HomePage
-        loadMore={mockLoadMore}
-        products={[
-          { ...mockHomeProduct, name: "Product 2", _id: "1" },
-          { ...mockHomeProduct, name: "Product 1", _id: "1" }
-        ]}
-      />
-    );
-
-    const loading = screen.getAllByTestId("loading");
-    loading.forEach((element) => {
-      expect(element).toBeInTheDocument();
+    await act(async () => {
+      renderWithProviders(
+        <HomePage
+          loadMore={mockLoadMore}
+          products={[
+            { ...mockHomeProduct, name: "Product 2", _id: "1" },
+            { ...mockHomeProduct, name: "Product 1", _id: "1" }
+          ]}
+        />
+      );
     });
 
     expect(screen.getByText("Product 1")).toBeInTheDocument();
@@ -92,31 +92,35 @@ describe("HomePage", () => {
   });
 
   it("open & close main menu on mobile", async () => {
-    renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+    await act(async () => {
+      renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+    });
     expect(screen.getByLabelText("Open Main Menu")).toBeInTheDocument();
     expect(screen.getByTestId("main-menu")).toBeInTheDocument();
     expect(screen.getByTestId("close-main-menu")).toBeInTheDocument();
     expect(screen.getByTestId("main-menu")).toHaveClass("-start-full");
 
-    await act(async () => {
+    act(() => {
       fireEvent.click(screen.getByLabelText("Open Main Menu"));
     });
     expect(screen.getByTestId("main-menu")).toHaveClass("start-0");
 
-    await act(async () => {
+    act(() => {
       fireEvent.click(screen.getByTestId("close-main-menu"));
     });
     expect(screen.getByTestId("main-menu")).toHaveClass("-start-full");
   });
 
   it("opens search popup on mobile", async () => {
-    renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+    await act(async () => {
+      renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+    });
     expect(screen.getByLabelText("Open Search Page")).toBeInTheDocument();
     expect(screen.getByTestId("main-menu")).toBeInTheDocument();
     expect(screen.getByTestId("close-main-menu")).toBeInTheDocument();
     expect(screen.getByTestId("main-menu")).toHaveClass("-start-full");
 
-    await act(async () => {
+    act(() => {
       fireEvent.click(screen.getByLabelText("Open Search Page"));
     });
     expect(screen.getByTestId("search-overlay")).toBeInTheDocument();

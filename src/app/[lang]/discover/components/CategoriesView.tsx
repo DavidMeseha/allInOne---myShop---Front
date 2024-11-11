@@ -12,7 +12,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 export default function CategoriesView() {
   const { lang } = useTranslation();
 
-  const tagsQuery = useInfiniteQuery({
+  const categoriesQuery = useInfiniteQuery({
     queryKey: ["tagsDiscover"],
     queryFn: ({ pageParam }) =>
       axios
@@ -26,29 +26,31 @@ export default function CategoriesView() {
     }
   });
 
-  const tagsPages = tagsQuery.data?.pages;
-  const lastPage = tagsPages?.findLast((page) => page);
+  const categoriesPages = categoriesQuery.data?.pages;
+  const lastPage = categoriesPages?.findLast((page) => page);
 
   return (
     <ul className="mt-10 md:mt-0">
-      {tagsQuery.isFetchedAfterMount && tagsPages ? (
-        tagsPages.map((page) =>
-          page.data.map((tag) => <ListItem category={tag} key={tag._id} to={`/${lang}/profile/category/${tag._id}`} />)
+      {categoriesQuery.isFetchedAfterMount && categoriesPages ? (
+        categoriesPages.map((page) =>
+          page.data.map((category) => (
+            <ListItem category={category} key={category._id} to={`/${lang}/profile/category/${category._id}`} />
+          ))
         )
       ) : (
         <div className="py-6 text-center text-strongGray">Could not find any categories</div>
       )}
 
-      {!tagsQuery.isFetchedAfterMount ? (
+      {!categoriesQuery.isFetchedAfterMount ? (
         <div className="flex w-full flex-col items-center justify-center py-2">
-          <BiLoaderCircle className="animate-spin fill-primary" size={35} />
+          <BiLoaderCircle role="status" className="animate-spin fill-primary" size={35} />
         </div>
       ) : lastPage && lastPage.pages.hasNext ? (
         <div className="px-w py-4 text-center">
           <Button
             className="w-full bg-primary text-white"
-            isLoading={tagsQuery.isFetchingNextPage}
-            onClick={() => tagsQuery.fetchNextPage()}
+            isLoading={categoriesQuery.isFetchingNextPage}
+            onClick={() => categoriesQuery.fetchNextPage()}
           >
             Load More
           </Button>

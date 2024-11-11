@@ -1,14 +1,9 @@
-import MainLayout from "@/components/layout/MainLayout";
 import { GeneralStore } from "@/stores/generalStore";
+import { UserStore } from "@/stores/userStore";
 import { IFullProduct } from "@/types";
-import { render } from "@testing-library/react";
 import { create } from "zustand";
-import { Dictionaries, Translation } from "@/dictionary";
-import en from "@/dictionaries/en.json";
-import ar from "@/dictionaries/ar.json";
-import React from "react";
 
-export const mockGeneralStore = create<GeneralStore>(() => ({
+export const mockGeneralStore = create<GeneralStore>()((set) => ({
   isLoginOpen: false,
   isEditProfileOpen: false,
   isShareOpen: false,
@@ -42,8 +37,44 @@ export const mockGeneralStore = create<GeneralStore>(() => ({
   setIsProductMoreInfoOpen: jest.fn(),
   setShare: jest.fn(),
   setIsAddReviewOpen: jest.fn(),
-  setCountries: jest.fn(),
+  setCountries: () =>
+    set({
+      countries: [
+        { name: "Country 1", _id: "1", code: "c1" },
+        { name: "Country 1", _id: "1", code: "c1" }
+      ]
+    }),
   setIsProductAttributesOpen: jest.fn()
+}));
+
+export const mockUserStore = create<UserStore>()((set) => ({
+  reviewedProducts: [],
+  cartProducts: [],
+  savedProducts: [],
+  likes: [],
+  following: [],
+
+  setReviewedProducts: async () => {
+    set({ reviewedProducts: ["1", "2"] });
+  },
+  setLikes: async () => {
+    set({ likes: ["1", "2"] });
+  },
+  setCartProducts: async () => {
+    const result = [
+      { product: "1", quantity: 1 },
+      { product: "2", quantity: 2 }
+    ];
+    set({ cartProducts: result });
+  },
+  setSavedProducts: async () => {
+    const result = ["1", "2"];
+    set({ savedProducts: result });
+  },
+  setFollowedVendors: async () => {
+    const result = ["1", "2"];
+    set({ following: result });
+  }
 }));
 
 export const mockHomeProduct: IFullProduct = {
@@ -139,16 +170,4 @@ export const mockHomeProduct: IFullProduct = {
   pictures: [{ _id: "672b196a6446bb4903c47df2", imageUrl: "http://localhost:3000/images/no_image_placeholder.jpg" }],
   fullDescription:
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis aspernatur nemo aliquid, sint ab possimus quis numquam animi unde. Sunt non obcaecati laudantium ut at sint nemo iste accusantium soluta, ab tenetur quam cupiditate aspernatur sequi maxime pariatur impedit consequuntur voluptatum vitae quod! Ut error laborum, natus veniam enim omnis ab sunt, deleniti pariatur libero labore beatae? Odit harum nulla autem esse impedit, quod accusantium quaerat. Minima excepturi amet inventore maiores eaque, impedit iure qui, non magnam tempore omnis tenetur eum minus facilis, deserunt numquam ex distinctio necessitatibus fuga accusamus sint possimus. Commodi illum tempora deleniti ex dignissimos ad consequuntur!"
-};
-
-export const renderWithProviders = async (
-  ui: React.ReactNode,
-  lang: Dictionaries = "en",
-  dictionary: Translation = en
-) => {
-  return render(
-    <MainLayout dictionary={dictionary} lang={lang}>
-      {ui}
-    </MainLayout>
-  );
 };

@@ -14,7 +14,7 @@ export default function RadioGroup({ value, options, title, onChange, className 
   };
 
   return (
-    <div className={className ?? ""}>
+    <div data-testid="radio-group" className={className ?? ""}>
       <div className="mb-2 text-lg">{title}</div>
       <div className="flex flex-wrap gap-4">
         {options.map((option, index) => (

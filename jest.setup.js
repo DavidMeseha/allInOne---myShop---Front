@@ -57,3 +57,12 @@ jest.mock("next-nprogress-bar", () => {
     useRouter: jest.fn()
   };
 });
+
+jest.mock("./src/lib/axios.ts");
+
+jest.mock("./src/hooks/getCartItems.ts", () => jest.fn());
+jest.mock("./src/hooks/getCountries.ts", () => jest.fn());
+jest.mock("./src/hooks/getFollowingIds.ts", () => jest.fn());
+jest.mock("./src/hooks/getLikesId.ts", () => jest.fn());
+jest.mock("./src/hooks/getReviewIds.ts", () => jest.fn());
+jest.mock("./src/hooks/getSavesId.ts", () => jest.fn());

@@ -8,7 +8,7 @@
       }
     },
     {
-      "files": ["**/__tests__/**/*.[jt]s?(x)", "./mocks/*.tsx"],
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "./mocks/*.tsx", "jest.setup.js"],
       "rules": {
         "no-unused-expressions": "off",
         "no-undef": "off"

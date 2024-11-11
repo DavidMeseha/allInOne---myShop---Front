@@ -13,7 +13,7 @@ export default function CategoriesView() {
   const { lang, t } = useTranslation();
 
   const categoriesQuery = useInfiniteQuery({
-    queryKey: ["tagsDiscover"],
+    queryKey: ["categoriesDiscover"],
     queryFn: ({ pageParam }) =>
       axios
         .get<{ data: ICategory[]; pages: Pagination }>("/api/catalog/discover/categories", {

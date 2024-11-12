@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import Dropdown from "./DropDown";
 
 const today = new Date();
@@ -18,7 +19,8 @@ export default function DateDropdownNumbers({
   year,
   changeDay,
   changeMonth,
-  changeYear
+  changeYear,
+  className
 }: {
   day: number;
   month: number;
@@ -26,13 +28,14 @@ export default function DateDropdownNumbers({
   changeDay: (value: number) => void;
   changeMonth: (value: number) => void;
   changeYear: (value: number) => void;
+  className?: string;
 }) {
   const days = Array.from(
     { length: month === 2 ? (year % 4 === 0 ? 29 : 28) : month % 2 === 0 ? 30 : 31 },
     (_, index) => ({ name: (index + 1).toString(), value: (index + 1).toString() })
   );
   return (
-    <div className="flex w-full gap-4">
+    <div className={cn("flex w-full gap-4", className)}>
       <Dropdown
         className="w-1/4"
         dir="ltr"

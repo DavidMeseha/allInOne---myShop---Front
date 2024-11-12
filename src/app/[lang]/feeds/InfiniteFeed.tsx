@@ -2,21 +2,22 @@
 
 import { BsSearch } from "react-icons/bs";
 import { BiLoaderCircle, BiMenu } from "react-icons/bi";
+import ProductSectionMobile from "@/components/ProductSectionMobile";
 import { useGeneralStore } from "@/stores/generalStore";
 import HomeMenu from "@/components/overlays/HomeMenu";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useTranslation } from "@/context/Translation";
-import { IFullProduct, Pagination } from "../types";
+import { IFullProduct, Pagination } from "../../../types";
 import Button from "@/components/Button";
-import ProductHomeCard from "@/components/ProductHomeCard";
+import ProductSection from "@/components/ProductSection";
 
 type Props = {
   products: IFullProduct[];
   loadMore: (page: number) => Promise<{ data: IFullProduct[]; pages: Pagination }>;
 };
 
-export default function HomePage({ products, loadMore }: Props) {
+export default function InfiniteFeed({ products, loadMore }: Props) {
   const { setIsHomeMenuOpen, setIsSearchOpen } = useGeneralStore();
   const { t } = useTranslation();
 
@@ -37,12 +38,37 @@ export default function HomePage({ products, loadMore }: Props) {
   }, [isInView]);
 
   return (
-    <>
-      <div className="relative">
-        <div className="mx-auto mt-4 grid grid-cols-2 gap-2 px-4 md:max-w-[600px] md:grid-cols-2 md:gap-3 lg:max-w-[900px] lg:grid-cols-3">
+    <div className="relative">
+      <div className="hidden md:block">
+        <div className="relative mx-auto mt-12 max-w-[680px] md:mt-0">
           {productsList.map((product, index) => (
-            <ProductHomeCard key={index} product={product} />
+            <ProductSection key={index} product={product} />
           ))}
+          <div className="flex justify-center py-7 text-center">
+            {hasMore ? (
+              <BiLoaderCircle className="animate-spin fill-primary" data-testid="loading" size={35} />
+            ) : (
+              t("endOfContent")
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="block md:hidden">
+        <div className="fixed end-0 start-0 top-0 z-20 w-full px-2 md:hidden">
+          <div className="flex justify-between py-2">
+            <Button aria-label="Open Main Menu" onClick={() => setIsHomeMenuOpen(true)}>
+              <BiMenu className="fill-white" size={35} />
+            </Button>
+            <div className="w-6" />
+            <Button aria-label="Open Search Page" onClick={() => setIsSearchOpen(true)}>
+              <BsSearch className="fill-white" size={30} />
+            </Button>
+          </div>
+        </div>
+        <div className="relative">
+          {productsList.length > 0
+            ? productsList.map((product, index) => <ProductSectionMobile key={index} product={product} />)
+            : null}
         </div>
         <div className="flex justify-center py-7 text-center">
           {hasMore ? (
@@ -52,17 +78,8 @@ export default function HomePage({ products, loadMore }: Props) {
           )}
         </div>
       </div>
-      <div className="fixed end-0 start-0 top-0 z-20 flex w-full justify-between border-b bg-white p-2 md:hidden">
-        <Button aria-label="Open Main Menu" className="p-0" onClick={() => setIsHomeMenuOpen(true)}>
-          <BiMenu className="fill-black" size={25} />
-        </Button>
-        <h1 className="text-xl font-bold">Home</h1>
-        <Button aria-label="Open Search Page" className="p-0" onClick={() => setIsSearchOpen(true)}>
-          <BsSearch className="fill-black" size={25} />
-        </Button>
-      </div>
       <HomeMenu />
       <div className="absolute bottom-0 -z-40 h-screen w-full md:h-[700px]" data-testid="load-more" ref={ref}></div>
-    </>
+    </div>
   );
 }

@@ -49,7 +49,7 @@ export default function ProductSectionMobile({ product }: { product: IFullProduc
             </CarouselContent>
           </Carousel>
 
-          <div className="absolute bottom-0 flex h-36 w-full justify-center gap-2 bg-gradient-to-t from-black to-transparent">
+          <div className="absolute bottom-0 flex h-16 w-full justify-center bg-gradient-to-t from-black to-transparent">
             <CarouselIndecator
               array={product.pictures}
               selectedIndex={caroselImageIndex}
@@ -69,7 +69,10 @@ export default function ProductSectionMobile({ product }: { product: IFullProduc
           </button> */}
 
           <div className="absolute bottom-1 end-0">
-            <div className="relative bottom-0 end-0 flex flex-col" id={`PostMainLikes-${product?._id}`}>
+            <div
+              className="relative bottom-0 end-0 flex flex-col items-center gap-2 p-4"
+              id={`PostMainLikes-${product?._id}`}
+            >
               <ProductVendorButton vendor={product.vendor} />
               <LikeProductButton product={product} />
               <RateProductButton product={product} />

@@ -7,7 +7,7 @@ import { RiProfileFill, RiProfileLine } from "react-icons/ri";
 import { BsCompass, BsCompassFill, BsHouse, BsHouseFill } from "react-icons/bs";
 import { useTranslation } from "@/context/Translation";
 import { useUserStore } from "@/stores/userStore";
-import { PiShoppingCart, PiShoppingCartFill } from "react-icons/pi";
+import { PiInfinity, PiShoppingCart, PiShoppingCartFill } from "react-icons/pi";
 
 export default function MainMenu() {
   const { t } = useTranslation();
@@ -20,6 +20,12 @@ export default function MainMenu() {
       to: "/",
       Icon: <BsHouse size={20} />,
       IconActive: <BsHouseFill size={20} />
+    },
+    {
+      name: t("feeds"),
+      to: "/feeds",
+      Icon: <PiInfinity size={20} />,
+      IconActive: <PiInfinity size={20} />
     },
     {
       name: t("profile"),

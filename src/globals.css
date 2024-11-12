@@ -16,6 +16,11 @@
   }
 }
 
+.text-blend {
+  color: rgb(255, 255, 255);
+  mix-blend-mode: difference;
+}
+
 .rmsc .dropdown-container:focus-within {
   box-shadow: var(--primary) 0 0 0 1px !important;
   border-color: var(--primary) !important;

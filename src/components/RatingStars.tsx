@@ -27,39 +27,39 @@ export default function RatingStars({ rate, onChange, isEditable = false, classN
 
   return (
     <div
-      className={twMerge(clsx(["flex", className]))}
+      className={twMerge(clsx(["flex gap-1", className]))}
       onMouseLeave={() => isEditable && setTempRate(rate)}
       onMouseMove={(e) => isEditable && mouseEnterHandle(e)}
     >
-      <div className="cursor-pointer p-1" id="1" onClick={() => onChange && onChange(1)}>
+      <div className="cursor-pointer" id="1" onClick={() => onChange && onChange(1)}>
         {tempRate >= 1 ? (
           <BsStarFill className="fill-yellow-600" size={size} />
         ) : (
           <BsStar className="fill-yellow-600" size={size} />
         )}
       </div>
-      <div className="cursor-pointer p-1" id="2" onClick={() => onChange && onChange(2)}>
+      <div className="cursor-pointer" id="2" onClick={() => onChange && onChange(2)}>
         {tempRate >= 2 ? (
           <BsStarFill className="fill-yellow-600" size={size} />
         ) : (
           <BsStar className="fill-yellow-600" size={size} />
         )}
       </div>
-      <div className="cursor-pointer p-1" id="3" onClick={() => onChange && onChange(3)}>
+      <div className="cursor-pointer" id="3" onClick={() => onChange && onChange(3)}>
         {tempRate >= 3 ? (
           <BsStarFill className="fill-yellow-600" size={size} />
         ) : (
           <BsStar className="fill-yellow-600" size={size} />
         )}
       </div>
-      <div className="cursor-pointer p-1" id="4" onClick={() => onChange && onChange(4)}>
+      <div className="cursor-pointer" id="4" onClick={() => onChange && onChange(4)}>
         {tempRate >= 4 ? (
           <BsStarFill className="fill-yellow-600" size={size} />
         ) : (
           <BsStar className="fill-yellow-600" size={size} />
         )}
       </div>
-      <div className="cursor-pointer p-1" id="5" onClick={() => onChange && onChange(5)}>
+      <div className="cursor-pointer" id="5" onClick={() => onChange && onChange(5)}>
         {tempRate >= 5 ? (
           <BsStarFill className="fill-yellow-600" size={size} />
         ) : (

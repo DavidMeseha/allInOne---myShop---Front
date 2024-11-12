@@ -177,7 +177,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
               />
             )}
           </div>
-          <div className="relative flex flex-col items-center" id={`PostMainLikes-${product._id}`}>
+          <div className="relative flex flex-col items-center gap-2 p-2" id={`PostMainLikes-${product._id}`}>
             <LikeProductButton product={product} />
             <RateProductButton product={product} />
             <SaveProductButton product={product} />

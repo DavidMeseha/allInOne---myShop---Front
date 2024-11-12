@@ -195,6 +195,7 @@ export default function EditProfileOverlay() {
             <div className="mt-1.5 w-full border-b p-2">
               <FormTextInput
                 error={false}
+                label="First Name"
                 name="firstName"
                 placeholder="First Name"
                 type="text"
@@ -203,6 +204,7 @@ export default function EditProfileOverlay() {
               />
               <FormTextInput
                 error={false}
+                label="Last Name"
                 name="lastName"
                 placeholder="Last Name"
                 type="text"
@@ -222,12 +224,14 @@ export default function EditProfileOverlay() {
                 changeDay={(value) => setForm({ ...form, dateOfBirthDay: value })}
                 changeMonth={(value) => setForm({ ...form, dateOfBirthMonth: value })}
                 changeYear={(value) => setForm({ ...form, dateOfBirthYear: value })}
+                className="mb-4"
                 day={form.dateOfBirthDay ?? today.getDay()}
                 month={form.dateOfBirthMonth ?? today.getMonth()}
                 year={form.dateOfBirthYear ?? today.getFullYear()}
               />
               <FormTextInput
                 error={false}
+                label="Phone Number"
                 name="phone"
                 placeholder="Phone Number"
                 type="text"

@@ -5,8 +5,10 @@ import OrderItem from "../components/OrderItem";
 import axios from "@/lib/axios";
 import { IOrder } from "@/types";
 import { BiLoaderCircle } from "react-icons/bi";
+import { useTranslation } from "@/context/Translation";
 
 export default function OrdersPage() {
+  const { t } = useTranslation();
   const ordersQuery = useQuery({
     queryKey: ["orders"],
     queryFn: () => axios.get<IOrder[]>("/api/user/orders").then((res) => res.data)
@@ -16,7 +18,8 @@ export default function OrdersPage() {
 
   return (
     <>
-      <ul className=" ">
+      <h1 className="hidden border-b py-4 text-4xl md:block">{t("profile.orders")}</h1>
+      <ul>
         {ordersQuery.isFetching ? (
           <li className="flex w-full flex-col items-center justify-center py-2">
             <BiLoaderCircle className="animate-spin fill-primary" size={35} />

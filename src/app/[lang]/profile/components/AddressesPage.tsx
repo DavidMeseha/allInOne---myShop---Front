@@ -217,7 +217,7 @@ export default function AddressesPage() {
               onUpdate={handleFieldOnChange}
             />
 
-            <div className="fixed bottom-0 start-0 z-50 w-full border border-x-0 bg-white px-6 py-4 md:start-[280px] md:w-[calc(100%-280px)]">
+            <div className="fixed bottom-0 start-0 z-30 w-full border border-x-0 bg-white px-6 py-4 md:start-[280px] md:w-[calc(100%-280px)]">
               <Button
                 className="w-full bg-primary py-2 text-white"
                 isLoading={newAddressMutation.isPending || addresses.isFetching}

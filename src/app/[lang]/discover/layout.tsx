@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div className="fixed end-0 start-0 top-0 z-50 w-full bg-white px-2 md:hidden">
+      <div className="fixed end-0 start-0 top-0 z-30 w-full bg-white px-2 md:hidden">
         <div className="flex justify-between py-2">
           <BackArrow onClick={() => router.back()} />
           <h1 className="text-lg font-bold">{t("discover")}</h1>
@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             <BsSearch size={20} />
           </button>
         </div>
-        <ul className="sticky top-11 z-50 flex w-full cursor-pointer items-center border-b bg-white">
+        <ul className="sticky top-11 z-30 flex w-full cursor-pointer items-center border-b bg-white">
           <li
             className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "vendors" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
           >

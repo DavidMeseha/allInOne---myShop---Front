@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import useClickRecognition from "@/hooks/useClickRecognition";
 
 type DropdownProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   options: string[];
@@ -20,9 +21,13 @@ export default function DropdownButton({
   ...props
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  useClickRecognition(() => setIsOpen(false), containerRef);
   return (
     <button
       className={cn(`relative flex gap-1 rounded-sm px-4 py-2`, className)}
+      ref={containerRef}
       onClick={() => setIsOpen(!isOpen)}
       {...props}
     >

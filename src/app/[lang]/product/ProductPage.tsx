@@ -89,7 +89,7 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
             <ProductHeader product={product} />
             <Reviews productId={product._id} reviews={reviewsQuery.data} />
           </div>
-          <div className="absolute bottom-0 z-50 w-full border-t-2 bg-white px-8 pt-2">
+          <div className="absolute bottom-0 z-30 w-full border-t-2 bg-white px-8 pt-2">
             <div className="flex items-center">
               <span>Rate: </span>
               <RatingStars className="ms-2 inline-flex" isEditable rate={rate} onChange={(value) => setRate(value)} />

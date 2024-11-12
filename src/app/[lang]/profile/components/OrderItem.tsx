@@ -17,7 +17,7 @@ export default function OrderItem({ order }: Props) {
           {order.items.map((item) => item.product.name + ", ")}
         </p>
       </div>
-      <div className="w-[50px] text-strongGray">{order.shippingStatus}</div>
+      <div className="w-[50px] text-xs text-strongGray">{order.shippingStatus}</div>
     </li>
   );
 }

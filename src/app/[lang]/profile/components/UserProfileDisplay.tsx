@@ -14,7 +14,7 @@ import { BiPencil } from "react-icons/bi";
 import { LocalLink } from "@/components/LocalizedNavigation";
 
 export default function UserProfileDisplay() {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const { following } = useUserStore();
   const { isEditProfileOpen, setIsEditProfileOpen, setIsProfileMenuOpen } = useGeneralStore();
   const { cartProducts } = useUserStore();
@@ -49,17 +49,12 @@ export default function UserProfileDisplay() {
     {
       name: t("profile.following"),
       value: following.length,
-      to: `/${lang}/profile/following`
+      to: `/profile/following`
     },
     {
       name: t("profile.orders"),
       value: userInfoQuery.data?.ordersCount ?? 0,
-      to: `/${lang}/profile/orders`
-    },
-    {
-      name: t("profile.points"),
-      value: 0,
-      to: null
+      to: `/profile/orders`
     }
   ];
 
@@ -71,7 +66,7 @@ export default function UserProfileDisplay() {
         className="absolute end-4 top-4 rounded-sm bg-primary px-4 py-2 text-xs text-white md:end-0 md:text-base"
         href="/checkout"
       >
-        Checkout Cart({cartProducts.length})
+        {t("checkout")} ({cartProducts.length})
       </LocalLink>
       <div className="flex w-full flex-col items-center md:mt-0">
         <Image

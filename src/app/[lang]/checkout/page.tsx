@@ -105,10 +105,10 @@ export default function CheckoutPage() {
       <div className="fixed end-0 start-0 top-0 z-30 w-full bg-white px-2 md:hidden">
         <div className="flex justify-between py-2">
           <BackArrow onClick={() => router.back()} />
-          <h1 className="text-lg font-bold">Checkout</h1>
+          <h1 className="text-lg font-bold">{t("checkout")}</h1>
           <div className="w-6" />
         </div>
-        <ul className="sticky top-11 z-50 flex w-full items-center border-b bg-white">
+        <ul className="sticky top-11 z-30 flex w-full items-center border-b bg-white">
           <li
             className={`w-full ${activeTap === "shipping" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
           >
@@ -163,12 +163,12 @@ export default function CheckoutPage() {
                 />
               </div>
               <Button className="bg-primary text-white" onClick={() => setIsAddAddressOpen(true)}>
-                Add New
+                {t("addresses.newAddress")}
               </Button>
             </div>
             <RadioGroup
               className="text-sm"
-              title="Billing Method"
+              title={t("checkout.billingMethod")}
               value={form.billingMethod}
               options={[
                 { name: "COD", value: "cod" },

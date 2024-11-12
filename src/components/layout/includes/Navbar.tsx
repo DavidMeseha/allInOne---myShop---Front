@@ -52,7 +52,11 @@ function NavBar() {
             </Button>
           )}
 
-          <Button className="me-2 border-e pe-4 text-black" onClick={() => setIsSearchOpen(true)}>
+          <Button
+            aria-label="Open Search"
+            className="me-2 border-e pe-4 text-black"
+            onClick={() => setIsSearchOpen(true)}
+          >
             <BiSearch size={25} />
           </Button>
 

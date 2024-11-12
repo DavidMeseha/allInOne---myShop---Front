@@ -39,7 +39,7 @@ export default function OverlayLayout({ children, close, className, title, isLoa
             <div
               className={twMerge(
                 clsx(
-                  "w-full rounded-b-none rounded-t-md bg-white p-4 pb-20 md:max-w-[470px] md:rounded-lg md:pb-4",
+                  "w-full rounded-b-none rounded-t-md bg-white p-4 pb-16 md:max-w-[470px] md:rounded-lg md:pb-4",
                   className
                 )
               )}

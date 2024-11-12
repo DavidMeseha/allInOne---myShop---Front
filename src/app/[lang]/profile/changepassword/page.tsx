@@ -74,7 +74,7 @@ export default function ChangePasswordPage() {
 
   return (
     <form onSubmit={confirm}>
-      <div className="mt-16 px-4 md:mt-0">
+      <div className="p-4 md:mt-0">
         <FormTextInput
           error={error.original}
           label={t("changePassword.current")}

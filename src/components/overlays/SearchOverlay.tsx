@@ -10,7 +10,6 @@ import Button from "../Button";
 import { useGeneralStore } from "@/stores/generalStore";
 import { Variants, motion } from "framer-motion";
 import { LocalLink } from "@/components/LocalizedNavigation";
-import { useTranslation } from "@/context/Translation";
 
 type SearchResponseItem = {
   item: IFullProduct | IVendor | ITag | ICategory;
@@ -30,7 +29,6 @@ const popupVariants: Variants = {
 };
 
 export default function SearchOverlay() {
-  const { lang } = useTranslation();
   const { setIsSearchOpen, isSearchOpen } = useGeneralStore();
   const [searchText, setSearchText] = useState("");
   const [options, setOptions] = useState({
@@ -62,7 +60,7 @@ export default function SearchOverlay() {
   const items = searchQuery.data?.data ?? [];
 
   const setupItemLocalLink = (item: SearchResponseItem) => {
-    return `/${lang}/${item.type === "product" ? `product/${item.item._id}` : `profile/${item.type}/${item.item._id}`}`;
+    return `/${item.type === "product" ? `product/${item.item._id}` : `profile/${item.type}/${item.item._id}`}`;
   };
 
   return (

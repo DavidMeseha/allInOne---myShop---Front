@@ -21,12 +21,12 @@ export default function ProfileMenuOverlay() {
   const userMenuNav = [
     {
       name: t("profile.addresses"),
-      to: `/${lang}/profile/addresses`,
+      to: "/profile/addresses",
       icon: <FaRegAddressBook size={20} />
     },
     {
       name: t("profile.myReviews"),
-      to: `/${lang}/profile/reviews`,
+      to: "/profile/reviews",
       icon: <BsStar size={20} />
     },
     {
@@ -39,7 +39,7 @@ export default function ProfileMenuOverlay() {
     },
     {
       name: t("profile.changePassword"),
-      to: `/${lang}/profile/changepassword`,
+      to: "/profile/changepassword",
       icon: <PiPassword size={20} />
     }
   ];

@@ -11,30 +11,30 @@ export default function BottomNav() {
   const { user } = useUser();
   const pathname = usePathname();
   const { cartProducts } = useUserStore();
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
 
   const bottomNav = [
     {
       name: t("home"),
-      to: `/${lang}`,
+      to: "/",
       icon: <BsHouse className="mx-auto" size={25} />,
       iconActive: <BsHouseFill className="mx-auto" size={25} />
     },
     {
       name: t("discover"),
-      to: `/${lang}/discover/vendors`,
+      to: "/discover/vendors",
       icon: <BsCompass className="mx-auto" size={25} />,
       iconActive: <BsCompassFill className="mx-auto" size={25} />
     },
     {
       name: t("cart"),
-      to: `/${lang}/cart`,
+      to: "/cart",
       icon: <RiShoppingCartLine className="mx-auto" size={25} />,
       iconActive: <RiShoppingCartFill className="mx-auto" size={25} />
     },
     {
       name: t("profile"),
-      to: `/${lang}/profile/me`,
+      to: "/profile/me",
       icon: <RiProfileLine className="mx-auto" size={25} />,
       iconActive: <RiProfileFill className="mx-auto" size={25} />
     }

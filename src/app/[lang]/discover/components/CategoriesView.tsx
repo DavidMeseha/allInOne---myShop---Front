@@ -10,7 +10,7 @@ import axios from "@/lib/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function CategoriesView() {
-  const { lang, t } = useTranslation();
+  const { t } = useTranslation();
 
   const categoriesQuery = useInfiniteQuery({
     queryKey: ["categoriesDiscover"],
@@ -34,7 +34,7 @@ export default function CategoriesView() {
       {categoriesQuery.isFetchedAfterMount && categoriesPages
         ? categoriesPages.map((page) =>
             page.data.map((category) => (
-              <ListItem category={category} key={category._id} to={`/${lang}/profile/category/${category._id}`} />
+              <ListItem category={category} key={category._id} to={`/profile/category/${category._id}`} />
             ))
           )
         : null}

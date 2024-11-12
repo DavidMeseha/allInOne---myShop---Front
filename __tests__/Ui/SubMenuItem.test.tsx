@@ -31,7 +31,6 @@ describe("Sub Menu Item", () => {
   });
 
   beforeEach(() => {
-    // (useLocalPathname as jest.Mock).mockReturnValue({ pathname: menuItem.sup[0].to });
     (usePathname as jest.Mock).mockReturnValue("/en" + menuItem.sup[0].to);
     renderWithTransation(<SubMenuItem item={menuItem} />);
   });

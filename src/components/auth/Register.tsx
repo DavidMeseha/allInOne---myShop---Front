@@ -125,6 +125,7 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
     <form onSubmit={submit}>
       <FormTextInput
         error={error.firstName}
+        label={t("auth.name")}
         name="firstName"
         placeholder={t("auth.name")}
         required
@@ -138,6 +139,7 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
       <FormTextInput
         error={error.lastName}
+        label={t("auth.name")}
         name="lastName"
         placeholder={t("auth.name")}
         required
@@ -151,6 +153,7 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
       <FormTextInput
         error={error.email}
+        label={t("auth.email")}
         name="email"
         placeholder={t("auth.email")}
         required
@@ -164,6 +167,7 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
       <FormTextInput
         error={error.password}
+        label={t("auth.password")}
         name="password"
         placeholder={t("auth.password")}
         required
@@ -175,6 +179,7 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
       <FormTextInput
         error={error.confirmPassword}
+        label={t("auth.confirmPassword")}
         name="confirmPassword"
         placeholder={t("auth.confirmPassword")}
         required

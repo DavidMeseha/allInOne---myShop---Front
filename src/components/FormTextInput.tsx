@@ -11,7 +11,7 @@ export default function FormTextInput({ label, error, ...props }: TextInputProps
     <div className="pb-1">
       <label className="mb-1 block capitalize">
         {label}
-        {props.required ? <span>*</span> : null}
+        {props.required ? <span className="text-primary">*</span> : null}
       </label>
       <input
         autoComplete="off"

@@ -14,7 +14,7 @@ export default function NotFound() {
         width={400}
       />
       <h1 className="text-4xl font-bold text-strongGray">Product Not Found</h1>
-      <LocalLink className="text-primary hover:underline" href={``}>
+      <LocalLink className="text-primary hover:underline" href="/">
         Go Home {" >"}
       </LocalLink>
     </div>

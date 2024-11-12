@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
-  label: string;
-  className: string;
+  label?: string;
+  className?: string;
 };
 
 export default function Input({ label, className, ...props }: Props) {

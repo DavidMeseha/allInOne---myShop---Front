@@ -9,13 +9,13 @@ import ProductHeader from "@/components/post/ProductHeader";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import RatingStars from "@/components/RatingStars";
-import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { useState } from "react";
 import { useGeneralStore } from "@/stores/generalStore";
 import { useUser } from "@/context/user";
 import { toast } from "react-toastify";
 import { queryClient } from "@/components/layout/MainLayout";
+import FormTextInput from "@/components/FormTextInput";
 
 export default function ProductPage({ product }: { product: IFullProduct }) {
   const [review, setReview] = useState<string>("");
@@ -59,7 +59,7 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
         <div className="relative md:h-full lg:w-[calc(100%-540px)]">
           <LocalLink
             className="absolute start-0 z-20 m-5 rounded-full bg-gray-700 p-1.5 text-white hover:bg-gray-800"
-            href={``}
+            href="/"
           >
             <AiOutlineClose size="27" />
           </LocalLink>
@@ -95,9 +95,8 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
               <RatingStars className="ms-2 inline-flex" isEditable rate={rate} onChange={(value) => setRate(value)} />
             </div>
             <div className="flex w-full items-center justify-between">
-              <Input
+              <FormTextInput
                 className="w-2/3"
-                label=""
                 placeholder="Add Review...."
                 type="text"
                 value={review}

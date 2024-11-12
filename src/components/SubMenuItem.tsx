@@ -20,7 +20,7 @@ export default function SubMenuItem({ item }: Props) {
   return (
     <>
       <button
-        className="flex w-full justify-between rounded-md p-2 text-lg font-semibold hover:bg-lightGray"
+        className="mb-2 flex w-full justify-between rounded-md p-2 text-lg font-semibold hover:bg-lightGray"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export default function SubMenuItem({ item }: Props) {
             <LocalLink
               href={supItem.to}
               className={`flex w-full items-center gap-1 rounded-md p-2 ps-6 text-lg font-semibold hover:bg-lightGray ${
-                pathname === supItem.to ? "bg-lightGray text-primary" : ""
+                pathname === supItem.to ? "text-primary" : ""
               }`}
             >
               <RiArrowDropLeftLine className="hidden rtl:block" data-testid="sub-menu-left-icon" size={20} />

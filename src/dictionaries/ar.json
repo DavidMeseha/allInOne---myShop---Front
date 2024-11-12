@@ -14,7 +14,7 @@
   "tag": "العلامة",
   "inbox": "صندوق الوارد",
   "profile": "الملف الشخصي",
-  "checkout": "الدفع",
+  "checkout": "شراء",
   "remove": "حذف",
   "address": "العنوان",
   "firstName": "الاسم الأول",
@@ -44,6 +44,7 @@
   "soldBy": "البائع",
   "productNotFound": "المنتج غير موجود!",
   "loadMore": "المزيد",
+  "yourCart": "عربة التسوق",
 
   "auth.password": "كلمة المرور",
   "auth.login": "تسجيل الدخول",

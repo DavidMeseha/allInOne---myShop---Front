@@ -69,7 +69,7 @@ export default function UserProfileDisplay() {
     <div className="relative pt-4">
       <LocalLink
         className="absolute end-4 top-4 rounded-sm bg-primary px-4 py-2 text-xs text-white md:end-0 md:text-base"
-        href={"/checkout"}
+        href="/checkout"
       >
         Checkout Cart({cartProducts.length})
       </LocalLink>

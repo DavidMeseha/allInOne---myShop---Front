@@ -73,7 +73,6 @@ export default function SearchOverlay() {
           <div className="relative">
             <Input
               className="rounded-full border-none bg-white p-4 pe-12 drop-shadow-md"
-              label=""
               placeholder="Find: vendor, product, category, tag"
               type="text"
               onChange={(e) => handleChange(e.target.value)}

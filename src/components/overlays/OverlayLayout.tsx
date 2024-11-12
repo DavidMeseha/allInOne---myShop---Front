@@ -31,18 +31,20 @@ export default function OverlayLayout({ children, close, className, title, isLoa
       <motion.div
         className="fixed left-0 top-0 z-50 h-screen w-screen bg-black bg-opacity-50"
         variants={bgVariants}
-        onClick={close}
+        onMouseDown={close}
+        onTouchStart={close}
       >
         <motion.div className="pb- h-full w-full overflow-auto transition-transform" variants={popupVariants}>
           <div className="flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8">
             <div
               className={twMerge(
                 clsx(
-                  "w-full rounded-b-none rounded-t-md bg-white p-4 pb-20 md:max-w-[470px] md:rounded-lg md:pb-0",
+                  "w-full rounded-b-none rounded-t-md bg-white p-4 pb-20 md:max-w-[470px] md:rounded-lg md:pb-4",
                   className
                 )
               )}
-              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              onTouchStart={(e) => e.stopPropagation()}
             >
               <div className="mb-3 flex w-full items-center justify-between">
                 <div className="text-xl font-semibold text-gray-700">{title}</div>

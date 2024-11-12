@@ -62,7 +62,7 @@ export default function MainMenu() {
             <LocalLink
               href={item.to}
               className={`mb-2 flex w-full items-center gap-2 rounded-md p-2 text-lg font-semibold hover:bg-lightGray ${
-                pathname === item.to ? "bg-lightGray text-primary" : ""
+                pathname === item.to ? "text-primary" : ""
               }`}
             >
               {pathname === item.to ? item.IconActive : item.Icon}

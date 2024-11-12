@@ -11,6 +11,7 @@ import { useGeneralStore } from "@/stores/generalStore";
 import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
 import { LocalLink } from "../../../components/LocalizedNavigation";
+import { BiLoaderCircle } from "react-icons/bi";
 
 export default function Page() {
   const { t } = useTranslation();
@@ -43,15 +44,17 @@ export default function Page() {
       </div>
       {cartItems.length > 0 ? (
         <>
-          <div className="sticky top-11 z-30 flex items-center justify-between border-b bg-white p-4 pb-2 md:top-[60px] md:mx-0">
-            <h1 className="hidden text-3xl font-bold md:block">Your Cart</h1>
+          <div className="sticky top-11 z-20 flex items-center justify-between border-b bg-white p-4 pb-2 md:top-[60px] md:mx-0">
+            <h1 className="hidden text-3xl font-bold md:block">{t("yourCart")}</h1>
             <Button
               className="ms-auto block w-full rounded-md bg-primary px-6 py-3 font-semibold text-white md:w-auto"
               isLoading={checkoutQuery.isFetching}
               onClick={() => (user?.isRegistered ? router.push("/checkout") : setIsLoginOpen(true))}
             >
               <div className="flex w-full justify-between gap-8">
-                <div>Checkout({cartItems.length})</div>
+                <div>
+                  {t("checkout")}({cartItems.length})
+                </div>
                 <div>{total}$</div>
               </div>
             </Button>
@@ -67,6 +70,10 @@ export default function Page() {
             />
           ))}
         </>
+      ) : checkoutQuery.isFetching ? (
+        <div className="flex justify-center pt-40">
+          <BiLoaderCircle className="animate-spin fill-primary" size={50} />
+        </div>
       ) : (
         <>
           <div className="mt-44 flex flex-col items-center justify-center gap-2">

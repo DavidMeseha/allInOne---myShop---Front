@@ -25,11 +25,12 @@ export default function ForgetPassword() {
 
       <FormTextInput
         error={error}
-        inputType="email"
+        label={t("auth.email")}
         name="email"
         placeholder={t("auth.email")}
+        type="email"
         value={email}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value)}
         onBlur={(e) => {
           if (e.target.value && !emailValidation(e.target.value)) setError(t("auth.emailNotValid"));
         }}

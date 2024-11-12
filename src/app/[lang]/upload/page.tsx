@@ -301,35 +301,39 @@ export default function Upload() {
 
             <FormTextInput
               error={error.name}
-              inputType="text"
+              label={t("upload.productName")}
               name="name"
               placeholder={t("upload.productName")}
+              type="text"
               value={product.name}
-              onUpdate={inputChangeHandle}
+              onChange={(e) => inputChangeHandle(e.target.value, e.target.name)}
             />
             <FormTextInput
               error={error.old_price}
-              inputType="number"
+              label={t("upload.oldPrice")}
               name="old_price"
               placeholder={t("upload.oldPrice")}
+              type="number"
               value={product.old_price?.toString() ?? "0"}
-              onUpdate={inputChangeHandle}
+              onChange={(e) => inputChangeHandle(e.target.value, e.target.name)}
             />
             <FormTextInput
               error={error.price}
-              inputType="number"
+              label={t("upload.price")}
               name="price"
               placeholder={t("upload.price")}
+              type="number"
               value={product.price.toString()}
-              onUpdate={inputChangeHandle}
+              onChange={(e) => inputChangeHandle(e.target.value, e.target.name)}
             />
             <FormTextInput
               error={error.stock_quantity}
-              inputType="number"
+              label={t("upload.stockQuantity")}
               name="stock_quantity"
               placeholder={t("upload.stockQuantity")}
+              type="number"
               value={product.stock_quantity.toString()}
-              onUpdate={inputChangeHandle}
+              onChange={(e) => inputChangeHandle(e.target.value, e.target.name)}
             />
 
             <div className="mt-5">

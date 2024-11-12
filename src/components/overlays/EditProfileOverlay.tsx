@@ -195,19 +195,19 @@ export default function EditProfileOverlay() {
             <div className="mt-1.5 w-full border-b p-2">
               <FormTextInput
                 error={false}
-                inputType="text"
                 name="firstName"
                 placeholder="First Name"
+                type="text"
                 value={form.firstName}
-                onUpdate={fieldChangeHandle}
+                onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
               />
               <FormTextInput
                 error={false}
-                inputType="text"
                 name="lastName"
                 placeholder="Last Name"
+                type="text"
                 value={form.lastName}
-                onUpdate={fieldChangeHandle}
+                onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
               />
               <RadioGroup
                 title="Gender"
@@ -228,11 +228,11 @@ export default function EditProfileOverlay() {
               />
               <FormTextInput
                 error={false}
-                inputType="text"
                 name="phone"
                 placeholder="Phone Number"
+                type="text"
                 value={form.phone}
-                onUpdate={fieldChangeHandle}
+                onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
               />
             </div>
           </>

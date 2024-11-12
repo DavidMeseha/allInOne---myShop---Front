@@ -125,12 +125,12 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
     <form onSubmit={submit}>
       <FormTextInput
         error={error.firstName}
-        inputType="text"
         name="firstName"
         placeholder={t("auth.name")}
         required
+        type="text"
         value={form.firstName}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
         onBlur={(e) => {
           if (e.target.value && !nameValidation(e.target.value)) setError({ ...error, firstName: "Not a valid Name" });
         }}
@@ -138,12 +138,12 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
       <FormTextInput
         error={error.lastName}
-        inputType="text"
         name="lastName"
         placeholder={t("auth.name")}
         required
+        type="text"
         value={form.lastName}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
         onBlur={(e) => {
           if (e.target.value && !nameValidation(e.target.value)) setError({ ...error, lastName: "Not a valid Name" });
         }}
@@ -151,12 +151,12 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
       <FormTextInput
         error={error.email}
-        inputType="email"
         name="email"
         placeholder={t("auth.email")}
         required
+        type="email"
         value={form.email}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
         onBlur={(e) => {
           if (e.target.value && !emailValidation(e.target.value)) setError({ ...error, email: "Not a valid Email" });
         }}
@@ -164,23 +164,23 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
       <FormTextInput
         error={error.password}
-        inputType="password"
         name="password"
         placeholder={t("auth.password")}
         required
+        type="password"
         value={form.password}
         onBlur={passwordOnBlurValidation}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
       />
 
       <FormTextInput
         error={error.confirmPassword}
-        inputType="password"
         name="confirmPassword"
         placeholder={t("auth.confirmPassword")}
         required
+        type="password"
         value={form.confirmPassword}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
         onBlur={(e) => {
           if (e.target.value !== form.password) setError({ ...error, confirmPassword: t("auth.passwordsNotMatch") });
         }}

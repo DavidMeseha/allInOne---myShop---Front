@@ -77,29 +77,32 @@ export default function ChangePasswordPage() {
       <div className="mt-16 px-4 md:mt-0">
         <FormTextInput
           error={error.original}
-          inputType="password"
+          label={t("changePassword.current")}
           name="original"
           placeholder={t("changePassword.current")}
+          type="password"
           value={form.original}
-          onUpdate={handleFieldOnChange}
+          onChange={(e) => handleFieldOnChange(e.target.value, e.target.name)}
         />
 
         <FormTextInput
           error={error.new}
-          inputType="password"
+          label={t("changePassword.new")}
           name="new"
           placeholder={t("changePassword.new")}
+          type="password"
           value={form.new}
-          onUpdate={handleFieldOnChange}
+          onChange={(e) => handleFieldOnChange(e.target.value, e.target.name)}
         />
 
         <FormTextInput
           error={error.confirm}
-          inputType="password"
+          label={t("changePassword.confirm")}
           name="confirm"
           placeholder={t("changePassword.confirm")}
+          type="password"
           value={form.confirm}
-          onUpdate={handleFieldOnChange}
+          onChange={(e) => handleFieldOnChange(e.target.value, e.target.name)}
         />
 
         <Button

@@ -16,10 +16,10 @@ export default function ProductAttributes({ productAttributes, customAttributes,
     <React.Fragment key={index}>
       {attr.attributeControlType === "TextBox" && (
         <FormTextInput
-          inputType="text"
-          placeholder={attr.name}
+          label={attr.name}
+          type="text"
           value={customAttributes[index].values[0]._id}
-          onUpdate={(value) => handleChange(attr._id, value)}
+          onChange={(e) => handleChange(attr._id, e.target.value)}
         />
       )}
 

@@ -50,20 +50,20 @@ export default function Login() {
     <form action={formAction}>
       <FormTextInput
         error={error.email}
-        inputType="email"
         name="email"
         placeholder={t("auth.email")}
+        type="email"
         value={form.email}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
       />
 
       <FormTextInput
         error={error.password || login.errorMessage}
-        inputType="password"
         name="password"
         placeholder={t("auth.password")}
+        type="password"
         value={form.password}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
       />
 
       {"message" in state ? <div>{state.message ?? ""}</div> : null}

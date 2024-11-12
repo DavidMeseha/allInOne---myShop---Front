@@ -190,11 +190,12 @@ export default function AddressesPage() {
 
             <FormTextInput
               error={error.address}
-              inputType="text"
+              label={t("address")}
               name="address"
               placeholder={t("address")}
+              type="text"
               value={form.address}
-              onUpdate={handleFieldOnChange}
+              onChange={(e) => handleFieldOnChange(e.target.value, e.target.name)}
             />
 
             <FormDropdownInput

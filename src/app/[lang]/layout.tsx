@@ -1,7 +1,7 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "../../components/layout/MainLayout";
-import { Dictionaries, getDictionary, Translation } from "../../dictionary";
+import { Dictionaries, getDictionary, langs, Translation } from "../../dictionary";
 import { Metadata } from "next";
 import "@/globals.css";
 import { ReactNode } from "react";
@@ -17,6 +17,10 @@ export const metadata: Metadata = {
     description: ""
   }
 };
+
+export async function generateStaticParams() {
+  return langs.map((lang) => ({ lang }));
+}
 
 export default async function RootLayout({
   children,

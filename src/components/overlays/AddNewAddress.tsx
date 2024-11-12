@@ -84,11 +84,11 @@ export default function AddNewAddress() {
     <OverlayLayout className="max-h-none" close={() => setIsAddAddressOpen(false)} title="Add New Address">
       <FormTextInput
         error={error.address}
-        inputType="text"
         name="address"
         placeholder={t("address")}
+        type="text"
         value={form.address}
-        onUpdate={handleFieldOnChange}
+        onChange={(e) => handleFieldOnChange(e.target.value, e.target.name)}
       />
 
       <FormDropdownInput

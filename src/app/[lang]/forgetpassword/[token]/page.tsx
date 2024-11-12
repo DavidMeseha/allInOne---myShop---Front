@@ -65,27 +65,29 @@ export default function Page() {
       <h1 className="mb-4 text-center text-2xl font-bold">Reset Your Password</h1>
       <FormTextInput
         error={error.password}
-        inputType="password"
+        label={t("auth.password")}
         name="password"
         placeholder={t("auth.password")}
         required
+        type="password"
         value={form.password}
         onBlur={passwordOnBlurValidation}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
       />
       <FormTextInput
         error={error.confirm}
-        inputType="password"
+        label={t("auth.confirmPassword")}
         name="confirmPassword"
         placeholder={t("auth.confirmPassword")}
         required
+        type="password"
         value={form.confirm}
-        onUpdate={fieldChangeHandle}
+        onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
         onBlur={(e) => {
           if (e.target.value !== form.password) setError({ ...error, confirm: t("auth.passwordsNotMatch") });
         }}
       />
-      <Button className="bg-primary text-white">Confirm</Button>
+      <Button className="bg-primary text-white">{t("auth.confirm")}</Button>
     </form>
   );
 }

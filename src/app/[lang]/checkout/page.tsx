@@ -62,7 +62,7 @@ export default function CheckoutPage() {
             attributes: IProductAttribute[];
           }[];
           addresses: IAddress[];
-        }>("/api/user/checkout")
+        }>("/api/common/checkout")
         .then((res) => {
           setForm({ ...form, shippingAddressId: res.data.addresses[0]._id });
           return res.data;

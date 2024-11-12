@@ -56,7 +56,7 @@ export default function AddressesPage() {
   });
 
   const updateAddressMutation = useMutation({
-    mutationKey: ["addAddress"],
+    mutationKey: ["updateAddress"],
     mutationFn: () =>
       axios.put(`/api/user/addresses/edit/${form._id}`, {
         city: form.city,

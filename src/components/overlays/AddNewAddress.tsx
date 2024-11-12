@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "@/context/Translation";
 import FormTextInput from "../FormTextInput";
 import FormDropdownInput from "../FormDropdownInput";
+import { queryClient } from "../layout/MainLayout";
 
 interface FormErrors {
   address: FieldError;
@@ -36,6 +37,7 @@ export default function AddNewAddress() {
       }),
     onSuccess: () => {
       toast.success("Address Added Successfully");
+      queryClient.invalidateQueries({ queryKey: ["userAddresses", "cartProducts"] });
     }
   });
 

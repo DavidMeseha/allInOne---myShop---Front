@@ -58,8 +58,8 @@ describe("Sub Menu Item", () => {
   });
 
   it("highlights when page matchs route", () => {
-    expect(screen.getByText(menuItem.sup[0].name)).toHaveClass("bg-lightGray text-primary");
-    expect(screen.getByText(menuItem.sup[1].name)).not.toHaveClass("bg-lightGray text-primary");
-    expect(screen.getByText(menuItem.sup[2].name)).not.toHaveClass("bg-lightGray text-primary");
+    expect(screen.getByText(menuItem.sup[0].name)).toHaveClass("text-primary");
+    expect(screen.getByText(menuItem.sup[1].name)).not.toHaveClass("text-primary");
+    expect(screen.getByText(menuItem.sup[2].name)).not.toHaveClass("text-primary");
   });
 });

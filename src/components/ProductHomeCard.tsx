@@ -5,9 +5,7 @@ import { LocalLink } from "./LocalizedNavigation";
 import {
   RiBookmark2Line,
   RiHeart2Line,
-  RiShoppingCart2Line,
   RiShoppingCartLine,
-  RiUserFollowLine
 } from "react-icons/ri";
 import { useUserStore } from "@/stores/userStore";
 import Button from "./Button";
@@ -15,7 +13,6 @@ import useHandleLike from "@/hooks/useHandleLike";
 import useHandleSave from "@/hooks/useHandleSave";
 import useHandleAddToCart from "@/hooks/useHandleAddToCart";
 import RatingStars from "./RatingStars";
-import { BiCartAdd } from "react-icons/bi";
 
 type Props = {
   product: IFullProduct;

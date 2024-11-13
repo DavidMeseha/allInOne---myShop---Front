@@ -30,7 +30,7 @@ export default function CategoriesView() {
   const lastPage = categoriesPages?.findLast((page) => page);
 
   return (
-    <ul className="mt-10 md:mt-0">
+    <ul className="mt-14 md:mt-4">
       {categoriesQuery.isFetchedAfterMount && categoriesPages
         ? categoriesPages.map((page) =>
             page.data.map((category) => (
@@ -68,7 +68,7 @@ function ListItem({ to, category }: ListItemProps) {
   return (
     <li className="flex items-center justify-between px-4 py-2">
       <div className="flex items-center gap-3">
-        <LocalLink className="font-bold" href={to}>
+        <LocalLink className="font-bold hover:underline" href={to}>
           {category.name}
         </LocalLink>
       </div>

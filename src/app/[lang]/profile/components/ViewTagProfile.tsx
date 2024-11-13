@@ -1,6 +1,5 @@
 "use client";
 
-import ProductCard from "../../../../components/ProductCard";
 import { useTranslation } from "@/context/Translation";
 import { IFullProduct, ITag, Pagination } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -8,13 +7,14 @@ import axios from "@/lib/axios";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { BiLoaderCircle } from "react-icons/bi";
+import ProductHomeCard from "@/components/ProductHomeCard";
 
 type Props = {
   tag: ITag;
 };
 
 export default function ViewtagProfile({ tag }: Props) {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const [ref, isInView] = useInView();
 
   const productsQuery = useInfiniteQuery({
@@ -41,7 +41,7 @@ export default function ViewtagProfile({ tag }: Props) {
   }, [isInView]);
 
   return (
-    <>
+    <div className="py-4">
       <div className="mb-2 ms-2 flex w-full flex-row items-center justify-between px-4 md:mt-0">
         <p className="inline-block truncate text-[30px] font-bold" dir="ltr">
           #{tag.name}
@@ -57,9 +57,7 @@ export default function ViewtagProfile({ tag }: Props) {
         productsQuery.data && productsQuery.data.pages[0].data.length > 0 ? (
           <div className="relative mt-4 grid grid-cols-2 gap-3 px-4 pb-20 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {productsQuery.data.pages.map((page) =>
-              page.data.map((product, index) => (
-                <ProductCard key={index} product={product} to={`/${lang}/product/${product._id}`} />
-              ))
+              page.data.map((product, index) => <ProductHomeCard key={index} product={product} />)
             )}
           </div>
         ) : (
@@ -72,6 +70,6 @@ export default function ViewtagProfile({ tag }: Props) {
           <BiLoaderCircle className="animate-spin fill-primary" size={35} />
         </div>
       ) : null}
-    </>
+    </div>
   );
 }

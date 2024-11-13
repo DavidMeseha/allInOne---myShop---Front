@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ProductCard from "../../../../components/ProductCard";
 import { useTranslation } from "@/context/Translation";
 import { UserActivity } from "./UserActivity";
 import Button from "@/components/Button";
@@ -14,15 +13,20 @@ import { BiLoaderCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/stores/userStore";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
+import ProductHomeCard from "@/components/ProductHomeCard";
+import { useUser } from "@/context/user";
+import { useGeneralStore } from "@/stores/generalStore";
 
 type Props = {
   vendor: IVendor;
 };
 
 export default function ViewVendorProfile({ vendor }: Props) {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const [ref, isInView] = useInView();
   const { setFollowedVendors, following } = useUserStore();
+  const { user } = useUser();
+  const { setIsLoginOpen } = useGeneralStore();
   const [followersCount, setFollowersCount] = useState(vendor.followersCount);
 
   const activities = [
@@ -79,12 +83,13 @@ export default function ViewVendorProfile({ vendor }: Props) {
   }, [isInView]);
 
   const handleFollowingState = () => {
+    if (!user?.isRegistered) return setIsLoginOpen(true);
     if (following.includes(vendor._id)) return unfollowMutation.mutate();
     followMutation.mutate();
   };
 
   return (
-    <>
+    <div className="py-4">
       <div className="flex w-full flex-row items-center justify-start px-4 md:mt-0">
         <Image
           alt={vendor.name}
@@ -118,9 +123,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
         productsQuery.data && productsQuery.data.pages[0].data.length > 0 ? (
           <div className="relative mt-4 grid grid-cols-2 gap-3 px-4 pb-20 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {productsQuery.data.pages.map((page) =>
-              page.data.map((product, index) => (
-                <ProductCard key={index} product={product} to={`/${lang}/product/${product._id}`} />
-              ))
+              page.data.map((product, index) => <ProductHomeCard key={index} product={product} />)
             )}
           </div>
         ) : (
@@ -133,6 +136,6 @@ export default function ViewVendorProfile({ vendor }: Props) {
           <BiLoaderCircle className="animate-spin fill-primary" size={35} />
         </div>
       ) : null}
-    </>
+    </div>
   );
 }

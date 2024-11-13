@@ -1,5 +1,4 @@
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
-import HomePage from "@/app/HomePage";
 import { useInView } from "react-intersection-observer";
 import { mockHomeProduct } from "../../mocks/values";
 import { useRouter } from "next-nprogress-bar";
@@ -7,6 +6,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import en from "@/dictionaries/en.json";
 import { renderWithProviders } from "../../test-mic";
 import { usePathname } from "next/navigation";
+import InfiniteFeed from "@/app/[lang]/feeds/InfiniteFeed";
 
 describe("HomePage", () => {
   const mockLoadMore = jest.fn();
@@ -16,7 +16,7 @@ describe("HomePage", () => {
   });
 
   beforeEach(() => {
-    (usePathname as jest.Mock).mockReturnValue("/en");
+    (usePathname as jest.Mock).mockReturnValue("/en/feeds");
     (useRouter as jest.Mock).mockReturnValue({
       push: jest.fn()
     });
@@ -43,7 +43,7 @@ describe("HomePage", () => {
 
   it("loads initial products correctly and shows loading for more products", async () => {
     await act(async () => {
-      renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+      renderWithProviders(<InfiniteFeed loadMore={mockLoadMore} products={[mockHomeProduct]} />);
     });
     expect(screen.getByText(mockHomeProduct.name)).toBeInTheDocument();
     const loading = screen.getAllByTestId("loading");
@@ -64,7 +64,7 @@ describe("HomePage", () => {
     (useInView as jest.Mock).mockReturnValueOnce([jest.fn(), true]);
     await act(async () => {
       renderWithProviders(
-        <HomePage
+        <InfiniteFeed
           loadMore={mockLoadMore}
           products={[
             { ...mockHomeProduct, name: "Product 2", _id: "1" },
@@ -92,7 +92,7 @@ describe("HomePage", () => {
 
   it("open & close main menu on mobile", async () => {
     await act(async () => {
-      renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+      renderWithProviders(<InfiniteFeed loadMore={mockLoadMore} products={[mockHomeProduct]} />);
     });
     expect(screen.getByLabelText("Open Main Menu")).toBeInTheDocument();
     expect(screen.getByTestId("main-menu")).toBeInTheDocument();
@@ -112,7 +112,7 @@ describe("HomePage", () => {
 
   it("opens search popup on mobile", async () => {
     await act(async () => {
-      renderWithProviders(<HomePage loadMore={mockLoadMore} products={[mockHomeProduct]} />);
+      renderWithProviders(<InfiniteFeed loadMore={mockLoadMore} products={[mockHomeProduct]} />);
     });
     expect(screen.getByLabelText("Open Search Page")).toBeInTheDocument();
     expect(screen.getByTestId("main-menu")).toBeInTheDocument();

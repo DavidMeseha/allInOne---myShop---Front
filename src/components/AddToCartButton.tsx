@@ -33,7 +33,7 @@ export default function AddToCartButton({ product }: Props) {
           />
         )}
       </div>
-      <span className="text-xs font-semibold text-blend">{count}</span>
+      <span className="text-blend text-xs font-semibold">{count}</span>
     </button>
   );
 }

@@ -10,6 +10,7 @@ import Button from "../Button";
 import { useGeneralStore } from "@/stores/generalStore";
 import { Variants, motion } from "framer-motion";
 import { LocalLink } from "@/components/LocalizedNavigation";
+import { BiLoaderCircle } from "react-icons/bi";
 
 type SearchResponseItem = {
   item: IFullProduct | IVendor | ITag | ICategory;
@@ -88,36 +89,46 @@ export default function SearchOverlay() {
             <Checkbox label="Tags" onChange={(e) => setOptions({ ...options, tags: e.target.checked })} />
           </div>
           <div>
-            {items.map((item) => (
-              <LocalLink className="flex cursor-pointer gap-2 p-4" href={setupItemLocalLink(item)} key={item.item._id}>
-                {"pictures" in item.item ? (
+            {searchQuery.isFetching ? (
+              <div className="flex w-full flex-col items-center justify-center py-2">
+                <BiLoaderCircle className="animate-spin fill-primary" role="status" size={35} />
+              </div>
+            ) : (
+              items.map((item) => (
+                <LocalLink
+                  className="flex cursor-pointer gap-2 p-4"
+                  href={setupItemLocalLink(item)}
+                  key={item.item._id}
+                >
+                  {"pictures" in item.item ? (
+                    <div>
+                      <Image
+                        alt={item.item.name}
+                        className="rounded-md object-cover"
+                        height={40}
+                        src={item.item.pictures[0].imageUrl}
+                        width={40}
+                      />
+                    </div>
+                  ) : null}
+                  {"imageUrl" in item.item ? (
+                    <div>
+                      <Image
+                        alt={item.item.name}
+                        className="rounded-md object-cover"
+                        height={40}
+                        src={item.item.imageUrl}
+                        width={40}
+                      />
+                    </div>
+                  ) : null}
                   <div>
-                    <Image
-                      alt={item.item.name}
-                      className="rounded-md object-cover"
-                      height={40}
-                      src={item.item.pictures[0].imageUrl}
-                      width={40}
-                    />
+                    <h3 className="font-semibold">{item.item.name}</h3>
+                    <p className="text-sm text-strongGray">{item.type}</p>
                   </div>
-                ) : null}
-                {"imageUrl" in item.item ? (
-                  <div>
-                    <Image
-                      alt={item.item.name}
-                      className="rounded-md object-cover"
-                      height={40}
-                      src={item.item.imageUrl}
-                      width={40}
-                    />
-                  </div>
-                ) : null}
-                <div>
-                  <h3 className="font-semibold">{item.item.name}</h3>
-                  <p className="text-sm text-strongGray">{item.type}</p>
-                </div>
-              </LocalLink>
-            ))}
+                </LocalLink>
+              ))
+            )}
           </div>
         </motion.div>
       </motion.div>

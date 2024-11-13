@@ -1,24 +1,24 @@
 import { IFullProduct } from "@/types";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LocalLink } from "./LocalizedNavigation";
-import {
-  RiBookmark2Line,
-  RiHeart2Line,
-  RiShoppingCartLine,
-} from "react-icons/ri";
+import { RiBookmark2Line, RiHeart2Line, RiShoppingCartLine } from "react-icons/ri";
 import { useUserStore } from "@/stores/userStore";
 import Button from "./Button";
 import useHandleLike from "@/hooks/useHandleLike";
 import useHandleSave from "@/hooks/useHandleSave";
 import useHandleAddToCart from "@/hooks/useHandleAddToCart";
 import RatingStars from "./RatingStars";
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import CarouselIndecator from "./CarouselIndecator";
 
 type Props = {
   product: IFullProduct;
 };
 
 export default function ProductHomeCard({ product }: Props) {
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [caroselImageIndex, setCaroselImageIndex] = useState(0);
   const { cartProducts, likes, savedProducts, reviewedProducts } = useUserStore();
   const [counters, setCounters] = useState({
     carts: product.carts,
@@ -57,6 +57,12 @@ export default function ProductHomeCard({ product }: Props) {
     }
   });
 
+  useEffect(() => {
+    if (!carouselApi) return;
+    carouselApi.on("scroll", (emblaApi) => setCaroselImageIndex(emblaApi.selectedScrollSnap()));
+    return () => carouselApi.destroy();
+  }, [carouselApi]);
+
   const handleLikeAction = () => likeHandler.handleLike(!is.liked);
   const handleSaveAction = () => saveHandler.handleSave(!is.saved);
   const handleAddToCart = () =>
@@ -64,17 +70,43 @@ export default function ProductHomeCard({ product }: Props) {
 
   return (
     <div className="w-full overflow-hidden rounded-sm border bg-white">
-      <div className="p-1">
-        <Image
-          alt="Converse sneakers"
-          className="h-52 w-full object-cover"
-          height={200}
-          src={product.pictures[0].imageUrl}
-          width={200}
-        />
+      <div className="relative">
+        {product.pictures.length > 1 ? (
+          <>
+            <Carousel className="w-full" dir="ltr" setApi={setCarouselApi}>
+              <CarouselContent>
+                {product.pictures.map((img) => (
+                  <CarouselItem className="relative flex h-52 items-center" key={img._id}>
+                    <Image
+                      alt={product.name}
+                      className="h-full w-full object-contain"
+                      height={200}
+                      src={img.imageUrl}
+                      width={200}
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+            <CarouselIndecator
+              array={product.pictures}
+              className="absolute bottom-2 p-4"
+              selectedIndex={caroselImageIndex}
+              setSelectedIndex={(index) => carouselApi?.scrollTo(index, false)}
+            />
+          </>
+        ) : (
+          <Image
+            alt="Converse sneakers"
+            className="h-52 w-full object-contain"
+            height={200}
+            src={product.pictures[0].imageUrl}
+            width={200}
+          />
+        )}
       </div>
 
-      <div className="mt-4 flex flex-col gap-1 px-2 sm:px-4">
+      <div className="mt-2 flex flex-col gap-1 px-2 sm:px-4">
         <LocalLink
           className="overflow-clip text-ellipsis text-nowrap font-semibold text-gray-800 hover:underline"
           href={`/product/${product._id}`}
@@ -97,7 +129,7 @@ export default function ProductHomeCard({ product }: Props) {
 
       <div className="mt-4 flex border-t border-gray-200">
         <Button
-          className={`basis-1/3 border-e fill-black px-1 py-1 ${is.inCart ? "bg-green-200" : "bg-white"}`}
+          className={`basis-1/3 rounded-none border-e fill-black p-1 ${is.inCart ? "bg-green-200" : "bg-white"}`}
           isLoading={addToCartHandler.isPending}
           spinnerSize="20"
           onClick={handleAddToCart}
@@ -108,7 +140,7 @@ export default function ProductHomeCard({ product }: Props) {
           </div>
         </Button>
         <Button
-          className={`basis-1/3 border-e fill-black px-1 py-1 ${is.liked ? "bg-red-200" : "bg-white"}`}
+          className={`basis-1/3 rounded-none border-e fill-black p-1 ${is.liked ? "bg-red-200" : "bg-white"}`}
           isLoading={likeHandler.isPending}
           spinnerSize="20"
           onClick={handleLikeAction}
@@ -119,7 +151,7 @@ export default function ProductHomeCard({ product }: Props) {
           </div>
         </Button>
         <Button
-          className={`basis-1/3 border-e fill-black px-1 py-1 ${is.saved ? "bg-yellow-200" : "bg-white"}`}
+          className={`basis-1/3 rounded-none fill-black p-1 ${is.saved ? "bg-yellow-200" : "bg-white"}`}
           isLoading={saveHandler.isPending}
           spinnerSize="20"
           onClick={handleSaveAction}

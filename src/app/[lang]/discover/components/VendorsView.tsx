@@ -31,7 +31,7 @@ export default function VendorsView() {
   const lastPage = vendorsPages?.findLast((page) => page);
 
   return (
-    <ul className="mt-10 md:mt-0">
+    <ul className="mt-14 md:mt-4">
       {vendorsQuery.isFetchedAfterMount ? (
         vendorsPages ? (
           <div>
@@ -102,7 +102,7 @@ function ListItem({ vendor, to }: ListItemProps) {
         />
 
         <div>
-          <LocalLink className="font-bold" href={to}>
+          <LocalLink className="font-bold hover:underline" href={to}>
             {vendor.name}
           </LocalLink>
           <p className="text-strongGray">Products: {vendor.productCount}</p>

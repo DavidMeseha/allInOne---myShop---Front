@@ -121,20 +121,18 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             </>
           ) : null}
         </p>
-        <div className="pb-0.5 text-[14px] text-gray-500">
-          {product.productTags.length > 0
-            ? product.productTags.map((tag) => (
-                <LocalLink
-                  aria-label="Navigate to a tag products"
-                  className="me-4 hover:underline"
-                  dir="ltr"
-                  href={`/profile/tag/${tag._id}`}
-                  key={tag._id}
-                >
-                  #{tag.name}
-                </LocalLink>
-              ))
-            : null}
+        <div className="pb-0.5 text-sm text-strongGray">
+          {product.productTags.map((tag) => (
+            <LocalLink
+              aria-label="Navigate to a tag products"
+              className="me-4 hover:underline"
+              dir="ltr"
+              href={`/profile/tag/${tag._id}`}
+              key={tag._id}
+            >
+              #{tag.name}
+            </LocalLink>
+          ))}
         </div>
 
         <div className="mt-2.5 flex items-end">

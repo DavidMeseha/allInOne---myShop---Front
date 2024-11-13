@@ -2,13 +2,20 @@ import { IFullProduct } from "@/types";
 import Image from "next/image";
 import React, { useState } from "react";
 import { LocalLink } from "./LocalizedNavigation";
-import { RiBookmark2Line, RiHeart2Line, RiUserFollowLine } from "react-icons/ri";
+import {
+  RiBookmark2Line,
+  RiHeart2Line,
+  RiShoppingCart2Line,
+  RiShoppingCartLine,
+  RiUserFollowLine
+} from "react-icons/ri";
 import { useUserStore } from "@/stores/userStore";
 import Button from "./Button";
 import useHandleLike from "@/hooks/useHandleLike";
 import useHandleSave from "@/hooks/useHandleSave";
 import useHandleAddToCart from "@/hooks/useHandleAddToCart";
 import RatingStars from "./RatingStars";
+import { BiCartAdd } from "react-icons/bi";
 
 type Props = {
   product: IFullProduct;
@@ -71,7 +78,12 @@ export default function ProductHomeCard({ product }: Props) {
       </div>
 
       <div className="mt-4 flex flex-col gap-1 px-2 sm:px-4">
-        <h2 className="overflow-clip text-ellipsis text-nowrap font-semibold text-gray-800">{product.name}</h2>
+        <LocalLink
+          className="overflow-clip text-ellipsis text-nowrap font-semibold text-gray-800 hover:underline"
+          href={`/product/${product._id}`}
+        >
+          {product.name}
+        </LocalLink>
         <p className="-mt-1 text-sm text-strongGray">
           sold by:{" "}
           <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor._id}`}>
@@ -80,7 +92,7 @@ export default function ProductHomeCard({ product }: Props) {
         </p>
         <span className="font-semibold text-gray-800">{product.price.price}$</span>
         <RatingStars
-        className=""
+          className=""
           rate={product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews}
           size={15}
         />
@@ -93,8 +105,8 @@ export default function ProductHomeCard({ product }: Props) {
           spinnerSize="20"
           onClick={handleAddToCart}
         >
-          <div className="flex items-center justify-center">
-            <RiUserFollowLine size={20} />
+          <div className="flex items-center justify-center gap-1">
+            <RiShoppingCartLine size={20} />
             <span className="hidden text-sm sm:inline">{counters.carts}</span>
           </div>
         </Button>

@@ -84,14 +84,13 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             <LocalLink
               aria-label="Navigate to product page"
               className="cursor-pointer font-bold hover:underline"
-              href={`/product/${product._id}`}
+              href={`/vandor/${product.vendor._id}`}
             >
-              {product.name}
+              {product.vendor.name}
             </LocalLink>
             <p className="text-sm text-strongGray">
-              {t("soldBy")}:{" "}
-              <LocalLink className="hover:text-primary" href={`/vandor/${product.vendor._id}`}>
-                {product.vendor.name}
+              <LocalLink className="hover:text-primary" href={`/product/${product._id}`}>
+                {product.name}
               </LocalLink>
             </p>
           </div>
@@ -145,7 +144,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
                       <CarouselItem className="relative flex h-[480px] items-center" key={img._id}>
                         <Image
                           alt={product.name}
-                          className="object-cover"
+                          className="object-cover md:w-full"
                           height={480}
                           loading="eager"
                           priority
@@ -166,7 +165,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             ) : (
               <Image
                 alt={product.name}
-                className="object-cover"
+                className="object-contain md:w-full"
                 height={480}
                 loading="eager"
                 priority

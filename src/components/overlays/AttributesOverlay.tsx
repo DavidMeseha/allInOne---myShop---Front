@@ -8,7 +8,8 @@ import { selectDefaultAttributes } from "@/lib/misc";
 import ProductAttributes from "../ProductAttributes";
 import axios from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
-import { BiLoaderCircle } from "react-icons/bi";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Button from "../Button";
 
 export default function AttributesOverlay() {
   const { setIsProductAttributesOpen, overlayProductId, action } = useGeneralStore();
@@ -45,25 +46,52 @@ export default function AttributesOverlay() {
 
   return (
     <OverlayLayout close={() => setIsProductAttributesOpen(false)} title={product?.name}>
-      {!productQuery.isFetching && product ? (
-        <ProductAttributes
-          customAttributes={customAttributes}
-          handleChange={handleAttributesChange}
-          productAttributes={product.productAttributes}
-        />
+      {productQuery.isFetching ? (
+        <SkeletonTheme baseColor="#d5d5d5" highlightColor="#ececec">
+          <Skeleton className="mb-1" height={20} width={100} />
+          <Skeleton className="mb-6" height={40} />
+          <Skeleton className="mb-2" height={20} width={100} />
+          <div className="mb-8 flex gap-6">
+            <div className="flex items-center gap-2">
+              <Skeleton circle height={24} width={24} />
+              <Skeleton height={20} width={85} />
+            </div>
+            <div className="flex items-center gap-2">
+              <Skeleton circle height={24} width={24} />
+              <Skeleton height={20} width={85} />
+            </div>
+          </div>
+          <Skeleton className="mb-2" height={20} width={100} />
+          <div className="flex gap-8">
+            <div className="flex items-center gap-2">
+              <Skeleton circle height={24} width={24} />
+              <Skeleton height={20} width={85} />
+            </div>
+            <div className="flex items-center gap-2">
+              <Skeleton circle height={24} width={24} />
+              <Skeleton height={20} width={85} />
+            </div>
+          </div>
+          <Skeleton className="mt-6" height={40} />
+        </SkeletonTheme>
+      ) : product ? (
+        <>
+          <ProductAttributes
+            customAttributes={customAttributes}
+            handleChange={handleAttributesChange}
+            productAttributes={product.productAttributes}
+          />
+          <Button
+            className="mt-4 w-full bg-primary text-center text-white"
+            onClick={() => {
+              action.fn && action.fn(customAttributes);
+              setIsProductAttributesOpen(false);
+            }}
+          >
+            {action.name}
+          </Button>
+        </>
       ) : null}
-      {productQuery.isFetching ? <BiLoaderCircle className="animate-spin" color="#ffffff" size={24} /> : null}
-      <div className="px-6 py-4">
-        <button
-          className="flex w-full justify-center rounded-md bg-primary px-4 py-2 text-white"
-          onClick={() => {
-            action.fn && action.fn(customAttributes);
-            setIsProductAttributesOpen(false);
-          }}
-        >
-          {action.name}
-        </button>
-      </div>
     </OverlayLayout>
   );
 }

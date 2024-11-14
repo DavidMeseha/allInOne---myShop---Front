@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 interface Props extends LinkProps {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   dir?: "ltr" | "rtl";
 }
 

@@ -13,7 +13,7 @@ export default function NotFound() {
         src="/images/product-not-found.png"
         width={400}
       />
-      <h1 className="text-4xl font-bold text-strongGray">Product Not Found</h1>
+      <h1 className="text-4xl font-bold text-strongGray">404 Product Not Found</h1>
       <LocalLink className="text-primary hover:underline" href="/">
         Go Home {" >"}
       </LocalLink>

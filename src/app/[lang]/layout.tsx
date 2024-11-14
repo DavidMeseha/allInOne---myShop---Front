@@ -3,12 +3,13 @@ import "react-toastify/dist/ReactToastify.css";
 import MainLayout from "../../components/layout/MainLayout";
 import { Dictionaries, getDictionary, langs, Translation } from "../../dictionary";
 import { Metadata } from "next";
-import "@/globals.css";
 import React, { ReactElement } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cookies } from "next/headers";
 import getUser from "@/server";
+import "@/globals.css";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export const metadata: Metadata = {
   title: "Ticktock Shop",

@@ -2,7 +2,7 @@ import ViewCategoryProfile from "../../components/ViewCategoryProfile";
 import { ICategory } from "@/types";
 import { cookies } from "next/headers";
 import axios from "@/lib/axios";
-import NotFound from "@/components/NotFound";
+import ProductNotFound from '@/app/product-not-found';
 
 type Props = { params: { id: string } };
 
@@ -15,6 +15,6 @@ export default async function Page({ params }: Props) {
     })
     .then((res) => res.data);
 
-  if (!data) return <NotFound />;
+  if (!data) return <ProductNotFound />;
   return <ViewCategoryProfile category={data} />;
 }

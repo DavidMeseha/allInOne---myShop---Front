@@ -44,7 +44,7 @@ export default function Login() {
   };
 
   return (
-    <form>
+    <>
       <FormTextInput
         error={error.email}
         name="email"
@@ -75,6 +75,6 @@ export default function Login() {
           {login.isPending ? <BiLoaderCircle className="animate-spin" color="#ffffff" size={25} /> : t("auth.login")}
         </button>
       </div>
-    </form>
+    </>
   );
 }

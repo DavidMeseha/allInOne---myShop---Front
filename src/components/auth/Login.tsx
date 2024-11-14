@@ -4,8 +4,6 @@ import { useUser } from "@/context/user";
 import { BiLoaderCircle } from "react-icons/bi";
 import { FieldError } from "../../types";
 import { useTranslation } from "@/context/Translation";
-import { useFormState } from "react-dom";
-import { actionLogin } from "@/actions";
 
 type LoginErrors = {
   password: FieldError;
@@ -15,7 +13,6 @@ type LoginErrors = {
 export default function Login() {
   const { t } = useTranslation();
   const { login } = useUser();
-  const [state, formAction] = useFormState(actionLogin, { message: false });
   const [form, setForm] = useState({ password: "", email: "" });
   const [error, setError] = useState<LoginErrors>({
     password: false,
@@ -47,7 +44,7 @@ export default function Login() {
   };
 
   return (
-    <form action={formAction}>
+    <form>
       <FormTextInput
         error={error.email}
         name="email"
@@ -66,7 +63,7 @@ export default function Login() {
         onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
       />
 
-      {"message" in state ? <div>{state.message ?? ""}</div> : null}
+      {login.errorMessage ? <div>{login.errorMessage}</div> : null}
 
       <div className="mt-6 pb-2">
         <button

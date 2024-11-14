@@ -38,7 +38,7 @@ export default function ViewCategoryProfile({ category }: Props) {
   useEffect(() => {
     if (!productsQuery.isFetching && !productsQuery.isFetchingNextPage && isInView && lastPage?.pages.hasNext)
       productsQuery.fetchNextPage();
-  }, [isInView]);
+  }, [isInView, lastPage]);
 
   return (
     <div className="py-4">

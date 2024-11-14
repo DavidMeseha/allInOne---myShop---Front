@@ -63,6 +63,12 @@ jest.mock("next-nprogress-bar", () => {
     useRouter: jest.fn()
   };
 });
+jest.mock("./src/actions.ts", () => {
+  return {
+    setAccessToken: jest.fn(),
+    removeToken: jest.fn()
+  };
+});
 
 jest.mock("./src/lib/axios.ts");
 

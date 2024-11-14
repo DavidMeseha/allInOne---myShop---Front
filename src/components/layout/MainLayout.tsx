@@ -15,6 +15,7 @@ import { TranslationProvider } from "@/context/Translation";
 import { usePathname } from "next/navigation";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { User } from "@/types";
 
 export const queryClient = new QueryClient();
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIP_KEY ?? "");
@@ -22,11 +23,13 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIP_KEY ?? "");
 export default function MainLayout({
   children,
   dictionary,
-  lang
+  lang,
+  user
 }: {
   children: React.ReactNode;
   dictionary: Translation;
   lang: Dictionaries;
+  user: { user: User; token: string };
 }) {
   const pathname = usePathname();
   return (
@@ -35,7 +38,7 @@ export default function MainLayout({
         <QueryClientProvider client={queryClient}>
           <TranslationProvider lang={lang} translation={dictionary}>
             <Elements stripe={stripePromise}>
-              <UserProvider>
+              <UserProvider user={user}>
                 {pathname.includes("/product/") ? (
                   children
                 ) : (

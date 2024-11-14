@@ -6,6 +6,19 @@ import { act, render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TranslationProvider } from "@/context/Translation";
 import React from "react";
+import { User } from "@/types";
+
+const user: User = {
+  _id: "123",
+  email: "xxxx@xxx.com",
+  firstName: "xxxx",
+  imageUrl: "/placeholder.png",
+  isRegistered: true,
+  isVendor: false,
+  language: "en",
+  lastName: "xxxx",
+  isLogin: true
+};
 
 const queryClient = new QueryClient();
 
@@ -16,7 +29,7 @@ export const renderWithProviders = async (
 ) => {
   return await act(async () =>
     render(
-      <MainLayout dictionary={dictionary} lang={lang}>
+      <MainLayout dictionary={dictionary} lang={lang} user={{ user: user, token: "access_token" }}>
         {ui}
       </MainLayout>
     )

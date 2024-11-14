@@ -1,20 +1,11 @@
-import { AxiosError } from "axios";
-import axios from "./lib/axios";
-import { FieldError, User } from "./types";
+"use server";
 
-export async function actionLogin(prevState: any, form: FormData): Promise<{ message: FieldError } | User> {
-  const email = form.get("email");
-  const password = form.get("password");
+import { cookies } from "next/headers";
 
-  try {
-    const res = await axios
-      .post<{ user: User; token: string }>("/api/auth/login", { email, password })
-      .then((data) => data.data);
+export const setAccessToken = async (token: string) => {
+  cookies().set("access_token", token, { secure: true, sameSite: true });
+};
 
-    return res.user;
-  } catch (error: any) {
-    const err = error as AxiosError;
-    // console.log(err);
-    return { message: err.message };
-  }
-}
+export const removeToken = async () => {
+  cookies().delete("access_token");
+};

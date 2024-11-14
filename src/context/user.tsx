@@ -11,6 +11,7 @@ import { useTranslation } from "./Translation";
 import { RegisterForm, User, FieldError } from "../types";
 import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
+import { removeToken, setAccessToken } from "@/actions";
 
 interface UserContextTypes {
   user: User | null;
@@ -38,12 +39,12 @@ const UserContext = createContext<UserContextTypes>({
   register: { errorMessage: false, mutate: () => Promise.resolve(), isPending: false, clearError: () => {} }
 });
 
-type ContextProps = { children: ReactNode };
+type ContextProps = { children: ReactNode; user: { user: User; token: string } };
 
-function UserProvider({ children }: ContextProps) {
+function UserProvider({ children, user }: ContextProps) {
   const { setLikes, setSavedProducts, setFollowedVendors, setReviewedProducts, setCartProducts } = useUserStore();
   const { setIsLoginOpen, setCountries } = useGeneralStore();
-  const [user, setUser] = useState<User | null>(null);
+  const [data, setData] = useState<User | null>(user.user ?? null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<FieldError>(false);
   const { t } = useTranslation();
@@ -67,6 +68,7 @@ function UserProvider({ children }: ContextProps) {
       }
     );
 
+    setAccessToken(user.token);
     setCountries();
     setIsLoading(false);
   }, []);
@@ -85,17 +87,17 @@ function UserProvider({ children }: ContextProps) {
       axios
         .get<User>("/api/auth/check")
         .then((res) => {
-          setUser(res.data);
+          setData(res.data);
           resetUserStore();
           return res.data;
         })
         .catch((err: AxiosError) => {
-          if (user?.isRegistered && err.response?.status === 400) {
-            setUser(null);
+          if (data?.isRegistered && err.response?.status === 400) {
+            setData(null);
             toast.error(t("auth.forcedLogout"));
             freshTokenMutation.mutate();
           } else if (err.response?.status === 400) {
-            setUser(null);
+            setData(null);
             freshTokenMutation.mutate();
           }
           return null;
@@ -108,9 +110,8 @@ function UserProvider({ children }: ContextProps) {
     mutationKey: ["guestToken"],
     mutationFn: () => axios.get<{ user: User; token: string }>("/api/auth/guest"),
     onSuccess: (res) => {
-      document.cookie = `access_token=;path=/`;
-      document.cookie = `access_token=${res.data.token};path=/`;
-      setUser({ ...res.data.user });
+      setAccessToken(res.data.token);
+      setData({ ...res.data.user });
       resetUserStore();
       setIsLoginOpen(false);
     }
@@ -137,10 +138,9 @@ function UserProvider({ children }: ContextProps) {
       axios.post<{ user: User; token: string }>("/api/auth/login", { ...form }).then((data) => data.data),
 
     onSuccess: (res) => {
+      setAccessToken(res.token);
       toast.success(t("auth.successfullLogin"));
-      document.cookie = `access_token=;path=/`;
-      document.cookie = `access_token=${res.token};path=/`;
-      setUser({ ...res.user });
+      setData({ ...res.user });
       resetUserStore();
       setIsLoginOpen(false);
     },
@@ -153,10 +153,10 @@ function UserProvider({ children }: ContextProps) {
   const logoutMutation = useMutation({
     mutationKey: ["logout"],
     mutationFn: () => axios.post("/api/auth/logout"),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.clear();
-      setUser(null);
-      document.cookie = "access_token=;path=/";
+      setData(null);
+      await removeToken();
       toast.warn(t("auth.successfullLogout"));
       freshTokenMutation.mutate();
     }
@@ -186,7 +186,7 @@ function UserProvider({ children }: ContextProps) {
   return (
     <UserContext.Provider
       value={{
-        user,
+        user: data,
         profile: undefined,
         login: loginObject,
         logout: logoutMutation.mutate,

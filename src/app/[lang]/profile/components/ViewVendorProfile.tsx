@@ -80,7 +80,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
   useEffect(() => {
     if (!productsQuery.isFetching && !productsQuery.isFetchingNextPage && isInView && lastPage?.pages.hasNext)
       productsQuery.fetchNextPage();
-  }, [isInView]);
+  }, [isInView, lastPage]);
 
   const handleFollowingState = () => {
     if (!user?.isRegistered) return setIsLoginOpen(true);

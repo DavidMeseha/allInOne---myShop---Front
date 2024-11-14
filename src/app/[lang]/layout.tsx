@@ -4,9 +4,11 @@ import MainLayout from "../../components/layout/MainLayout";
 import { Dictionaries, getDictionary, langs, Translation } from "../../dictionary";
 import { Metadata } from "next";
 import "@/globals.css";
-import { ReactNode } from "react";
+import React, { ReactElement } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { cookies } from "next/headers";
+import getUser from "@/server";
 
 export const metadata: Metadata = {
   title: "Ticktock Shop",
@@ -26,11 +28,13 @@ export default async function RootLayout({
   children,
   params
 }: {
-  children: ReactNode;
+  children: ReactElement;
   params: { lang: Dictionaries };
 }) {
   const dictionary: Translation = await getDictionary(params.lang);
-
+  let token = cookies().get("access_token")?.value ?? "";
+  const user = await getUser(token);
+  if (!user) throw new Error("Server is down");
   return (
     <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>
       <body
@@ -38,8 +42,8 @@ export default async function RootLayout({
         dir="ltr"
       >
         <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
-          <MainLayout dictionary={dictionary} lang={params.lang}>
-            {children}
+          <MainLayout dictionary={dictionary} lang={params.lang} user={user}>
+            {React.cloneElement(children, { token })}
             <ToastContainer />
           </MainLayout>
           <Analytics />

@@ -10,7 +10,6 @@ import Image from "next/image";
 import { IFullProduct, IProductAttribute } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axios";
-import ProductAttributes from "./ProductAttributes";
 import { queryClient } from "./layout/MainLayout";
 
 type Props = {
@@ -38,11 +37,11 @@ export default function CartItem({ product, attributes, quantity, canEdit = fals
 
   return (
     <li className="list-none border-b px-4" ref={containerRef}>
-      <div className="flex items-center justify-between py-2" onClick={() => setShowDetails(!showDetails)}>
+      <div className="flex items-center justify-between py-2">
         <div className="flex w-full items-center gap-3">
           <Image
             alt={product.name}
-            className="h-14 w-14 rounded-md bg-lightGray"
+            className="h-14 w-14 rounded-md object-contain"
             height={66}
             src={product.pictures[0].imageUrl}
             width={66}
@@ -54,19 +53,19 @@ export default function CartItem({ product, attributes, quantity, canEdit = fals
             </p>
           </div>
         </div>
-        <div className="relative">
+        <button className="relative" onClick={() => setShowDetails(!showDetails)}>
           {canEdit ? <RiArrowDropDownLine size={35} /> : <div>{quantity * product.price.price}$</div>}
-        </div>
+        </button>
       </div>
       {canEdit ? (
         <div
           className={`px-1 transition-all ${showDetails ? "max-h-[300vh] overflow-auto" : "max-h-0 overflow-hidden"}`}
         >
-          <ProductAttributes
-            customAttributes={attributes}
-            handleChange={() => {}}
-            productAttributes={product.productAttributes}
-          />
+          {attributes.map((attribute) => (
+            <div className="mb-2" key={attribute._id}>
+              {attribute.name}: {attribute.values.map((value) => value.name + ", ")}
+            </div>
+          ))}
 
           <div className="mb-4 flex justify-end">
             <button className="rounded-md bg-lightGray px-4 py-2" onClick={() => removeFromCartMutation.mutate()}>

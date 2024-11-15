@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import { parseCookies } from "@/lib/misc";
 import { useGeneralStore } from "@/stores/generalStore";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -11,7 +10,6 @@ import { useTranslation } from "./Translation";
 import { RegisterForm, User, FieldError } from "../types";
 import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
-import { removeToken, setAccessToken } from "@/actions";
 
 interface UserContextTypes {
   user: User | null;
@@ -39,19 +37,19 @@ const UserContext = createContext<UserContextTypes>({
   register: { errorMessage: false, mutate: () => Promise.resolve(), isPending: false, clearError: () => {} }
 });
 
-type ContextProps = { children: ReactNode; user: { user: User; token: string } };
+type ContextProps = { children: ReactNode };
 
-function UserProvider({ children, user }: ContextProps) {
+function UserProvider({ children }: ContextProps) {
   const { setLikes, setSavedProducts, setFollowedVendors, setReviewedProducts, setCartProducts } = useUserStore();
   const { setIsLoginOpen, setCountries } = useGeneralStore();
-  const [data, setData] = useState<User | null>(user.user ?? null);
+  const [data, setData] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<FieldError>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
     axios.interceptors.request.use((config) => {
-      const access_token = parseCookies(document.cookie)?.filter((cookie) => cookie.name === "access_token")[0]?.value;
+      const access_token = localStorage.getItem("session");
       config.headers.Authorization = `Bearer ${access_token}`;
       return config;
     });
@@ -68,7 +66,6 @@ function UserProvider({ children, user }: ContextProps) {
       }
     );
 
-    setAccessToken(user.token);
     setCountries();
     setIsLoading(false);
   }, []);
@@ -110,7 +107,7 @@ function UserProvider({ children, user }: ContextProps) {
     mutationKey: ["guestToken"],
     mutationFn: () => axios.get<{ user: User; token: string }>("/api/auth/guest"),
     onSuccess: (res) => {
-      setAccessToken(res.data.token);
+      localStorage.setItem("session", res.data.token);
       setData({ ...res.data.user });
       resetUserStore();
       setIsLoginOpen(false);
@@ -138,7 +135,7 @@ function UserProvider({ children, user }: ContextProps) {
       axios.post<{ user: User; token: string }>("/api/auth/login", { ...form }).then((data) => data.data),
 
     onSuccess: (res) => {
-      setAccessToken(res.token);
+      localStorage.setItem("session", res.token);
       toast.success(t("auth.successfullLogin"));
       setData({ ...res.user });
       resetUserStore();
@@ -154,9 +151,9 @@ function UserProvider({ children, user }: ContextProps) {
     mutationKey: ["logout"],
     mutationFn: () => axios.post("/api/auth/logout"),
     onSuccess: async () => {
+      localStorage.removeItem("session");
       queryClient.clear();
       setData(null);
-      await removeToken();
       toast.warn(t("auth.successfullLogout"));
       freshTokenMutation.mutate();
     }

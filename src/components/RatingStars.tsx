@@ -17,6 +17,7 @@ export default function RatingStars({ rate, onChange, isEditable = false, classN
   const [tempRate, setTempRate] = useState(rate);
 
   const mouseEnterHandle = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isEditable) return;
     const target = e.target as HTMLDivElement;
     target.id && setTempRate(parseInt(target.id));
   };
@@ -29,41 +30,41 @@ export default function RatingStars({ rate, onChange, isEditable = false, classN
     <div
       className={twMerge(clsx(["flex gap-1", className]))}
       onMouseLeave={() => isEditable && setTempRate(rate)}
-      onMouseMove={(e) => isEditable && mouseEnterHandle(e)}
+      onMouseMove={mouseEnterHandle}
     >
-      <div className="cursor-pointer" id="1" onClick={() => onChange && onChange(1)}>
+      <div className={isEditable ? "cursor-pointer" : ""} onClick={() => onChange && onChange(1)}>
         {tempRate >= 1 ? (
-          <BsStarFill className="fill-yellow-600" size={size} />
+          <BsStarFill className="fill-yellow-600" id="1" size={size} />
         ) : (
-          <BsStar className="fill-yellow-600" size={size} />
+          <BsStar className="fill-yellow-600" id="1" size={size} />
         )}
       </div>
-      <div className="cursor-pointer" id="2" onClick={() => onChange && onChange(2)}>
+      <div className={isEditable ? "cursor-pointer" : ""} onClick={() => onChange && onChange(2)}>
         {tempRate >= 2 ? (
-          <BsStarFill className="fill-yellow-600" size={size} />
+          <BsStarFill className="fill-yellow-600" id="2" size={size} />
         ) : (
-          <BsStar className="fill-yellow-600" size={size} />
+          <BsStar className="fill-yellow-600" id="2" size={size} />
         )}
       </div>
-      <div className="cursor-pointer" id="3" onClick={() => onChange && onChange(3)}>
+      <div className={isEditable ? "cursor-pointer" : ""} onClick={() => onChange && onChange(3)}>
         {tempRate >= 3 ? (
-          <BsStarFill className="fill-yellow-600" size={size} />
+          <BsStarFill className="fill-yellow-600" id="3" size={size} />
         ) : (
-          <BsStar className="fill-yellow-600" size={size} />
+          <BsStar className="fill-yellow-600" id="3" size={size} />
         )}
       </div>
-      <div className="cursor-pointer" id="4" onClick={() => onChange && onChange(4)}>
+      <div className={isEditable ? "cursor-pointer" : ""} onClick={() => onChange && onChange(4)}>
         {tempRate >= 4 ? (
-          <BsStarFill className="fill-yellow-600" size={size} />
+          <BsStarFill className="fill-yellow-600" id="4" size={size} />
         ) : (
-          <BsStar className="fill-yellow-600" size={size} />
+          <BsStar className="fill-yellow-600" id="4" size={size} />
         )}
       </div>
-      <div className="cursor-pointer" id="5" onClick={() => onChange && onChange(5)}>
+      <div className={isEditable ? "cursor-pointer" : ""} onClick={() => onChange && onChange(5)}>
         {tempRate >= 5 ? (
-          <BsStarFill className="fill-yellow-600" size={size} />
+          <BsStarFill className="fill-yellow-600" id="5" size={size} />
         ) : (
-          <BsStar className="fill-yellow-600" size={size} />
+          <BsStar className="fill-yellow-600" id="5" size={size} />
         )}
       </div>
     </div>

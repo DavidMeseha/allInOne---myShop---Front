@@ -1,3 +1,4 @@
+import { queryClient } from "@/components/layout/MainLayout";
 import { useUser } from "@/context/user";
 import axios from "@/lib/axios";
 import { useGeneralStore } from "@/stores/generalStore";
@@ -20,6 +21,7 @@ export default function useHandleLike({ product, onSuccess }: Props) {
     mutationFn: () => axios.post(`/api/user/likeProduct/${product._id}`),
     onSuccess: () => {
       setLikes();
+      queryClient.invalidateQueries({ queryKey: ["likedProducts"] });
       onSuccess && onSuccess(true);
     }
   });
@@ -27,7 +29,11 @@ export default function useHandleLike({ product, onSuccess }: Props) {
   const unlikeMutation = useMutation({
     mutationKey: ["Unlike", product._id],
     mutationFn: () => axios.post(`/api/user/unlikeProduct/${product._id}`),
-    onSuccess: () => onSuccess && onSuccess(false)
+    onSuccess: () => {
+      setLikes();
+      queryClient.invalidateQueries({ queryKey: ["likedProducts"] });
+      onSuccess && onSuccess(false);
+    }
   });
 
   const handleLike = (like: boolean) => {

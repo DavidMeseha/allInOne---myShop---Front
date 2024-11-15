@@ -6,8 +6,6 @@ import { Metadata } from "next";
 import React, { ReactElement } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { cookies } from "next/headers";
-import getUser from "@/server";
 import "@/globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -33,9 +31,7 @@ export default async function RootLayout({
   params: { lang: Dictionaries };
 }) {
   const dictionary: Translation = await getDictionary(params.lang);
-  let token = cookies().get("access_token")?.value ?? "";
-  const user = await getUser(token);
-  if (!user) throw new Error("Server is down");
+
   return (
     <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>
       <body
@@ -43,8 +39,8 @@ export default async function RootLayout({
         dir="ltr"
       >
         <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
-          <MainLayout dictionary={dictionary} lang={params.lang} user={user}>
-            {React.cloneElement(children, { token })}
+          <MainLayout dictionary={dictionary} lang={params.lang}>
+            {children}
             <ToastContainer />
           </MainLayout>
           <Analytics />

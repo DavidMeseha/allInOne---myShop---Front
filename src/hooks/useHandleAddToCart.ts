@@ -1,3 +1,4 @@
+import { queryClient } from "@/components/layout/MainLayout";
 import { useUser } from "@/context/user";
 import axios from "@/lib/axios";
 import { useGeneralStore } from "@/stores/generalStore";
@@ -30,6 +31,7 @@ export default function useHandleAddToCart({ product, onSuccess }: Props) {
       }),
     onSuccess: () => {
       setCartProducts();
+      queryClient.invalidateQueries({ queryKey: ["cartProducts"] });
       onSuccess && onSuccess(true);
     }
   });
@@ -39,6 +41,7 @@ export default function useHandleAddToCart({ product, onSuccess }: Props) {
     mutationFn: () => axios.delete(`/api/common/cart/remove/${product._id}`),
     onSuccess: () => {
       setCartProducts();
+      queryClient.invalidateQueries({ queryKey: ["cartProducts"] });
       onSuccess && onSuccess(false);
     }
   });
@@ -49,7 +52,7 @@ export default function useHandleAddToCart({ product, onSuccess }: Props) {
       return setIsProductAttributesOpen(true, product._id, "Add To Cart", (attributes) =>
         addToCartMutation.mutate({ productId: product._id, attributes, quantity: 1 })
       );
-    if (addToCart && product.hasAttributes) return addToCartMutation.mutate(props);
+    if (addToCart && !product.hasAttributes) return addToCartMutation.mutate(props);
     removeFromCartMutation.mutate();
   };
 

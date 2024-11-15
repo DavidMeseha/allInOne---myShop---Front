@@ -9,7 +9,8 @@ export default async function Page() {
     const res = await axios
       .get<{ data: IFullProduct[]; pages: Pagination }>("api/catalog/homefeed", {
         params: {
-          page: page
+          page: page,
+          limit: 5
         },
         headers: {
           Authorization: `Bearer ${cookies().get("access_token")?.value}`

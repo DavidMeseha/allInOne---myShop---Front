@@ -125,9 +125,9 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
     <form onSubmit={submit}>
       <FormTextInput
         error={error.firstName}
-        label={t("auth.name")}
+        label={t("firstName")}
         name="firstName"
-        placeholder={t("auth.name")}
+        placeholder={t("firstName")}
         required
         type="text"
         value={form.firstName}
@@ -139,9 +139,9 @@ export default function Register({ onSuccess }: { onSuccess: () => void }) {
 
       <FormTextInput
         error={error.lastName}
-        label={t("auth.name")}
+        label={t("lastName")}
         name="lastName"
-        placeholder={t("auth.name")}
+        placeholder={t("lastName")}
         required
         type="text"
         value={form.lastName}

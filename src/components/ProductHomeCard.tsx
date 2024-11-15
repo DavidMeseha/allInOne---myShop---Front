@@ -11,6 +11,7 @@ import useHandleAddToCart from "@/hooks/useHandleAddToCart";
 import RatingStars from "./RatingStars";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CarouselIndecator from "./CarouselIndecator";
+import { useGeneralStore } from "@/stores/generalStore";
 
 type Props = {
   product: IFullProduct;
@@ -20,6 +21,7 @@ export default function ProductHomeCard({ product }: Props) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);
   const { cartProducts, likes, savedProducts, reviewedProducts } = useUserStore();
+  const { setIsAddReviewOpen } = useGeneralStore();
   const [counters, setCounters] = useState({
     carts: product.carts,
     likes: product.likes,
@@ -120,11 +122,15 @@ export default function ProductHomeCard({ product }: Props) {
           </LocalLink>
         </p>
         <span className="font-semibold text-gray-800">{product.price.price}$</span>
-        <RatingStars
-          className=""
-          rate={product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews}
-          size={15}
-        />
+        <div className="flex items-center">
+          <RatingStars
+            rate={product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews}
+            size={15}
+          />
+          <button className="px-2 text-lg text-primary" onClick={() => setIsAddReviewOpen(true)}>
+            +
+          </button>
+        </div>
       </div>
 
       <div className="mt-4 flex border-t border-gray-200">

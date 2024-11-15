@@ -9,9 +9,9 @@ import { UserActivity } from "./UserActivity";
 import Image from "next/image";
 import { FiSettings } from "react-icons/fi";
 import { BsBookmark, BsCart, BsHeart } from "react-icons/bs";
-import ProductProfileCard from "@/components/ProductProfileCard";
-import { BiPencil } from "react-icons/bi";
+import { BiLoaderCircle, BiPencil } from "react-icons/bi";
 import { LocalLink } from "@/components/LocalizedNavigation";
+import ProductHomeCard from "@/components/ProductHomeCard";
 
 export default function UserProfileDisplay() {
   const { t } = useTranslation();
@@ -25,17 +25,20 @@ export default function UserProfileDisplay() {
     queryFn: () =>
       axios
         .get<{ product: IFullProduct; quantity: number; attributes: IProductAttribute[] }[]>("/api/common/cart")
-        .then((res) => res.data)
+        .then((res) => res.data),
+    enabled: activeTap === "cart"
   });
 
   const savedProductsQuery = useQuery({
     queryKey: ["savedProducts"],
-    queryFn: () => axios.get<IFullProduct[]>("/api/user/savedProducts").then((res) => res.data)
+    queryFn: () => axios.get<IFullProduct[]>("/api/user/savedProducts").then((res) => res.data),
+    enabled: activeTap === "bookmark"
   });
 
   const likedProductsQuery = useQuery({
     queryKey: ["likedProducts"],
-    queryFn: () => axios.get<IFullProduct[]>("/api/user/likedProducts").then((res) => res.data)
+    queryFn: () => axios.get<IFullProduct[]>("/api/user/likedProducts").then((res) => res.data),
+    enabled: activeTap === "likes"
   });
 
   const userInfoQuery = useQuery({
@@ -44,6 +47,7 @@ export default function UserProfileDisplay() {
   });
 
   const userInfo = userInfoQuery.data;
+  const isFeatching = savedProductsQuery.isFetching || likedProductsQuery.isFetching || cartProductsQuery.isFetching;
 
   const activities = [
     {
@@ -98,62 +102,70 @@ export default function UserProfileDisplay() {
         <UserActivity activities={activities} />
       </div>
 
-      <ul className="sticky top-[45px] z-10 mt-2 flex w-full items-center border-b border-t-[1px] bg-white md:top-0">
-        <li className={`w-full ${activeTap === "cart" && "-mb-0.5 border-b-2 border-b-black"}`}>
-          <a className="flex justify-center py-2" onClick={() => setActiveTap("cart")}>
-            <BsCart size={20} />
-          </a>
-        </li>
-        <li className={`w-full ${activeTap === "bookmark" && "-mb-0.5 border-b-2 border-b-black"}`}>
-          <a className="flex justify-center py-2" onClick={() => setActiveTap("bookmark")}>
-            <BsBookmark size={20} />
-          </a>
-        </li>
-        <li className={`w-full ${activeTap === "likes" && "-mb-0.5 border-b-2 border-b-black"}`}>
-          <a className="flex justify-center py-2" onClick={() => setActiveTap("likes")}>
-            <BsHeart size={20} />
-          </a>
-        </li>
-      </ul>
+      <div className="relative">
+        <ul className="sticky top-[45px] z-10 mt-2 flex w-full items-center border-b border-t-[1px] bg-white md:top-0">
+          <li className={`w-full ${activeTap === "cart" && "-mb-0.5 border-b-2 border-b-black"}`}>
+            <a className="flex justify-center py-2" onClick={() => setActiveTap("cart")}>
+              <BsCart size={20} />
+            </a>
+          </li>
+          <li className={`w-full ${activeTap === "bookmark" && "-mb-0.5 border-b-2 border-b-black"}`}>
+            <a className="flex justify-center py-2" onClick={() => setActiveTap("bookmark")}>
+              <BsBookmark size={20} />
+            </a>
+          </li>
+          <li className={`w-full ${activeTap === "likes" && "-mb-0.5 border-b-2 border-b-black"}`}>
+            <a className="flex justify-center py-2" onClick={() => setActiveTap("likes")}>
+              <BsHeart size={20} />
+            </a>
+          </li>
+        </ul>
 
-      {activeTap === "cart" &&
-        (cartProductsQuery.data && cartProductsQuery.data.length > 0 ? (
-          <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-            {cartProductsQuery.data.map((item, index) => (
-              <ProductProfileCard key={index} product={item.product} />
-            ))}
+        {activeTap === "cart" &&
+          (cartProductsQuery.data && cartProductsQuery.data.length > 0 ? (
+            <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+              {cartProductsQuery.data.map((item, index) => (
+                <ProductHomeCard key={index} product={item.product} />
+              ))}
+            </div>
+          ) : (
+            <div className="py-14 text-center text-strongGray">{t("profile.emptyCart")}</div>
+          ))}
+
+        {activeTap === "bookmark" &&
+          (savedProductsQuery.data ? (
+            savedProductsQuery.data.length > 0 ? (
+              <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+                {savedProductsQuery.data.map((item, index) => (
+                  <ProductHomeCard key={index} product={item} />
+                ))}
+              </div>
+            ) : (
+              <div className="py-14 text-center text-strongGray">{t("profile.noSaves")}</div>
+            )
+          ) : null)}
+
+        {activeTap === "likes" &&
+          (likedProductsQuery.data ? (
+            likedProductsQuery.data.length > 0 ? (
+              <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+                {likedProductsQuery.data.map((item, index) => (
+                  <ProductHomeCard key={index} product={item} />
+                ))}
+              </div>
+            ) : (
+              <div className="py-14 text-center text-strongGray">{t("profile.noSaves")}</div>
+            )
+          ) : null)}
+
+        {isFeatching ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 text-primary">
+            <BiLoaderCircle className="animate-spin" size={40} />
           </div>
-        ) : (
-          <div className="py-14 text-center text-strongGray">{t("profile.emptyCart")}</div>
-        ))}
+        ) : null}
 
-      {activeTap === "bookmark" &&
-        (savedProductsQuery.data ? (
-          savedProductsQuery.data.length > 0 ? (
-            <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-              {savedProductsQuery.data.map((item, index) => (
-                <ProductProfileCard key={index} product={item} />
-              ))}
-            </div>
-          ) : (
-            <div className="py-14 text-center text-strongGray">{t("profile.noSaves")}</div>
-          )
-        ) : null)}
-
-      {activeTap === "likes" &&
-        (likedProductsQuery.data ? (
-          likedProductsQuery.data.length > 0 ? (
-            <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-              {likedProductsQuery.data.map((item, index) => (
-                <ProductProfileCard key={index} product={item} />
-              ))}
-            </div>
-          ) : (
-            <div className="py-14 text-center text-strongGray">{t("profile.noSaves")}</div>
-          )
-        ) : null)}
-
-      <div className="pb-20" />
+        <div className="pb-20" />
+      </div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { queryClient } from "@/components/layout/MainLayout";
 import { useUser } from "@/context/user";
 import axios from "@/lib/axios";
 import { useGeneralStore } from "@/stores/generalStore";
@@ -20,6 +21,7 @@ export default function useHandleSave({ product, onSuccess }: Props) {
     mutationFn: () => axios.post(`/api/user/saveProduct/${product._id}`),
     onSuccess: () => {
       setSavedProducts();
+      queryClient.invalidateQueries({ queryKey: ["savedProducts"] });
       onSuccess && onSuccess(true);
     }
   });
@@ -29,6 +31,7 @@ export default function useHandleSave({ product, onSuccess }: Props) {
     mutationFn: () => axios.post(`/api/user/unsaveProduct/${product._id}`),
     onSuccess: () => {
       setSavedProducts();
+      queryClient.invalidateQueries({ queryKey: ["savedProducts"] });
       onSuccess && onSuccess(false);
     }
   });

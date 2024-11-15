@@ -1,9 +1,9 @@
 import FormTextInput from "../FormTextInput";
 import { useState } from "react";
 import { useUser } from "@/context/user";
-import { BiLoaderCircle } from "react-icons/bi";
 import { FieldError } from "../../types";
 import { useTranslation } from "@/context/Translation";
+import Button from "../Button";
 
 type LoginErrors = {
   password: FieldError;
@@ -66,14 +66,14 @@ export default function Login() {
       {login.errorMessage ? <div>{login.errorMessage}</div> : null}
 
       <div className="mt-6 pb-2">
-        <button
-          className={`flex w-full items-center justify-center rounded-sm py-3 text-[17px] font-semibold text-white ${!form.email || !form.password ? "bg-gray-200" : "bg-primary"} `}
-          disabled={login.isPending}
+        <Button
+          className={`w-full bg-primary py-3 text-base font-semibold text-white`}
+          isLoading={login.isPending}
           type="submit"
           onClick={loginClickHandle}
         >
-          {login.isPending ? <BiLoaderCircle className="animate-spin" color="#ffffff" size={25} /> : t("auth.login")}
-        </button>
+          {t("auth.login")}
+        </Button>
       </div>
     </>
   );

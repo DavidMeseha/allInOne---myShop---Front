@@ -93,7 +93,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
       <div className="flex w-full flex-row items-center justify-start px-4 md:mt-0">
         <Image
           alt={vendor.name}
-          className="h-[120px] w-[120px] rounded-md object-cover"
+          className="h-[80px] w-[80px] rounded-md object-cover"
           height={140}
           src={vendor.imageUrl}
           width={140}
@@ -101,7 +101,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
 
         <div className="ms-5">
           <div className="flex items-center gap-4">
-            <h1 className="inline-block truncate text-[30px] font-bold" dir="ltr">
+            <h1 className="inline-block truncate text-2xl font-bold" dir="ltr">
               {vendor.name}
             </h1>
             <RiVerifiedBadgeFill className="fill-primary" size={25} />

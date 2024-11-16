@@ -11,7 +11,7 @@ import { FiSettings } from "react-icons/fi";
 import { BsBookmark, BsCart, BsHeart } from "react-icons/bs";
 import { BiLoaderCircle, BiPencil } from "react-icons/bi";
 import { LocalLink } from "@/components/LocalizedNavigation";
-import ProductHomeCard from "@/components/ProductHomeCard";
+import ProductCard from "@/components/ProductCard";
 
 export default function UserProfileDisplay() {
   const { t } = useTranslation();
@@ -125,7 +125,7 @@ export default function UserProfileDisplay() {
           (cartProductsQuery.data && cartProductsQuery.data.length > 0 ? (
             <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
               {cartProductsQuery.data.map((item, index) => (
-                <ProductHomeCard key={index} product={item.product} />
+                <ProductCard key={index} product={item.product} />
               ))}
             </div>
           ) : (
@@ -137,7 +137,7 @@ export default function UserProfileDisplay() {
             savedProductsQuery.data.length > 0 ? (
               <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                 {savedProductsQuery.data.map((item, index) => (
-                  <ProductHomeCard key={index} product={item} />
+                  <ProductCard key={index} product={item} />
                 ))}
               </div>
             ) : (
@@ -150,7 +150,7 @@ export default function UserProfileDisplay() {
             likedProductsQuery.data.length > 0 ? (
               <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                 {likedProductsQuery.data.map((item, index) => (
-                  <ProductHomeCard key={index} product={item} />
+                  <ProductCard key={index} product={item} />
                 ))}
               </div>
             ) : (

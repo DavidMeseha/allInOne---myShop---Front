@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useTranslation } from "@/context/Translation";
 import { IFullProduct, Pagination } from "../types";
 import Button from "@/components/Button";
-import ProductHomeCard from "@/components/ProductHomeCard";
+import ProductCard from "@/components/ProductCard";
 
 type Props = {
   products: IFullProduct[];
@@ -40,7 +40,7 @@ export default function HomePage({ products, loadMore }: Props) {
       <div className="relative">
         <div className="relative mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {productsList.map((product, index) => (
-            <ProductHomeCard key={index} product={product} />
+            <ProductCard key={index} product={product} />
           ))}
         </div>
         <div className="flex justify-center py-7 text-center">

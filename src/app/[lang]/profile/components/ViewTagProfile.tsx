@@ -7,7 +7,7 @@ import axios from "@/lib/axios";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { BiLoaderCircle } from "react-icons/bi";
-import ProductHomeCard from "@/components/ProductHomeCard";
+import ProductCard from "@/components/ProductCard";
 
 type Props = {
   tag: ITag;
@@ -57,7 +57,7 @@ export default function ViewtagProfile({ tag }: Props) {
         productsQuery.data && productsQuery.data.pages[0].data.length > 0 ? (
           <div className="relative mt-4 grid grid-cols-2 gap-3 px-4 pb-20 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {productsQuery.data.pages.map((page) =>
-              page.data.map((product, index) => <ProductHomeCard key={index} product={product} />)
+              page.data.map((product, index) => <ProductCard key={index} product={product} />)
             )}
           </div>
         ) : (

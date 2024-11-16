@@ -1,7 +1,7 @@
 "usee client";
 
 import Link, { LinkProps } from "next/link";
-import { useTranslation } from "@/context/Translation"; // Adjust the import based on your translation context
+import { useTranslation } from "@/context/Translation";
 import React from "react";
 import { usePathname } from "next/navigation";
 

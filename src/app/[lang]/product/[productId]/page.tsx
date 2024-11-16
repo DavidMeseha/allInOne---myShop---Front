@@ -3,45 +3,51 @@ import { cookies } from "next/headers";
 import axios from "@/lib/axios";
 import { Metadata, ResolvingMetadata } from "next";
 import { IFullProduct } from "@/types";
-import ProductNotFound from "@/app/product-not-found";
 import { cache } from "react";
+import { AxiosError } from "axios";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: { productId: string };
 };
 
 const fetchProduct = async (id: string) => {
-  return await axios
-    .get<IFullProduct>(`/api/product/details/${id}`, {
-      headers: { Authorization: `Bearer ${cookies().get("access_token")?.value}` }
-    })
-    .then((res) => res.data)
-    .catch(() => null);
+  return await axios.get<IFullProduct>(`/api/product/details/${id}`, {
+    headers: { Authorization: `Bearer ${cookies().get("access_token")?.value}` }
+  });
 };
 
 const cachedGetProduct = cache(fetchProduct);
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const product = await cachedGetProduct(params.productId);
-  if (!product) return { title: "not found" };
+  try {
+    const res = await cachedGetProduct(params.productId);
+    const product = res.data;
+    const parentMeta = await parent;
 
-  const parentMeta = await parent;
-
-  return {
-    title: `${parentMeta.title?.absolute} | ${product.name}`,
-    description: product.fullDescription,
-    openGraph: {
-      type: "website",
-      images: product.pictures.map((image) => image.imageUrl),
+    return {
       title: `${parentMeta.title?.absolute} | ${product.name}`,
-      description: product.fullDescription
-    }
-  };
+      description: product.fullDescription,
+      openGraph: {
+        type: "website",
+        images: product.pictures.map((image) => image.imageUrl),
+        title: `${parentMeta.title?.absolute} | ${product.name}`,
+        description: product.fullDescription
+      }
+    };
+  } catch {
+    return { title: "Error" };
+  }
 }
 
 export default async function Page({ params }: Props) {
-  const product = await cachedGetProduct(params.productId);
-
-  if (!product) return <ProductNotFound />;
-  return <ProductPage product={product} />;
+  try {
+    const res = await cachedGetProduct(params.productId);
+    return <ProductPage product={res.data} />;
+  } catch (err: any) {
+    const error = err as AxiosError;
+    if (error.response && error.response.status === 500) throw new Error("Server Error");
+    else if (!error.response) throw new Error("500: Server Is Down");
+    else notFound();
+  }
 }

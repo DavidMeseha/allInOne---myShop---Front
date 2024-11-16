@@ -55,7 +55,7 @@ export default function Login() {
       />
 
       <FormTextInput
-        error={error.password || login.errorMessage}
+        error={error.password}
         name="password"
         placeholder={t("auth.password")}
         type="password"
@@ -63,7 +63,9 @@ export default function Login() {
         onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
       />
 
-      {login.errorMessage ? <div>{login.errorMessage}</div> : null}
+      <div className="min-h-[21px] text-[14px] font-semibold text-red-500">
+        {login.errorMessage ? login.errorMessage : null}
+      </div>
 
       <div className="mt-6 pb-2">
         <Button

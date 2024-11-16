@@ -39,7 +39,7 @@ function NavBar() {
             width={115}
           /> */}
           <BiShoppingBag size={40} />
-          <span className="text-2xl font-bold">TikShop</span>
+          <span className="text-2xl font-bold">TechShop</span>
         </LocalLink>
 
         <div className="flex items-center gap-3">

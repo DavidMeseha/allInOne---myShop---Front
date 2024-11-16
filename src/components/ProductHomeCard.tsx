@@ -12,6 +12,7 @@ import RatingStars from "./RatingStars";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CarouselIndecator from "./CarouselIndecator";
 import { useGeneralStore } from "@/stores/generalStore";
+import { useUser } from "@/context/user";
 
 type Props = {
   product: IFullProduct;
@@ -34,6 +35,7 @@ export default function ProductHomeCard({ product }: Props) {
     reviewed: reviewedProducts.includes(product._id),
     inCart: !!cartProducts.find((item) => item.product === product._id)
   });
+  const { user } = useUser();
 
   const likeHandler = useHandleLike({
     product,
@@ -127,7 +129,7 @@ export default function ProductHomeCard({ product }: Props) {
             rate={product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews}
             size={15}
           />
-          <button className="px-2 text-lg text-primary" onClick={() => setIsAddReviewOpen(true)}>
+          <button className="px-2 text-lg text-primary" onClick={() => user?.isVendor && setIsAddReviewOpen(true)}>
             +
           </button>
         </div>

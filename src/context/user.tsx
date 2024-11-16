@@ -43,31 +43,13 @@ function UserProvider({ children }: ContextProps) {
   const { setLikes, setSavedProducts, setFollowedVendors, setReviewedProducts, setCartProducts } = useUserStore();
   const { setIsLoginOpen, setCountries } = useGeneralStore();
   const [data, setData] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<FieldError>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
-    axios.interceptors.request.use((config) => {
-      const access_token = localStorage.getItem("session");
-      config.headers.Authorization = `Bearer ${access_token}`;
-      return config;
-    });
-
-    axios.interceptors.response.use(
-      (res) => res,
-      (err: AxiosError) => {
-        if (err.status === 500) toast.error(t("serverFail"));
-        if (err.status === 403) {
-          queryClient.clear();
-          queryClient.fetchQuery({ queryKey: ["tokenCheck"] });
-        }
-        return Promise.reject(err);
-      }
-    );
-
     setCountries();
-    setIsLoading(false);
+    // setIsLoading(false);
   }, []);
 
   const resetUserStore = () => {
@@ -190,7 +172,7 @@ function UserProvider({ children }: ContextProps) {
         register: registerObject
       }}
     >
-      {!isLoading ? children : null}
+      {children}
     </UserContext.Provider>
   );
 }

@@ -1,7 +1,5 @@
-"use client";
-
 import Image from "next/image";
-import { LocalLink } from "@/components/LocalizedNavigation";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -13,10 +11,10 @@ export default function NotFound() {
         src="/images/product-not-found.png"
         width={400}
       />
-      <h1 className="text-4xl font-bold text-strongGray">404 Product Not Found</h1>
-      <LocalLink className="text-primary hover:underline" href="/">
+      <h1 className="text-4xl font-bold text-strongGray">404: Resource Not Found</h1>
+      <Link className="mt-4 text-primary hover:underline" href="/">
         Go Home {" >"}
-      </LocalLink>
+      </Link>
     </div>
   );
 }

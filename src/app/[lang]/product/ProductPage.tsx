@@ -16,12 +16,14 @@ import { useUser } from "@/context/user";
 import { toast } from "react-toastify";
 import { queryClient } from "@/components/layout/MainLayout";
 import FormTextInput from "@/components/FormTextInput";
+import { useTranslation } from "@/context/Translation";
 
 export default function ProductPage({ product }: { product: IFullProduct }) {
   const [review, setReview] = useState<string>("");
   const [rate, setRate] = useState(0);
   const { user } = useUser();
   const { setIsLoginOpen } = useGeneralStore();
+  const { t } = useTranslation();
 
   const addReviewMutation = useMutation({
     mutationKey: ["AddReview"],
@@ -53,9 +55,11 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
     queryFn: () => axios.get<IProductReview[]>(`/api/product/reviews/${product._id}`).then((res) => res.data)
   });
 
+  const productReviews = reviewsQuery.data ?? [];
+
   return (
     <>
-      <div className="z-30 h-screen justify-between overflow-auto bg-black lg:flex" id="PostPage">
+      <div className="h-screen justify-between overflow-auto bg-black lg:flex">
         <div className="relative md:h-full lg:w-[calc(100%-540px)]">
           <LocalLink
             className="absolute start-0 z-20 m-5 rounded-full bg-gray-700 p-1.5 text-white hover:bg-gray-800"
@@ -87,27 +91,27 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
         <div className="relative h-auto w-full bg-white md:h-screen lg:max-w-[550px]">
           <div className="h-full overflow-auto">
             <ProductHeader product={product} />
-            <Reviews productId={product._id} reviews={reviewsQuery.data} />
+            <Reviews productId={product._id} reviews={productReviews} />
           </div>
           <div className="absolute bottom-0 z-30 w-full border-t-2 bg-white px-8 pt-2">
             <div className="flex items-center">
               <span>Rate: </span>
               <RatingStars className="ms-2 inline-flex" isEditable rate={rate} onChange={(value) => setRate(value)} />
             </div>
-            <div className="flex w-full items-center justify-between">
+            <div className="flex w-full items-start justify-between">
               <FormTextInput
-                className="w-2/3"
+                className="w-full"
                 placeholder="Add Review...."
                 type="text"
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
               />
               <Button
-                className={`ml-5 text-sm font-semibold ${review ? "cursor-pointer text-primary" : "cursor-not-allowed text-gray-400"} `}
+                className={`ml-5 w-40 text-sm font-semibold ${review ? "cursor-pointer text-primary" : "cursor-not-allowed text-gray-400"} `}
                 disabled={!review}
                 onClick={addReview}
               >
-                Post
+                {t("addReview")}
               </Button>
             </div>
           </div>

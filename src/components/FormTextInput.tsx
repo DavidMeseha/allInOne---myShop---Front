@@ -1,14 +1,16 @@
 import React from "react";
 import { FieldError } from "../types";
+import { cn } from "@/lib/utils";
 
 export interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: FieldError;
+  className?: string;
 }
 
-export default function FormTextInput({ label, error, ...props }: TextInputProps) {
+export default function FormTextInput({ label, error, className, ...props }: TextInputProps) {
   return (
-    <div className="pb-1">
+    <div className={cn("pb-1", className)}>
       <label className="mb-1 block capitalize">
         {label}
         {props.required ? <span className="text-primary">*</span> : null}

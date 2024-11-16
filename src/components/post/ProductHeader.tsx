@@ -38,7 +38,7 @@ export default function ProductHeader({ product }: CommentsHeaderCompTypes) {
 
       <p className="mt-4 px-8 text-sm" dangerouslySetInnerHTML={{ __html: product?.fullDescription }}></p>
 
-      <div className="mb-4 mt-8 flex items-center px-8">
+      <div className="mb-4 mt-8 flex items-center gap-2 px-8">
         <LikeProductButton product={product} />
         <SaveProductButton product={product} />
         <AddToCartButton product={product} />

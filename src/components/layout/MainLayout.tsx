@@ -70,11 +70,11 @@ export default function MainLayout({
             <Elements stripe={stripePromise}>
               {isLoading ? null : (
                 <UserProvider>
+                  <AllOverlays />
                   {pathname.includes("/product/") ? (
-                    children
+                    <>{children}</>
                   ) : (
                     <>
-                      <AllOverlays />
                       <TopNav />
                       <div className="mx-auto flex w-full justify-between px-0">
                         <SideNavMain />

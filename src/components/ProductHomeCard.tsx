@@ -22,7 +22,7 @@ export default function ProductHomeCard({ product }: Props) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);
   const { cartProducts, likes, savedProducts, reviewedProducts } = useUserStore();
-  const { setIsAddReviewOpen } = useGeneralStore();
+  const { setIsAddReviewOpen, setIsLoginOpen } = useGeneralStore();
   const [counters, setCounters] = useState({
     carts: product.carts,
     likes: product.likes,
@@ -129,7 +129,10 @@ export default function ProductHomeCard({ product }: Props) {
             rate={product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews}
             size={15}
           />
-          <button className="px-2 text-lg text-primary" onClick={() => user?.isVendor && setIsAddReviewOpen(true)}>
+          <button
+            className="px-2 text-lg text-primary"
+            onClick={() => (user?.isRegistered ? setIsAddReviewOpen(true) : setIsLoginOpen(true))}
+          >
             +
           </button>
         </div>

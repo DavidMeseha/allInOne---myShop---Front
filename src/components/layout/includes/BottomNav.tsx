@@ -42,7 +42,7 @@ export default function BottomNav() {
   if (!user) return;
 
   return (
-    <div className="fixed bottom-0 end-0 start-0 z-20 block w-full border border-gray-300 bg-white md:hidden">
+    <nav className="fixed bottom-0 end-0 start-0 z-20 block w-full border border-gray-300 bg-white md:hidden">
       <div className="m-auto flex w-11/12 justify-between text-center font-bold">
         {bottomNav.map((item, index) => (
           <React.Fragment key={index}>
@@ -60,6 +60,6 @@ export default function BottomNav() {
           </React.Fragment>
         ))}
       </div>
-    </div>
+    </nav>
   );
 }

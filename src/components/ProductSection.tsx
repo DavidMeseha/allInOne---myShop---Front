@@ -89,7 +89,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
               {product.vendor.name}
             </LocalLink>
             <p className="text-sm text-strongGray">
-              <LocalLink className="hover:text-primary" href={`/product/${product._id}`}>
+              <LocalLink className="inline-block h-6 hover:text-primary" href={`/product/${product._id}`}>
                 {product.name}
               </LocalLink>
             </p>
@@ -120,11 +120,11 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             </>
           ) : null}
         </p>
-        <div className="pb-0.5 text-sm text-strongGray">
+        <div className="text-sm text-strongGray">
           {product.productTags.map((tag) => (
             <LocalLink
               aria-label="Navigate to a tag products"
-              className="me-4 hover:underline"
+              className="me-4 inline-block h-6 hover:underline"
               dir="ltr"
               href={`/profile/tag/${tag._id}`}
               key={tag._id}

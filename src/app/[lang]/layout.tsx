@@ -30,13 +30,20 @@ export default async function RootLayout({
   const dictionary: Translation = await getDictionary(params.lang);
 
   return (
-    <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
-      <MainLayout dictionary={dictionary} lang={params.lang}>
-        {children}
-        <ToastContainer />
-      </MainLayout>
-      <Analytics />
-      <SpeedInsights />
-    </div>
+    <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>
+      <body
+        className={`w-auto overflow-x-hidden md:w-screen ${params.lang === "ar" ? "md:ms-4" : ""} md:pr-4`}
+        dir="ltr"
+      >
+        <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
+          <MainLayout dictionary={dictionary} lang={params.lang}>
+            {children}
+            <ToastContainer />
+          </MainLayout>
+          <Analytics />
+          <SpeedInsights />
+        </div>
+      </body>
+    </html>
   );
 }

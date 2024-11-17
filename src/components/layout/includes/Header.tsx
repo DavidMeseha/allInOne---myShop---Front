@@ -4,7 +4,7 @@ import { LocalLink } from "@/components/LocalizedNavigation";
 import { BiSearch, BiShoppingBag, BiUser } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
-import { memo, useState } from "react";
+import { useState } from "react";
 import { useUser } from "@/context/user";
 import { useGeneralStore } from "@/stores/generalStore";
 import Button from "@/components/Button";
@@ -14,7 +14,7 @@ import { useRouter } from "next-nprogress-bar";
 import DropdownButton from "@/components/DropdownButton";
 import { Dictionaries } from "@/dictionary";
 
-function NavBar() {
+export default function Header() {
   const { user, logout } = useUser();
   const router = useRouter();
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -27,7 +27,7 @@ function NavBar() {
   };
 
   return (
-    <div className="fixed z-30 hidden h-[60px] w-screen items-center border-b bg-white md:flex" id="TopNav">
+    <header className="fixed z-30 hidden h-[60px] w-screen items-center border-b bg-white md:flex" id="TopNav">
       <div className={`mx-auto flex w-full items-center justify-between gap-6 pe-8 ps-4`}>
         <LocalLink aria-label="to Home Page" className="flex items-center gap-2" href="/">
           {/* <Image
@@ -115,8 +115,6 @@ function NavBar() {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 }
-
-export default memo(NavBar);

@@ -84,9 +84,9 @@ export default function ProductCard({ product }: Props) {
                     <Image
                       alt={product.name}
                       className="h-full w-full object-contain"
-                      height={200}
+                      height={150}
                       src={img.imageUrl}
-                      width={200}
+                      width={150}
                     />
                   </CarouselItem>
                 ))}

@@ -18,7 +18,6 @@ type Props = {
 export default function HomePage({ products, loadMore }: Props) {
   const { setIsHomeMenuOpen, setIsSearchOpen } = useGeneralStore();
   const { t } = useTranslation();
-
   const [productsList, setProducts] = useState<IFullProduct[]>([...products]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);

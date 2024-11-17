@@ -1,24 +1,16 @@
 "use client";
 import Button from "@/components/Button";
 import Image from "next/image";
-import { useEffect } from "react";
 import { FaRedo } from "react-icons/fa";
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-  useEffect(() => {
-    // console.log(error.cause);
-    // console.log(error.digest);
-    // console.log(error.name);
-    // console.log(error.stack);
-  }, [error]);
-
   return (
     <div className="mt-28 flex flex-col items-center justify-center">
       <Image
         alt="product not found"
         className="object-contain contrast-0 filter"
         height={400}
-        src="/images/product-not-found.png"
+        src={"/images/product-not-found.png"}
         width={400}
       />
       <h1 className="text-4xl font-bold text-strongGray">{error.message}</h1>

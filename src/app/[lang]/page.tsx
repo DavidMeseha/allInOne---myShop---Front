@@ -1,6 +1,5 @@
 import { IFullProduct, Pagination } from "@/types";
 import HomePage from "../HomePage";
-import { cookies } from "next/headers";
 import axios from "@/lib/axios";
 
 export default async function Page() {
@@ -10,9 +9,6 @@ export default async function Page() {
       params: {
         page: page,
         limit: 5
-      },
-      headers: {
-        Authorization: `Bearer ${cookies().get("access_token")?.value}`
       }
     });
 

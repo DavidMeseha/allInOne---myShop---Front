@@ -1,5 +1,4 @@
 import "react-toastify/dist/ReactToastify.css";
-import { Dictionaries } from "@/dictionary";
 import { Metadata } from "next";
 import React, { ReactElement } from "react";
 import "@/globals.css";
@@ -15,21 +14,6 @@ export const metadata: Metadata = {
   }
 };
 
-export default async function RootLayout({
-  children,
-  params
-}: {
-  children: ReactElement;
-  params: { lang: Dictionaries };
-}) {
-  return (
-    <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>
-      <body
-        className={`w-auto overflow-x-hidden md:w-screen ${params.lang === "ar" ? "md:ms-4" : ""} md:pr-4`}
-        dir="ltr"
-      >
-        {children}
-      </body>
-    </html>
-  );
+export default async function RootLayout({ children }: { children: ReactElement }) {
+  return <>{children}</>;
 }

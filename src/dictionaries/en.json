@@ -47,6 +47,8 @@
   "yourCart": "Your Cart",
   "feeds": "Feeds",
   "addReview": "Add Review",
+  "ServerDown": "Server Is Down. Try Again Later",
+  "NoNetwork": "You Are Oflline Check Your Network",
 
   "auth.password": "Password",
   "auth.login": "Login",

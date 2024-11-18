@@ -3,15 +3,15 @@ import MainLayout from "../../components/layout/MainLayout";
 import { Dictionaries, getDictionary, langs, Translation } from "../../dictionary";
 import { Metadata } from "next";
 import React, { ReactElement } from "react";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+// import { Analytics } from "@vercel/analytics/react";
+// import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
-  title: "Ticktock Shop",
+  title: "TechkShop",
   description: "an ecommerce shop in the way of social media",
   openGraph: {
     type: "website",
-    title: "Ticktock Shop",
+    title: "TechkShop",
     description: ""
   }
 };
@@ -40,8 +40,8 @@ export default async function RootLayout({
             {children}
             <ToastContainer />
           </MainLayout>
-          <Analytics />
-          <SpeedInsights />
+          {/* <Analytics />
+          <SpeedInsights /> */}
         </div>
       </body>
     </html>

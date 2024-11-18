@@ -2,11 +2,12 @@ import { IProductReview } from "@/types";
 import React from "react";
 import Image from "next/image";
 import RatingStars from "../RatingStars";
+import { BiLoaderCircle } from "react-icons/bi";
 
-export default function Reviews({ reviews }: { reviews?: IProductReview[]; productId: string }) {
+export default function Reviews({ reviews, isLoading }: { reviews?: IProductReview[]; isLoading: boolean }) {
   return (
     <>
-      <div className="min-h-52 w-full bg-[#F8F8F8] p-4">
+      <div className="w-full bg-[#F8F8F8] p-4 pb-28">
         {reviews?.map((review) => (
           <div className="mb-4 flex items-start gap-3" key={review._id}>
             <Image
@@ -25,6 +26,11 @@ export default function Reviews({ reviews }: { reviews?: IProductReview[]; produ
             </div>
           </div>
         ))}
+        {isLoading ? (
+          <div>
+            <BiLoaderCircle className="animate-spin fill-inherit" size={20} />
+          </div>
+        ) : null}
       </div>
     </>
   );

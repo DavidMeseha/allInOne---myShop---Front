@@ -21,12 +21,13 @@ import { useTranslation } from "@/context/Translation";
 export default function ProductPage({ product }: { product: IFullProduct }) {
   const [review, setReview] = useState<string>("");
   const [rate, setRate] = useState(0);
+  const [error, setError] = useState<false | string>(false);
   const { user } = useUser();
   const { setIsLoginOpen } = useGeneralStore();
   const { t } = useTranslation();
 
   const addReviewMutation = useMutation({
-    mutationKey: ["AddReview"],
+    mutationKey: ["AddReview", product._id],
     mutationFn: (productId: string) =>
       axios.post(`/api/user/addReview/${productId}`, {
         reviewText: review,
@@ -40,7 +41,7 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
       setReview("");
     },
 
-    onError: () => toast.error("Failed to add review")
+    onError: () => setError("Failed to add review")
   });
 
   const addReview = () => {
@@ -91,23 +92,35 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
         <div className="relative h-auto w-full bg-white md:h-screen lg:max-w-[550px]">
           <div className="h-full overflow-auto">
             <ProductHeader product={product} />
-            <Reviews productId={product._id} reviews={productReviews} />
+            <Reviews isLoading={reviewsQuery.isFetching} reviews={productReviews} />
           </div>
-          <div className="absolute bottom-0 z-30 w-full border-t-2 bg-white px-8 pt-2">
+          <div className="absolute bottom-0 z-30 w-[calc(100%-13px)] border-t-2 bg-white px-8 pt-2">
             <div className="flex items-center">
               <span>Rate: </span>
-              <RatingStars className="ms-2 inline-flex" isEditable rate={rate} onChange={(value) => setRate(value)} />
+              <RatingStars
+                className="ms-2 inline-flex"
+                isEditable
+                rate={rate}
+                onChange={(value) => {
+                  setError(false);
+                  setRate(value);
+                }}
+              />
             </div>
-            <div className="flex w-full items-start justify-between">
+            <div className="flex items-start justify-between">
               <FormTextInput
                 className="w-full"
+                error={error}
                 placeholder="Add Review...."
                 type="text"
                 value={review}
-                onChange={(e) => setReview(e.target.value)}
+                onChange={(e) => {
+                  setError(false);
+                  setReview(e.target.value);
+                }}
               />
               <Button
-                className={`ml-5 w-40 text-sm font-semibold ${review ? "cursor-pointer text-primary" : "cursor-not-allowed text-gray-400"} `}
+                className={`w-40 text-sm font-semibold ${review ? "cursor-pointer text-primary" : "cursor-not-allowed text-gray-400"} `}
                 disabled={!review}
                 onClick={addReview}
               >

@@ -43,13 +43,11 @@ function UserProvider({ children }: ContextProps) {
   const { setLikes, setSavedProducts, setFollowedVendors, setReviewedProducts, setCartProducts } = useUserStore();
   const { setIsLoginOpen, setCountries } = useGeneralStore();
   const [data, setData] = useState<User | null>(null);
-  // const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<FieldError>(false);
   const { t } = useTranslation();
 
   useEffect(() => {
     setCountries();
-    // setIsLoading(false);
   }, []);
 
   const resetUserStore = () => {
@@ -61,14 +59,14 @@ function UserProvider({ children }: ContextProps) {
   };
 
   useQuery({
-    queryKey: ["tokenCheck"],
+    queryKey: ["checkToken"],
     queryFn: () =>
       axios
         .get<User>("/api/auth/check")
         .then((res) => {
           setData(res.data);
           resetUserStore();
-          return res.data;
+          return null;
         })
         .catch((err: AxiosError) => {
           if (data?.isRegistered && err.response?.status === 400) {
@@ -82,7 +80,7 @@ function UserProvider({ children }: ContextProps) {
           return null;
         }),
 
-    refetchInterval: 120000
+    refetchInterval: 600_000
   });
 
   const freshTokenMutation = useMutation({

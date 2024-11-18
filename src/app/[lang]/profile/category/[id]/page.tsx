@@ -1,21 +1,40 @@
 import ViewCategoryProfile from "../../components/ViewCategoryProfile";
 import { ICategory } from "@/types";
-import { cookies } from "next/headers";
 import axios from "@/lib/axios";
 import { AxiosError } from "axios";
+import { cache } from "react";
+import { Metadata, ResolvingMetadata } from "next";
 
 type Props = { params: { id: string } };
 
+const getCategoryInfo = async (id: string) => {
+  return await axios.get<ICategory>(`/api/Catalog/Category/${id}`).then((res) => res.data);
+};
+
+const cachedCategoryInfo = cache(getCategoryInfo);
+
+export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  try {
+    const category = await cachedCategoryInfo(params.id);
+    const parentMeta = await parent;
+
+    return {
+      title: `${parentMeta.title?.absolute} | ${category.name}`,
+      description: category.seName + " products" + category.productsCount,
+      openGraph: {
+        type: "website",
+        title: `${parentMeta.title?.absolute} | ${category.name}`,
+        description: category.seName + " products" + category.productsCount
+      }
+    };
+  } catch {
+    return { title: "Error" };
+  }
+}
+
 export default async function Page({ params }: Props) {
   try {
-    const res = await axios.get<ICategory>(`/api/Catalog/Category/${params.id}`, {
-      headers: {
-        Authorization: `Bearer ${cookies().get("access_token")?.value}`
-      }
-    });
-
-    const category = res.data;
-
+    const category = await cachedCategoryInfo(params.id);
     return <ViewCategoryProfile category={category} />;
   } catch (err: any) {
     const error = err as AxiosError;

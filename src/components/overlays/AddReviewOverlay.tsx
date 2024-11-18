@@ -21,7 +21,7 @@ export default function AddReviewOverlay() {
   const [error, setError] = useState<FormError>({ reviewText: false, rating: false });
 
   const addReviewMutation = useMutation({
-    mutationKey: ["AddReview"],
+    mutationKey: ["AddReview", overlayProductId],
     mutationFn: (productId: string) => axios.post(`/api/user/addReview/${productId}`, { ...form }),
 
     onSuccess: () => {

@@ -28,7 +28,6 @@ export default function NetworkErrors({ children }: { children: React.ReactNode 
           if (error.status === 500) toast.error(t("serverFail"));
           if (error.status === 403) {
             queryClient.clear();
-            queryClient.fetchQuery({ queryKey: ["tokenCheck"] });
           }
         } else if (error.request) {
           setOnlineState("ServerDown");

@@ -107,7 +107,7 @@ export default function ProductMoreInfoOverlay() {
       <h1 className="text-2xl font-bold">{product?.name}</h1>
       <LocalLink
         className="text-base text-strongGray hover:text-primary hover:underline"
-        href={`/vendor/${product?.vendor._id}`}
+        href={`/vendor/${product?.vendor.seName}`}
       >
         Sold By: {product?.vendor.name}
       </LocalLink>

@@ -17,7 +17,7 @@ export default function useHandleLike({ product, onSuccess }: Props) {
   const { setIsLoginOpen } = useGeneralStore();
 
   const likeMutation = useMutation({
-    mutationKey: ["Like", product._id],
+    mutationKey: ["Like", product.seName],
     mutationFn: () => axios.post(`/api/user/likeProduct/${product._id}`),
     onSuccess: () => {
       setLikes();
@@ -27,7 +27,7 @@ export default function useHandleLike({ product, onSuccess }: Props) {
   });
 
   const unlikeMutation = useMutation({
-    mutationKey: ["Unlike", product._id],
+    mutationKey: ["Unlike", product.seName],
     mutationFn: () => axios.post(`/api/user/unlikeProduct/${product._id}`),
     onSuccess: () => {
       setLikes();

@@ -18,7 +18,7 @@ export default function ViewCategoryProfile({ category }: Props) {
   const [ref, isInView] = useInView();
 
   const productsQuery = useInfiniteQuery({
-    queryKey: ["categoryProducts", category._id],
+    queryKey: ["categoryProducts", category.seName],
     queryFn: ({ pageParam }) =>
       axios
         .get<{ data: IFullProduct[]; pages: Pagination }>(`/api/catalog/CategoryProducts/${category._id}`, {

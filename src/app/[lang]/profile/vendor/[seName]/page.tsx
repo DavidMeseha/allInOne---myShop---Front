@@ -4,18 +4,26 @@ import axios from "@/lib/axios";
 import { cache } from "react";
 import { Metadata, ResolvingMetadata } from "next";
 import { AxiosError } from "axios";
+import { notFound } from "next/navigation";
 
-type Props = { params: { id: string } };
+type Props = { params: { seName: string } };
 
-const getVendorInfo = async (id: string) => {
-  return await axios.get<IVendor>(`/api/catalog/vendor/${id}`).then((res) => res.data);
-};
+const getVendorInfo = cache(async (seName: string) => {
+  return await axios.get<IVendor>(`/api/catalog/vendor/${seName}`).then((res) => res.data);
+});
 
-const cachedVendorInfo = cache(getVendorInfo);
+export const revalidate = 600;
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  const vendors = await axios.get<{ seName: string }[]>(`/api/catalog/allVendors`).then((res) => res.data);
+  return vendors.map((vendor) => ({
+    seName: vendor.seName
+  }));
+}
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   try {
-    const vendor = await cachedVendorInfo(params.id);
+    const vendor = await getVendorInfo(params.seName);
     const parentMeta = await parent;
 
     return {
@@ -34,13 +42,10 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function Page({ params }: Props) {
   try {
-    const vendor = await cachedVendorInfo(params.id);
+    const vendor = await getVendorInfo(params.seName);
     return <ViewVendorProfile vendor={vendor} />;
   } catch (err: any) {
     const error = err as AxiosError;
-    if (error.response && error.response.status >= 400 && error.response.status < 500)
-      throw new Error("404: Category Not found");
-
-    throw new Error("500: Server Error");
+    if (error.response && error.response.status >= 400 && error.response.status < 500) notFound();
   }
 }

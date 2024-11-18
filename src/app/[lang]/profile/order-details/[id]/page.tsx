@@ -25,7 +25,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
         <div className="mb-2 mt-4 text-lg font-bold">{t("orderDetails.orderItems")}</div>
         <ul className="border-b-2 pb-2">
           {orderQuery.data &&
-            orderQuery.data.items.map((item) => <ProductListItem item={item} key={item.product._id} />)}
+            orderQuery.data.items.map((item) => <ProductListItem item={item} key={item.product.seName} />)}
         </ul>
         <div className="flex w-full flex-col-reverse gap-4 md:flex-row md:gap-10">
           <div className="grow">

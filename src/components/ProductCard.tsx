@@ -113,13 +113,13 @@ export default function ProductCard({ product }: Props) {
       <div className="mt-2 flex flex-col gap-1 px-2 sm:px-4">
         <LocalLink
           className="overflow-clip text-ellipsis text-nowrap font-semibold text-gray-800 hover:underline"
-          href={`/product/${product._id}`}
+          href={`/product/${product.seName}`}
         >
-          {product.name}
+          <span title={product.name}>{product.name}</span>
         </LocalLink>
         <p className="-mt-1 text-sm text-strongGray">
           sold by:{" "}
-          <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor._id}`}>
+          <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor.seName}`}>
             {product.vendor.name}
           </LocalLink>
         </p>

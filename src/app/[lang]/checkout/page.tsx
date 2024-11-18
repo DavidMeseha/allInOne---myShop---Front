@@ -185,7 +185,7 @@ export default function CheckoutPage() {
           shoppingCartProducts.map((item) => (
             <CartItem
               attributes={item.attributes}
-              key={item.product._id}
+              key={item.product.seName}
               product={item.product}
               quantity={item.quantity}
             />

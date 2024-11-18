@@ -63,9 +63,9 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
   }, [carouselApi]);
 
   return (
-    <div className="flex border-b py-6" id={`PostMain-${product._id}`}>
+    <div className="flex border-b py-6">
       <div className="w-11">
-        <LocalLink aria-label="Navigate to specific vendor profile" href={`/profile/vendor/${product.vendor._id}`}>
+        <LocalLink aria-label="Navigate to specific vendor profile" href={`/profile/vendor/${product.vendor.seName}`}>
           <Image
             alt={product.vendor.name}
             className="h-14 w-14 rounded-full object-cover"
@@ -84,12 +84,12 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             <LocalLink
               aria-label="Navigate to product page"
               className="cursor-pointer font-bold hover:underline"
-              href={`/vandor/${product.vendor._id}`}
+              href={`/vandor/${product.vendor.seName}`}
             >
               {product.vendor.name}
             </LocalLink>
             <p className="text-sm text-strongGray">
-              <LocalLink className="inline-block h-6 hover:text-primary" href={`/product/${product._id}`}>
+              <LocalLink className="inline-block h-6 hover:text-primary" href={`/product/${product.seName}`}>
                 {product.name}
               </LocalLink>
             </p>
@@ -174,7 +174,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
               />
             )}
           </div>
-          <div className="relative flex flex-col items-center gap-2 p-2" id={`PostMainLikes-${product._id}`}>
+          <div className="relative flex flex-col items-center gap-2 p-2">
             <LikeProductButton product={product} />
             <RateProductButton product={product} />
             <SaveProductButton product={product} />

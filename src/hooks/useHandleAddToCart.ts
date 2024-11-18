@@ -37,7 +37,7 @@ export default function useHandleAddToCart({ product, onSuccess }: Props) {
   });
 
   const removeFromCartMutation = useMutation({
-    mutationKey: ["removeFromCart", product._id],
+    mutationKey: ["removeFromCart", product.seName],
     mutationFn: () => axios.delete(`/api/common/cart/remove/${product._id}`),
     onSuccess: () => {
       setCartProducts();

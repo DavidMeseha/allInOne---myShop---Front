@@ -17,7 +17,7 @@ export default function useHandleSave({ product, onSuccess }: Props) {
   const { setIsLoginOpen } = useGeneralStore();
 
   const saveMutation = useMutation({
-    mutationKey: ["save", product._id],
+    mutationKey: ["save", product.seName],
     mutationFn: () => axios.post(`/api/user/saveProduct/${product._id}`),
     onSuccess: () => {
       setSavedProducts();
@@ -27,7 +27,7 @@ export default function useHandleSave({ product, onSuccess }: Props) {
   });
 
   const unsaveMutation = useMutation({
-    mutationKey: ["unsave", product._id],
+    mutationKey: ["unsave", product.seName],
     mutationFn: () => axios.post(`/api/user/unsaveProduct/${product._id}`),
     onSuccess: () => {
       setSavedProducts();

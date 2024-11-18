@@ -4,18 +4,26 @@ import axios from "@/lib/axios";
 import { AxiosError } from "axios";
 import { cache } from "react";
 import { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
 
-type Props = { params: { id: string } };
+type Props = { params: { seName: string } };
 
-const getCategoryInfo = async (id: string) => {
-  return await axios.get<ICategory>(`/api/Catalog/Category/${id}`).then((res) => res.data);
-};
+const getCategoryInfo = cache(async (seName: string) => {
+  return await axios.get<ICategory>(`/api/Catalog/Category/${seName}`).then((res) => res.data);
+});
 
-const cachedCategoryInfo = cache(getCategoryInfo);
+export const revalidate = 600;
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  const categories = await axios.get<{ seName: string }[]>(`/api/catalog/allCategories`).then((res) => res.data);
+  return categories.map((category) => ({
+    id: category.seName
+  }));
+}
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   try {
-    const category = await cachedCategoryInfo(params.id);
+    const category = await getCategoryInfo(params.seName);
     const parentMeta = await parent;
 
     return {
@@ -34,13 +42,10 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function Page({ params }: Props) {
   try {
-    const category = await cachedCategoryInfo(params.id);
+    const category = await getCategoryInfo(params.seName);
     return <ViewCategoryProfile category={category} />;
   } catch (err: any) {
     const error = err as AxiosError;
-    if (error.response && error.response.status >= 400 && error.response.status < 500)
-      throw new Error("404: Category Not found");
-
-    throw new Error("500: Server Error");
+    if (error.response && error.response.status >= 400 && error.response.status < 500) notFound();
   }
 }

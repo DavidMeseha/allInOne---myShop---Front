@@ -1,5 +1,4 @@
 import ProductPage from "../ProductPage";
-import { cookies } from "next/headers";
 import axios from "@/lib/axios";
 import { Metadata, ResolvingMetadata } from "next";
 import { IFullProduct } from "@/types";
@@ -8,21 +7,26 @@ import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
 
 type Props = {
-  params: { productId: string };
+  params: { seName: string };
 };
 
-const fetchProduct = async (id: string) => {
-  return await axios.get<IFullProduct>(`/api/product/details/${id}`, {
-    headers: { Authorization: `Bearer ${cookies().get("access_token")?.value}` }
-  });
-};
+const getProduct = cache(async (seName: string) => {
+  return await axios.get<IFullProduct>(`/api/product/details/${seName}`).then((res) => res.data);
+});
 
-const cachedGetProduct = cache(fetchProduct);
+export const revalidate = 120;
+export const dynamicParams = true;
+export async function generateStaticParams() {
+  const products = await axios.get<{ data: IFullProduct[] }>(`/api/catalog/homefeed`).then((res) => res.data.data);
+  return products.map((product) => ({
+    seName: product.seName
+  }));
+}
 
 export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   try {
-    const res = await cachedGetProduct(params.productId);
-    const product = res.data;
+    const res = await getProduct(params.seName);
+    const product = res;
     const parentMeta = await parent;
 
     return {
@@ -42,12 +46,10 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
 
 export default async function Page({ params }: Props) {
   try {
-    const res = await cachedGetProduct(params.productId);
-    return <ProductPage product={res.data} />;
+    const product = await getProduct(params.seName);
+    return <ProductPage product={product} />;
   } catch (err: any) {
     const error = err as AxiosError;
-    if (error.response && error.response.status === 500) throw new Error("Server Error");
-    else if (!error.response) throw new Error("500: Server Is Down");
-    else notFound();
+    if (error.response && error.response.status >= 400 && error.response.status < 500) notFound();
   }
 }

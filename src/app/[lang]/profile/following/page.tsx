@@ -45,7 +45,7 @@ function ListItem({ vendor }: { vendor: IVendor }) {
         />
 
         <div>
-          <LocalLink className="font-bold" href={`/profile/vendor/${vendor._id}`}>
+          <LocalLink className="font-bold" href={`/profile/vendor/${vendor.seName}`}>
             {vendor.name}
           </LocalLink>
           <p className="text-strongGray">{vendor.productCount} Products</p>

@@ -26,7 +26,7 @@ export default function CartItem({ product, attributes, quantity, canEdit = fals
   const { t } = useTranslation();
   const removeFromCartMutation = useMutation({
     mutationKey: ["removeFromCart", product._id],
-    mutationFn: () => axios.delete(`/api/common/cart/remove/${product._id}`),
+    mutationFn: () => axios.delete(`/api/common/cart/remove/${product.seName}`),
     onSuccess: () => {
       setCartProducts();
       queryClient.fetchQuery({ queryKey: ["cartProducts"] });

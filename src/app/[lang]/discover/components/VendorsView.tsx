@@ -37,7 +37,7 @@ export default function VendorsView() {
           <div>
             {vendorsPages.map((page) =>
               page.data.map((vendor) => (
-                <ListItem key={vendor._id} to={`/profile/vendor/${vendor._id}`} vendor={vendor} />
+                <ListItem key={vendor._id} to={`/profile/vendor/${vendor.seName}`} vendor={vendor} />
               ))
             )}
           </div>
@@ -76,7 +76,7 @@ function ListItem({ vendor, to }: ListItemProps) {
   const { setIsLoginOpen } = useGeneralStore();
 
   const followMutation = useMutation({
-    mutationKey: ["followVendor", vendor._id],
+    mutationKey: ["followVendor", vendor.seName],
     mutationFn: () => axios.post(`/api/user/followVendor/${vendor._id}`),
     onSuccess: () => {
       setFollowedVendors();

@@ -15,7 +15,7 @@ export default function ProductHeader({ product }: CommentsHeaderCompTypes) {
   return (
     <>
       <div className="flex items-center px-8 pt-4">
-        <LocalLink href={`/profile/vendor/${product.vendor._id}`}>
+        <LocalLink href={`/profile/vendor/${product.vendor.seName}`}>
           <Image
             alt="comment profile"
             className="mx-auto h-10 w-10 rounded-full object-cover lg:mx-0"
@@ -29,7 +29,7 @@ export default function ProductHeader({ product }: CommentsHeaderCompTypes) {
 
           <div className="relative text-sm text-strongGray">
             by:
-            <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor._id}`}>
+            <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor.seName}`}>
               {" " + product.vendor.name}
             </LocalLink>
           </div>

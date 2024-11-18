@@ -27,7 +27,7 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
   const { t } = useTranslation();
 
   const addReviewMutation = useMutation({
-    mutationKey: ["AddReview", product._id],
+    mutationKey: ["AddReview", product.seName],
     mutationFn: (productId: string) =>
       axios.post(`/api/user/addReview/${productId}`, {
         reviewText: review,
@@ -36,7 +36,7 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
 
     onSuccess: () => {
       toast.success("Review Added Successfully");
-      queryClient.fetchQuery({ queryKey: ["productReviews", product._id] });
+      queryClient.fetchQuery({ queryKey: ["productReviews", product.seName] });
       setRate(0);
       setReview("");
     },
@@ -48,11 +48,11 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
     if (!user) return;
     if (rate <= 0 || review.length === 0) return;
     if (user && !user.isRegistered) setIsLoginOpen(true);
-    addReviewMutation.mutate(product._id);
+    addReviewMutation.mutate(product.seName);
   };
 
   const reviewsQuery = useQuery({
-    queryKey: ["productReviews", product._id],
+    queryKey: ["productReviews", product.seName],
     queryFn: () => axios.get<IProductReview[]>(`/api/product/reviews/${product._id}`).then((res) => res.data)
   });
 

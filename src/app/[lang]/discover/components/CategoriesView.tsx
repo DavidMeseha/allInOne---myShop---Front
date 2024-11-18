@@ -34,7 +34,7 @@ export default function CategoriesView() {
       {categoriesQuery.isFetchedAfterMount && categoriesPages
         ? categoriesPages.map((page) =>
             page.data.map((category) => (
-              <ListItem category={category} key={category._id} to={`/profile/category/${category._id}`} />
+              <ListItem category={category} key={category.seName} to={`/profile/category/${category.seName}`} />
             ))
           )
         : null}

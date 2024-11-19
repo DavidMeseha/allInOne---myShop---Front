@@ -1,10 +1,6 @@
 import { create } from "zustand";
 import { persist, devtools, createJSONStorage } from "zustand/middleware";
-import getCartItems from "../hooks/getCartItems";
-import getLikeIds from "@/hooks/getLikesId";
-import getSavesId from "@/hooks/getSavesId";
-import getFollowingIds from "@/hooks/getFollowingIds";
-import getReviewedIds from "@/hooks/getReviewIds";
+import { getCartIds, getFollowIds, getLikeIds, getReviewIds, getSaveIds } from "@/actions";
 
 export interface UserStore {
   reviewedProducts: string[];
@@ -30,7 +26,7 @@ export const useUserStore = create<UserStore>()(
         following: [],
 
         setReviewedProducts: async () => {
-          const result = await getReviewedIds();
+          const result = await getReviewIds();
           set({ reviewedProducts: result });
         },
         setLikes: async () => {
@@ -38,15 +34,15 @@ export const useUserStore = create<UserStore>()(
           set({ likes: result });
         },
         setCartProducts: async () => {
-          const result = await getCartItems();
+          const result = await getCartIds();
           set({ cartProducts: result });
         },
         setSavedProducts: async () => {
-          const result = await getSavesId();
+          const result = await getSaveIds();
           set({ savedProducts: result });
         },
         setFollowedVendors: async () => {
-          const result = await getFollowingIds();
+          const result = await getFollowIds();
           set({ following: result });
         }
       }),

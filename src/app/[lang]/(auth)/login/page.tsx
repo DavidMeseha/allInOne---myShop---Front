@@ -8,6 +8,7 @@ import { cookies } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
 import { AxiosError } from "axios";
 import Link from "next/link";
+import { setToken } from "@/actions";
 
 interface Props {
   params: { lang: Dictionaries };
@@ -34,7 +35,7 @@ export default async function Page({ params, searchParams }: Props) {
         )
         .then((data) => data.data);
 
-      cookies().set("session", res.token, { httpOnly: true, sameSite: "strict", secure: true });
+      setToken(res.token);
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       return redirect(

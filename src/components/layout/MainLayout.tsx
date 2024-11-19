@@ -10,7 +10,7 @@ import BottomNav from "./includes/BottomNav";
 import { QueryClient } from "@tanstack/react-query";
 import { Dictionaries, Translation } from "../../dictionary";
 import { TranslationProvider } from "@/context/Translation";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "@/lib/axios";
@@ -18,6 +18,7 @@ import Header from "./includes/Header";
 import SideNav from "./includes/SideNav";
 import NetworkErrors from "@/context/NetworkErrors";
 import { User } from "@/types";
+import { toast } from "react-toastify";
 
 export const queryClient = new QueryClient();
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIP_KEY ?? "");
@@ -36,6 +37,8 @@ export default function MainLayout({
   token: string | undefined;
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -46,6 +49,10 @@ export default function MainLayout({
     });
     setIsLoading(false);
   }, [token]);
+
+  useEffect(() => {
+    if (message) toast.error(message);
+  }, [message]);
 
   return (
     <>

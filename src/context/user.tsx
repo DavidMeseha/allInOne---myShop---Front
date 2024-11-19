@@ -9,6 +9,7 @@ import { useTranslation } from "./Translation";
 import { User } from "../types";
 import { useUserStore } from "@/stores/userStore";
 import { logout, registerGuest } from "@/actions";
+import { usePathname } from "next/navigation";
 
 interface UserContextTypes {
   user: User | null;
@@ -27,10 +28,11 @@ function UserProvider({ children, user }: ContextProps) {
   const { setCountries } = useGeneralStore();
   const [data, setData] = useState<User | null>(user);
   const { t } = useTranslation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const init = async () => {
-      if (user === null) return await registerGuest();
+      if (user === null) return await registerGuest(pathname);
       resetUserStore();
       setCountries();
       setData(user);
@@ -49,7 +51,7 @@ function UserProvider({ children, user }: ContextProps) {
 
   const logoutMutation = useMutation({
     mutationKey: ["logout"],
-    mutationFn: () => logout(),
+    mutationFn: () => logout(pathname),
     onSuccess: async () => {
       queryClient.clear();
       toast.warn(t("auth.successfullLogout"));

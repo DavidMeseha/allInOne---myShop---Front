@@ -6,6 +6,7 @@ import getReviewedIds from "@/hooks/getReviewIds";
 import getSavesId from "@/hooks/getSavesId";
 import "@testing-library/jest-dom";
 import { act } from "@testing-library/react";
+import { useSearchParams } from "next/navigation";
 
 class IntersectionObserver {
   constructor(callback) {
@@ -54,7 +55,8 @@ jest.mock("react-intersection-observer", () => ({
 }));
 
 jest.mock("next/navigation", () => ({
-  usePathname: jest.fn()
+  usePathname: jest.fn(),
+  useSearchParams: jest.fn()
 }));
 
 jest.mock("next-nprogress-bar", () => {

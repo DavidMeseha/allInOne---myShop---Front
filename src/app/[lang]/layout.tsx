@@ -1,20 +1,12 @@
 import { ToastContainer } from "react-toastify";
 import MainLayout from "../../components/layout/MainLayout";
 import { Dictionaries, getDictionary, langs, Translation } from "../../dictionary";
-import { Metadata } from "next";
 import React, { ReactElement } from "react";
+import { cookies } from "next/headers";
+import axios from "@/lib/axios";
+import { User } from "@/types";
 // import { Analytics } from "@vercel/analytics/react";
 // import { SpeedInsights } from "@vercel/speed-insights/next";
-
-export const metadata: Metadata = {
-  title: "TechkShop",
-  description: "an ecommerce shop in the way of social media",
-  openGraph: {
-    type: "website",
-    title: "TechkShop",
-    description: ""
-  }
-};
 
 export async function generateStaticParams() {
   return langs.map((lang) => ({ lang }));
@@ -29,6 +21,12 @@ export default async function RootLayout({
 }) {
   const dictionary: Translation = await getDictionary(params.lang);
 
+  const token = cookies().get("session")?.value;
+  const user = await axios
+    .get<User>("/api/auth/check", { headers: { Authorization: `Bearer ${token}` } })
+    .then((res) => res.data)
+    .catch(() => null);
+
   return (
     <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>
       <body
@@ -36,7 +34,7 @@ export default async function RootLayout({
         dir="ltr"
       >
         <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
-          <MainLayout dictionary={dictionary} lang={params.lang}>
+          <MainLayout dictionary={dictionary} lang={params.lang} token={token} user={token ? user : null}>
             {children}
             <ToastContainer />
           </MainLayout>

@@ -7,7 +7,6 @@ import axios from "@/lib/axios";
 import { IFullProduct, IProductAttribute } from "@/types";
 import Button from "@/components/Button";
 import { useUser } from "@/context/user";
-import { useGeneralStore } from "@/stores/generalStore";
 import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
 import { LocalLink } from "../../../components/LocalizedNavigation";
@@ -16,7 +15,6 @@ import { BiLoaderCircle } from "react-icons/bi";
 export default function Page() {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { setIsLoginOpen } = useGeneralStore();
   const router = useRouter();
 
   const checkoutQuery = useQuery({
@@ -49,7 +47,7 @@ export default function Page() {
             <Button
               className="ms-auto block w-full rounded-md bg-primary px-6 py-3 font-semibold text-white md:w-auto"
               isLoading={checkoutQuery.isFetching}
-              onClick={() => (user?.isRegistered ? router.push("/checkout") : setIsLoginOpen(true))}
+              onClick={() => (user?.isRegistered ? router.push("/checkout") : router.push("/login"))}
             >
               <div className="flex w-full justify-between gap-8">
                 <div>

@@ -19,7 +19,6 @@ import { useUserStore } from "@/stores/userStore";
 import { toast } from "react-toastify";
 import Button from "./Button";
 import { useUser } from "@/context/user";
-import { useGeneralStore } from "@/stores/generalStore";
 
 export default function ProductSection({ product }: { product: IFullProduct }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
@@ -27,7 +26,6 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
   const [readMore, setReadMore] = useState(false);
   const { t } = useTranslation();
   const { following, setFollowedVendors } = useUserStore();
-  const { setIsLoginOpen } = useGeneralStore();
   const { user } = useUser();
   const descriptionRef = useRef(manipulateDescription(product.fullDescription));
   const [main, extend] = descriptionRef.current;
@@ -53,7 +51,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
   const handleFollowClick = () => {
     if (user?.isRegistered)
       following.includes(product.vendor._id) ? unfollowMutation.mutate() : followMutation.mutate();
-    else setIsLoginOpen(true);
+    else toast.warn("You need to login to perform action");
   };
 
   useEffect(() => {

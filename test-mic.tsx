@@ -6,8 +6,21 @@ import { act, render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TranslationProvider } from "@/context/Translation";
 import React from "react";
+import { User } from "@/types";
 
 const queryClient = new QueryClient();
+
+const user: User = {
+  _id: "xxx",
+  email: "xxxxx@xxxx.xxx",
+  firstName: "xxxx",
+  lastName: "xxxx",
+  imageUrl: "/images/placeholder.png",
+  isLogin: true,
+  isRegistered: true,
+  isVendor: false,
+  language: "en"
+};
 
 export const renderWithProviders = async (
   ui: React.ReactNode,
@@ -16,7 +29,7 @@ export const renderWithProviders = async (
 ) => {
   return await act(async () =>
     render(
-      <MainLayout dictionary={dictionary} lang={lang}>
+      <MainLayout dictionary={dictionary} lang={lang} token="xxxxx-xxxx-xxxx" user={user}>
         {ui}
       </MainLayout>
     )

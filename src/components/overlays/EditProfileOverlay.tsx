@@ -227,6 +227,7 @@ export default function EditProfileOverlay() {
                 className="mb-4"
                 day={form.dateOfBirthDay ?? today.getDay()}
                 month={form.dateOfBirthMonth ?? today.getMonth()}
+                title="Date Of Birth"
                 year={form.dateOfBirthYear ?? today.getFullYear()}
               />
               <FormTextInput

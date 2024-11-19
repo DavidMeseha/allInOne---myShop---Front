@@ -130,7 +130,7 @@ export default function ProductCard({ product }: Props) {
             size={15}
           />
           {user?.isRegistered ? (
-            <button className="px-2 text-lg text-primary" onClick={() => setIsAddReviewOpen(true)}>
+            <button className="px-2 text-lg text-primary" onClick={() => setIsAddReviewOpen(true, product._id)}>
               +
             </button>
           ) : null}

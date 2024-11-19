@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import Dropdown from "./DropDown";
 
@@ -20,46 +21,54 @@ export default function DateDropdownNumbers({
   changeDay,
   changeMonth,
   changeYear,
-  className
+  className,
+  title
 }: {
-  day: number;
-  month: number;
-  year: number;
-  changeDay: (value: number) => void;
-  changeMonth: (value: number) => void;
-  changeYear: (value: number) => void;
+  day?: number;
+  month?: number;
+  year?: number;
+  changeDay?: (value: number) => void;
+  changeMonth?: (value: number) => void;
+  changeYear?: (value: number) => void;
   className?: string;
+  title: string;
 }) {
   const days = Array.from(
-    { length: month === 2 ? (year % 4 === 0 ? 29 : 28) : month % 2 === 0 ? 30 : 31 },
+    { length: month === 2 ? ((year ?? 2024) % 4 === 0 ? 29 : 28) : (month ?? 1) % 2 === 0 ? 30 : 31 },
     (_, index) => ({ name: (index + 1).toString(), value: (index + 1).toString() })
   );
   return (
-    <div className={cn("flex w-full gap-4", className)}>
-      <Dropdown
-        className="w-1/4"
-        dir="ltr"
-        label="day"
-        options={days}
-        value={day}
-        onChange={(e) => changeDay(parseInt(e.target.value))}
-      />
-      <Dropdown
-        className="w-1/4"
-        dir="ltr"
-        label="month"
-        options={months}
-        value={month}
-        onChange={(e) => changeMonth(parseInt(e.target.value))}
-      />
-      <Dropdown
-        className="w-2/4"
-        dir="ltr"
-        label="year"
-        options={years}
-        value={year}
-        onChange={(e) => changeYear(parseInt(e.target.value))}
-      />
-    </div>
+    <>
+      <div className="text-lg">{title}h</div>
+      <div className={cn("flex w-full gap-4", className)}>
+        <Dropdown
+          className="w-1/4"
+          dir="ltr"
+          label="day"
+          name="day"
+          options={days}
+          value={day}
+          onChange={(e) => changeDay && changeDay(parseInt(e.target.value))}
+        />
+        <Dropdown
+          className="w-1/4"
+          dir="ltr"
+          label="month"
+          name="month"
+          options={months}
+          value={month}
+          onChange={(e) => changeMonth && changeMonth(parseInt(e.target.value))}
+        />
+        <Dropdown
+          className="w-2/4"
+          dir="ltr"
+          label="year"
+          name="year"
+          options={years}
+          value={year}
+          onChange={(e) => changeYear && changeYear(parseInt(e.target.value))}
+        />
+      </div>
+    </>
   );
 }

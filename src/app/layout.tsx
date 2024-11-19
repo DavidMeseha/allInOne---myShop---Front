@@ -5,11 +5,11 @@ import "@/globals.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export const metadata: Metadata = {
-  title: "Ticktock Shop",
-  description: "an ecommerce shop in the way of social media",
+  title: "TechShop",
+  description: "an ecommerce shop in the way of social Interaction",
   openGraph: {
     type: "website",
-    title: "Ticktock Shop",
+    title: "TechShop",
     description: ""
   }
 };

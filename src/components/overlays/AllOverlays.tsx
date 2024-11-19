@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { useGeneralStore } from "../../stores/generalStore";
-import AuthOverlay from "./AuthOverlay";
 import EditProfileOverlay from "./EditProfileOverlay";
 import ShareOverlay from "./Share";
 import ProfileMenuOverlay from "./ProfileMenu";
@@ -16,7 +15,6 @@ import { AnimatePresence } from "framer-motion";
 
 export default function AllOverlays() {
   const {
-    isLoginOpen,
     isEditProfileOpen,
     isShareOpen,
     isProfileMenuOpen,
@@ -53,7 +51,6 @@ export default function AllOverlays() {
 
   useEffect(() => {
     if (
-      isLoginOpen ||
       isEditProfileOpen ||
       isShareOpen ||
       isAddToCartOpen ||
@@ -67,7 +64,6 @@ export default function AllOverlays() {
       document.body.style.overflowY = "hidden";
     else document.body.style.overflowY = "auto";
   }, [
-    isLoginOpen,
     isEditProfileOpen,
     isShareOpen,
     isAddToCartOpen,
@@ -81,7 +77,6 @@ export default function AllOverlays() {
 
   return (
     <AnimatePresence>
-      {isLoginOpen ? <AuthOverlay /> : null}
       {isEditProfileOpen ? <EditProfileOverlay /> : null}
       {isShareOpen ? <ShareOverlay /> : null}
       {isProfileMenuOpen ? <ProfileMenuOverlay /> : null}

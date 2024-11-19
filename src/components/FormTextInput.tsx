@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FieldError } from "../types";
 import { cn } from "@/lib/utils";

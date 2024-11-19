@@ -6,6 +6,7 @@ import { useUser } from "../context/user";
 import { useGeneralStore } from "../stores/generalStore";
 import { BsStarFill } from "react-icons/bs";
 import { useUserStore } from "@/stores/userStore";
+import { toast } from "react-toastify";
 
 type Props = {
   product: IFullProduct;
@@ -14,12 +15,12 @@ type Props = {
 export default function RateProductButton({ product }: Props) {
   const { user } = useUser();
   const { reviewedProducts } = useUserStore();
-  const { setIsAddReviewOpen, setIsLoginOpen } = useGeneralStore();
+  const { setIsAddReviewOpen } = useGeneralStore();
   const isReviewed = reviewedProducts.includes(product._id);
 
   const handleAddreviewClick = () => {
     if (!user) return;
-    if (!user.isRegistered) return setIsLoginOpen(true);
+    if (!user.isRegistered) return toast.warn("You need to login to berform action");
     if (!isReviewed) setIsAddReviewOpen(true, product._id);
   };
 

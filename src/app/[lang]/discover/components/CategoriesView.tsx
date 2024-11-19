@@ -32,11 +32,13 @@ export default function CategoriesView() {
   return (
     <ul className="mt-14 md:mt-4">
       {categoriesQuery.isFetchedAfterMount && categoriesPages
-        ? categoriesPages.map((page) =>
-            page.data.map((category) => (
-              <ListItem category={category} key={category.seName} to={`/profile/category/${category.seName}`} />
-            ))
-          )
+        ? categoriesPages.map((page, index) => (
+            <React.Fragment key={index}>
+              {page.data.map((category) => (
+                <ListItem category={category} key={category._id} to={`/profile/category/${category.seName}`} />
+              ))}
+            </React.Fragment>
+          ))
         : null}
 
       {!categoriesQuery.isFetchedAfterMount ? (

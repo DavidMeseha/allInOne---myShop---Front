@@ -17,6 +17,7 @@ import axios from "@/lib/axios";
 import Header from "./includes/Header";
 import SideNav from "./includes/SideNav";
 import NetworkErrors from "@/context/NetworkErrors";
+import { User } from "@/types";
 
 export const queryClient = new QueryClient();
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIP_KEY ?? "");
@@ -24,24 +25,27 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIP_KEY ?? "");
 export default function MainLayout({
   children,
   dictionary,
-  lang
+  lang,
+  user,
+  token
 }: {
   children: React.ReactNode;
   dictionary: Translation;
   lang: Dictionaries;
+  user: User | null;
+  token: string | undefined;
 }) {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    axios.interceptors.request.clear();
     axios.interceptors.request.use((config) => {
-      const access_token = localStorage.getItem("session");
-      config.headers.Authorization = `Bearer ${access_token}`;
+      config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
-
     setIsLoading(false);
-  }, []);
+  }, [token]);
 
   return (
     <>
@@ -50,25 +54,27 @@ export default function MainLayout({
           <TranslationProvider lang={lang} translation={dictionary}>
             <NetworkErrors>
               <Elements stripe={stripePromise}>
-                {isLoading ? null : (
-                  <UserProvider>
-                    <AllOverlays />
-                    {pathname.includes("/product/") ? (
-                      <>{children}</>
-                    ) : (
-                      <>
-                        <Header />
-                        <div className="mx-auto flex w-full justify-between px-0">
-                          <SideNav />
-                          <div className="relative mx-auto mb-[80px] mt-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
-                            <div className="m-auto max-w-[1200px] md:px-4">{children}</div>
+                <UserProvider user={user}>
+                  {isLoading ? null : (
+                    <>
+                      <AllOverlays />
+                      {pathname.includes("/product/") ? (
+                        <>{children}</>
+                      ) : (
+                        <>
+                          <Header />
+                          <div className="mx-auto flex w-full justify-between px-0">
+                            <SideNav />
+                            <div className="relative mx-auto mb-[80px] mt-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
+                              <div className="m-auto max-w-[1200px] md:px-4">{children}</div>
+                            </div>
                           </div>
-                        </div>
-                        <BottomNav />
-                      </>
-                    )}
-                  </UserProvider>
-                )}
+                          <BottomNav />
+                        </>
+                      )}
+                    </>
+                  )}
+                </UserProvider>
               </Elements>
             </NetworkErrors>
           </TranslationProvider>

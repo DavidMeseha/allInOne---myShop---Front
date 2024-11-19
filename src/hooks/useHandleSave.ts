@@ -1,10 +1,10 @@
 import { queryClient } from "@/components/layout/MainLayout";
 import { useUser } from "@/context/user";
 import axios from "@/lib/axios";
-import { useGeneralStore } from "@/stores/generalStore";
 import { useUserStore } from "@/stores/userStore";
 import { IFullProduct } from "@/types";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 type Props = {
   product: IFullProduct;
@@ -14,7 +14,6 @@ type Props = {
 export default function useHandleSave({ product, onSuccess }: Props) {
   const { user } = useUser();
   const { setSavedProducts } = useUserStore();
-  const { setIsLoginOpen } = useGeneralStore();
 
   const saveMutation = useMutation({
     mutationKey: ["save", product.seName],
@@ -38,7 +37,7 @@ export default function useHandleSave({ product, onSuccess }: Props) {
 
   const handleSave = (save: boolean) => {
     if (!user || saveMutation.isPending || unsaveMutation.isPending) return;
-    if (user && !user.isRegistered) return setIsLoginOpen(true);
+    if (user && !user.isRegistered) return toast.warn("You need to login to perform action");
     if (save) return saveMutation.mutate();
     unsaveMutation.mutate();
   };

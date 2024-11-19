@@ -15,7 +15,6 @@ import { useUserStore } from "@/stores/userStore";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import ProductCard from "@/components/ProductCard";
 import { useUser } from "@/context/user";
-import { useGeneralStore } from "@/stores/generalStore";
 
 type Props = {
   vendor: IVendor;
@@ -26,7 +25,6 @@ export default function ViewVendorProfile({ vendor }: Props) {
   const [ref, isInView] = useInView();
   const { setFollowedVendors, following } = useUserStore();
   const { user } = useUser();
-  const { setIsLoginOpen } = useGeneralStore();
   const [followersCount, setFollowersCount] = useState(vendor.followersCount);
 
   const activities = [
@@ -83,7 +81,7 @@ export default function ViewVendorProfile({ vendor }: Props) {
   }, [isInView, lastPage]);
 
   const handleFollowingState = () => {
-    if (!user?.isRegistered) return setIsLoginOpen(true);
+    if (!user?.isRegistered) return toast.warn("You need to login to perform action");
     if (following.includes(vendor._id)) return unfollowMutation.mutate();
     followMutation.mutate();
   };

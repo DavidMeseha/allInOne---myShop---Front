@@ -4,7 +4,6 @@ import { IFullProduct } from "@/types";
 import { create } from "zustand";
 
 export const mockGeneralStore = create<GeneralStore>()((set) => ({
-  isLoginOpen: false,
   isEditProfileOpen: false,
   isShareOpen: false,
   isAddToCartOpen: false,
@@ -27,7 +26,6 @@ export const mockGeneralStore = create<GeneralStore>()((set) => ({
 
   //overlay toggles
   setIsHomeMenuOpen: jest.fn(),
-  setIsLoginOpen: jest.fn(),
   setIsAddAddressOpen: jest.fn(),
   setIsEditProfileOpen: jest.fn(),
   setIsProfileMenuOpen: jest.fn(),

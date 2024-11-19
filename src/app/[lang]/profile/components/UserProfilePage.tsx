@@ -1,10 +1,8 @@
 "use client";
 
 import { BsCartFill } from "react-icons/bs";
-import { useEffect } from "react";
 import { useUser } from "@/context/user";
 import { useUserStore } from "@/stores/userStore";
-import { useGeneralStore } from "@/stores/generalStore";
 import { LocalLink } from "@/components/LocalizedNavigation";
 import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
@@ -16,12 +14,7 @@ export default function UserProfilePage() {
   const { t } = useTranslation();
   const { user } = useUser();
   const { cartProducts } = useUserStore();
-  const { setIsLoginOpen } = useGeneralStore();
   const router = useRouter();
-
-  useEffect(() => {
-    if (user && !user.isRegistered) setIsLoginOpen(true);
-  }, []);
 
   if (!user)
     return (
@@ -50,7 +43,7 @@ export default function UserProfilePage() {
         <p className="text-lg font-semibold">
           {t("profile.youNeedTo") + " "}
           <span className="text-primary">
-            <button onClick={() => setIsLoginOpen(true)}>{t("profile.signUp")}</button>
+            <LocalLink href="/login">{t("profile.signUp")}</LocalLink>
           </span>
         </p>
       </div>

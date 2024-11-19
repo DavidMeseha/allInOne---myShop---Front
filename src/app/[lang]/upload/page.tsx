@@ -8,7 +8,6 @@ import { FieldError } from "../../../types";
 import { TagsInput } from "react-tag-input-component";
 import "react-advanced-cropper/dist/style.css";
 import FormTextInput from "../../../components/FormTextInput";
-import { useGeneralStore } from "../../../stores/generalStore";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Cropper, CropperRef } from "react-advanced-cropper";
 import Button from "@/components/Button";
@@ -76,7 +75,6 @@ const initialErrors: Errors = {
 
 export default function Upload() {
   const { user } = useUser();
-  const { setIsLoginOpen } = useGeneralStore();
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -190,7 +188,7 @@ export default function Upload() {
   const createNewProduct = async () => {
     const isError = validate();
     if (isError) return;
-    if (!user || !user.isRegistered) return setIsLoginOpen(true);
+    if (!user || !user.isRegistered) router.push("/login");
     setIsUploading(true);
 
     try {

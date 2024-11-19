@@ -11,7 +11,6 @@ import axios from "@/lib/axios";
 import RatingStars from "@/components/RatingStars";
 import Button from "@/components/Button";
 import { useState } from "react";
-import { useGeneralStore } from "@/stores/generalStore";
 import { useUser } from "@/context/user";
 import { toast } from "react-toastify";
 import { queryClient } from "@/components/layout/MainLayout";
@@ -23,7 +22,6 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
   const [rate, setRate] = useState(0);
   const [error, setError] = useState<false | string>(false);
   const { user } = useUser();
-  const { setIsLoginOpen } = useGeneralStore();
   const { t } = useTranslation();
 
   const addReviewMutation = useMutation({
@@ -47,8 +45,8 @@ export default function ProductPage({ product }: { product: IFullProduct }) {
   const addReview = () => {
     if (!user) return;
     if (rate <= 0 || review.length === 0) return;
-    if (user && !user.isRegistered) setIsLoginOpen(true);
-    addReviewMutation.mutate(product.seName);
+    if (user && !user.isRegistered) toast.warn("You need to login to perform action");
+    addReviewMutation.mutate(product._id);
   };
 
   const reviewsQuery = useQuery({

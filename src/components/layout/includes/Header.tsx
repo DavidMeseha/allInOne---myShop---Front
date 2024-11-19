@@ -19,10 +19,10 @@ export default function Header() {
   const router = useRouter();
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const { t, lang, changeLang } = useTranslation();
-  const { setIsLoginOpen, setIsSearchOpen } = useGeneralStore();
+  const { setIsSearchOpen } = useGeneralStore();
 
   const goTo = () => {
-    if (!user || !user.isRegistered) return setIsLoginOpen(true);
+    if (!user || !user.isRegistered) return router.push(`/${lang}/login`);
     router.push(`/${lang}/upload`);
   };
 
@@ -70,9 +70,9 @@ export default function Header() {
           </DropdownButton>
 
           {!user || !user.isRegistered ? (
-            <Button className="bg-primary text-white" onClick={() => setIsLoginOpen(true)}>
+            <LocalLink className="rounded-sm bg-primary px-4 py-2 text-white" href="/login">
               <span className="mx-4 whitespace-nowrap text-[15px] font-medium">{t("login")}</span>
-            </Button>
+            </LocalLink>
           ) : (
             <div className="me-4 flex items-center">
               <div className="relative">

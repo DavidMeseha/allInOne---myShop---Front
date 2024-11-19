@@ -49,6 +49,8 @@
   "addReview": "Add Review",
   "ServerDown": "Server Is Down. Try Again Later",
   "NoNetwork": "You Are Oflline Check Your Network",
+  "male": "Male",
+  "female": "Female",
 
   "auth.password": "Password",
   "auth.login": "Login",

@@ -4,7 +4,6 @@ import { create } from "zustand";
 import { persist, devtools, createJSONStorage } from "zustand/middleware";
 
 export interface GeneralStore {
-  isLoginOpen: boolean;
   isEditProfileOpen: boolean;
   isShareOpen: boolean;
   isProfileMenuOpen: boolean;
@@ -25,7 +24,6 @@ export interface GeneralStore {
 
   //Overlays setState
   setIsProductMoreInfoOpen: (val: boolean, productId?: string) => void;
-  setIsLoginOpen: (val: boolean) => void;
   setIsEditProfileOpen: (val: boolean) => void;
   setIsProfileMenuOpen: (val: boolean) => void;
   setIsHomeMenuOpen: (val: boolean) => void;
@@ -51,7 +49,6 @@ export const useGeneralStore = create<GeneralStore>()(
     persist(
       (set) => ({
         //overlay states
-        isLoginOpen: false,
         isEditProfileOpen: false,
         isShareOpen: false,
         isAddToCartOpen: false,
@@ -74,7 +71,6 @@ export const useGeneralStore = create<GeneralStore>()(
 
         //overlay toggles
         setIsHomeMenuOpen: (val: boolean) => set({ isHomeMenuOpen: val }),
-        setIsLoginOpen: (val: boolean) => set({ isLoginOpen: val }),
         setIsAddAddressOpen: (val: boolean) => set({ isAddAddressOpen: val }),
         setIsEditProfileOpen: (val: boolean) => set({ isEditProfileOpen: val }),
         setIsProfileMenuOpen: (val: boolean) => set({ isProfileMenuOpen: val }),

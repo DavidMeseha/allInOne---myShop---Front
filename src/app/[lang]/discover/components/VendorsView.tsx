@@ -10,7 +10,6 @@ import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/stores/userStore";
 import { useUser } from "@/context/user";
-import { useGeneralStore } from "@/stores/generalStore";
 
 export default function VendorsView() {
   const vendorsQuery = useInfiniteQuery({
@@ -73,7 +72,6 @@ type ListItemProps = {
 function ListItem({ vendor, to }: ListItemProps) {
   const { setFollowedVendors, following } = useUserStore();
   const { user } = useUser();
-  const { setIsLoginOpen } = useGeneralStore();
 
   const followMutation = useMutation({
     mutationKey: ["followVendor", vendor.seName],
@@ -87,7 +85,7 @@ function ListItem({ vendor, to }: ListItemProps) {
   const handleFollowClick = () => {
     if (!user) return;
     if (user.isRegistered) return followMutation.mutate();
-    setIsLoginOpen(true);
+    toast.warn("You Need To Login To perform Action");
   };
 
   return (

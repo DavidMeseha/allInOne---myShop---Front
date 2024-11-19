@@ -23,7 +23,10 @@ export default async function Page({ params, searchParams }: Props) {
 
     try {
       const res = await axios
-        .post<{ user: User; token: string }>("/api/auth/login", { email, password })
+        .post<{
+          user: User;
+          token: string;
+        }>("/api/auth/login", { email, password }, { headers: { Authorization: `Bearer ${cookies().get("session")?.value}` } })
         .then((data) => data.data);
 
       cookies().set("session", res.token, { httpOnly: true, sameSite: "strict", secure: true });

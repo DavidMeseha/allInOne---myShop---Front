@@ -5,7 +5,7 @@ import UserProvider from "@/context/user";
 import AllOverlays from "@/components/overlays/AllOverlays";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import BottomNav from "./includes/BottomNav";
 import { QueryClient } from "@tanstack/react-query";
 import { Dictionaries, Translation } from "../../dictionary";

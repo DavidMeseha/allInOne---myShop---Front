@@ -79,8 +79,8 @@ export default function ProductCard({ product }: Props) {
           <>
             <Carousel className="w-full" dir="ltr" setApi={setCarouselApi}>
               <CarouselContent>
-                {product.pictures.map((img) => (
-                  <CarouselItem className="relative flex h-52 items-center" key={img._id}>
+                {product.pictures.map((img, index) => (
+                  <CarouselItem className="relative flex h-52 items-center" key={index}>
                     <Image
                       alt={product.name}
                       className="h-full w-full object-contain"

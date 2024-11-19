@@ -33,7 +33,7 @@ export default function RateProductButton({ product }: Props) {
         />
       </div>
       <span className="text-blend text-sm font-semibold">
-        {product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews || 0}
+        {(product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews).toFixed(1) || 0}
       </span>
     </button>
   );

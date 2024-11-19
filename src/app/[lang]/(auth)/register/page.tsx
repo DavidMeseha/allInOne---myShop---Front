@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import axios from "@/lib/axios";
 import React from "react";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 interface Props {
   params: { lang: Dictionaries };
@@ -46,8 +47,13 @@ export default async function page({ params, searchParams }: Props) {
   };
 
   return (
-    <form>
-      <h1 className="mb-4 text-2xl font-bold">Login</h1>
+    <form className="pt-4">
+      <div className="flex justify-between">
+        <h1 className="mb-4 text-2xl font-bold">{dictionary["auth.register"]}</h1>
+        <Link className="text-primary hover:underline" href={`/${params.lang}/login`}>
+          {dictionary["auth.alreadyHveAnAccount"]}
+        </Link>
+      </div>
       <FormTextInput
         label={dictionary["firstName"]}
         name="firstName"

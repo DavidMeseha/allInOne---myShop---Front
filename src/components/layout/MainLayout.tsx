@@ -39,7 +39,6 @@ export default function MainLayout({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.interceptors.request.clear();
@@ -47,7 +46,7 @@ export default function MainLayout({
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
-    setIsLoading(false);
+    // setIsLoading(false);
   }, [token]);
 
   useEffect(() => {
@@ -62,23 +61,19 @@ export default function MainLayout({
             <NetworkErrors>
               <Elements stripe={stripePromise}>
                 <UserProvider user={user}>
-                  {isLoading ? null : (
+                  <AllOverlays />
+                  {pathname.includes("/product/") ? (
+                    <>{children}</>
+                  ) : (
                     <>
-                      <AllOverlays />
-                      {pathname.includes("/product/") ? (
-                        <>{children}</>
-                      ) : (
-                        <>
-                          <Header />
-                          <div className="mx-auto flex w-full justify-between px-0">
-                            <SideNav />
-                            <div className="relative mx-auto mb-[80px] mt-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
-                              <div className="m-auto max-w-[1200px] md:px-4">{children}</div>
-                            </div>
-                          </div>
-                          <BottomNav />
-                        </>
-                      )}
+                      <Header />
+                      <div className="mx-auto flex w-full justify-between px-0">
+                        <SideNav />
+                        <div className="relative mx-auto mb-[80px] mt-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
+                          <div className="m-auto max-w-[1200px] md:px-4">{children}</div>
+                        </div>
+                      </div>
+                      <BottomNav />
                     </>
                   )}
                 </UserProvider>

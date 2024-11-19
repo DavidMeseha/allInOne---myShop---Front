@@ -38,7 +38,7 @@ export function TranslationProvider({ translation, children, lang }: Props) {
       })
   });
 
-  const t = (key: TKey) => (key in translation ? translation[key as TKey] : key);
+  const t = (key: TKey) => (translation ? (key in translation ? translation[key as TKey] : key) : key);
 
   const changeLang = (newLang: Dictionaries) => {
     if (lang === newLang.toLocaleLowerCase()) return;

@@ -5,7 +5,7 @@ import { useRouter } from "next-nprogress-bar";
 import useEmblaCarousel from "embla-carousel-react";
 import en from "@/dictionaries/en.json";
 import { renderWithProviders } from "../../test-mic";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import InfiniteFeed from "@/app/[lang]/feeds/InfiniteFeed";
 
 describe("HomePage", () => {
@@ -17,9 +17,11 @@ describe("HomePage", () => {
 
   beforeEach(() => {
     (usePathname as jest.Mock).mockReturnValue("/en/feeds");
-    (useRouter as jest.Mock).mockReturnValue({
-      push: jest.fn()
-    });
+    (useSearchParams as jest.Mock).mockReturnValue({ get: jest.fn });
+    (useRouter as jest.Mock)
+      .mockReturnValue({
+        push: jest.fn()
+      });
     (useInView as jest.Mock).mockReturnValue([jest.fn(), false]);
     (useEmblaCarousel as any).mockReturnValue([
       jest.fn(),

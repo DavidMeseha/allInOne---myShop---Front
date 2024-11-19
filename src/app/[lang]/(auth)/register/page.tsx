@@ -47,7 +47,7 @@ export default async function page({ params, searchParams }: Props) {
   };
 
   return (
-    <form className="pt-4">
+    <form className="p-4">
       <div className="flex justify-between">
         <h1 className="mb-4 text-2xl font-bold">{dictionary["auth.register"]}</h1>
         <Link className="text-primary hover:underline" href={`/${params.lang}/login`}>

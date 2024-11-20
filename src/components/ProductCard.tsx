@@ -104,9 +104,9 @@ export default function ProductCard({ product }: Props) {
             <Image
               alt="Converse sneakers"
               className="h-44 w-full object-contain"
-              height={200}
+              height={150}
               src={product.pictures[0].imageUrl}
-              width={200}
+              width={150}
             />
           )}
         </div>

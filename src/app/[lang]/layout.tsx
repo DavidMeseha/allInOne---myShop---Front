@@ -5,8 +5,8 @@ import React, { ReactElement } from "react";
 import { cookies } from "next/headers";
 import axios from "@/lib/axios";
 import { User } from "@/types";
-// import { Analytics } from "@vercel/analytics/react";
-// import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export async function generateStaticParams() {
   return langs.map((lang) => ({ lang }));
@@ -38,8 +38,8 @@ export default async function RootLayout({
             {children}
             <ToastContainer />
           </MainLayout>
-          {/* <Analytics />
-          <SpeedInsights /> */}
+          <Analytics />
+          <SpeedInsights />
         </div>
       </body>
     </html>

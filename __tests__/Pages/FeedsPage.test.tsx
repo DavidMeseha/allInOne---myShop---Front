@@ -18,10 +18,9 @@ describe("HomePage", () => {
   beforeEach(() => {
     (usePathname as jest.Mock).mockReturnValue("/en/feeds");
     (useSearchParams as jest.Mock).mockReturnValue({ get: jest.fn });
-    (useRouter as jest.Mock)
-      .mockReturnValue({
-        push: jest.fn()
-      });
+    (useRouter as jest.Mock).mockReturnValue({
+      push: jest.fn()
+    });
     (useInView as jest.Mock).mockReturnValue([jest.fn(), false]);
     (useEmblaCarousel as any).mockReturnValue([
       jest.fn(),

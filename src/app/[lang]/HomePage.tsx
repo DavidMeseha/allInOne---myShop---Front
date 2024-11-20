@@ -6,7 +6,7 @@ import { useGeneralStore } from "@/stores/generalStore";
 import HomeMenu from "@/components/overlays/HomeMenu";
 import { useState } from "react";
 import { useTranslation } from "@/context/Translation";
-import { IFullProduct, Pagination } from "../types";
+import { IFullProduct, Pagination } from "@/types";
 import Button from "@/components/Button";
 import ProductCard from "@/components/ProductCard";
 

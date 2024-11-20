@@ -1,5 +1,5 @@
 import { IFullProduct, Pagination } from "@/types";
-import HomePage from "../HomePage";
+import HomePage from "./HomePage";
 import axios from "@/lib/axios";
 
 export default async function Page() {

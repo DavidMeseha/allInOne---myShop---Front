@@ -5,11 +5,11 @@ import Image from "next/image";
 import { IVendor, Pagination } from "@/types";
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axios";
-import { BiLoaderCircle } from "react-icons/bi";
 import Button from "@/components/Button";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/stores/userStore";
 import { useUser } from "@/context/user";
+import Loading from "@/components/loading";
 
 export default function VendorsView() {
   const vendorsQuery = useInfiniteQuery({
@@ -46,9 +46,7 @@ export default function VendorsView() {
       ) : null}
 
       {!vendorsQuery.isFetchedAfterMount ? (
-        <div className="flex w-full flex-col items-center justify-center py-2">
-          <BiLoaderCircle className="animate-spin fill-primary" size={35} />
-        </div>
+        <Loading />
       ) : lastPage && lastPage.pages.hasNext ? (
         <div className="px-w py-4 text-center">
           <Button

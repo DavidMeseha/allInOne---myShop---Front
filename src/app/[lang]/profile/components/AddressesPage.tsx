@@ -3,10 +3,8 @@
 import FormDropdownInput from "@/components/FormDropdownInput";
 import FormTextInput from "@/components/FormTextInput";
 import { FieldError, IAddress } from "@/types";
-import { useRouter } from "next-nprogress-bar";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "@/context/Translation";
-import BackArrow from "@/components/BackArrow";
 import AddressItem from "./AddressItem";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
@@ -24,7 +22,6 @@ const initialErrors: FormErrors = { address: false, city: false, country: false 
 const initialForm = { _id: "", address: "", city: "", country: "" };
 
 export default function AddressesPage() {
-  const router = useRouter();
   const [activeTap, setActiveTap] = useState<Tap>("addresses");
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState<FormErrors>(initialErrors);
@@ -55,6 +52,15 @@ export default function AddressesPage() {
     }
   });
 
+  const deleteAddressMutation = useMutation({
+    mutationKey: ["addAddress"],
+    mutationFn: (id: string) => axios.delete(`/api/user/address/delete/${id}`),
+    onSuccess: () => {
+      addresses.refetch();
+      toast.warn("Address deleted successfuly");
+    }
+  });
+
   const updateAddressMutation = useMutation({
     mutationKey: ["updateAddress"],
     mutationFn: () =>
@@ -73,7 +79,7 @@ export default function AddressesPage() {
     queryKey: ["cities", form.country],
     queryFn: () =>
       axios.get<{ name: string; code: string; _id: string }[]>(`/api/common/cities/${form.country}`).then((res) => {
-        setForm({ ...form, city: res.data[0]._id });
+        setForm({ ...form, city: res.data.find((city) => city._id === form.city)?._id ?? res.data[0]._id });
         return res.data;
       }),
     enabled: !!form.country
@@ -120,6 +126,7 @@ export default function AddressesPage() {
       setForm({ _id: address._id, city: address.city._id, address: address.address, country: address.country._id });
     } else setForm(initialForm);
   };
+
   const handleFieldOnChange = (value: string, name: string) => {
     setForm({ ...form, [name]: value });
     setError({ ...error, [name]: false });
@@ -133,13 +140,8 @@ export default function AddressesPage() {
 
   return (
     <>
-      <div className="fixed end-0 start-0 top-0 z-20 w-full border bg-white px-2 md:hidden">
-        <div className="flex justify-between py-2">
-          <BackArrow onClick={() => router.back()} />
-          <h1 className="text-lg font-bold">{t("addresses.manageAddresses")}</h1>
-          <div className="w-6"></div>
-        </div>
-        <ul className="z-10 mt-2 flex w-full items-center border-b bg-white">
+      <div className="sticky top-11 z-20 bg-white md:hidden">
+        <ul className="z-10 flex items-center border-b bg-white">
           {addresses.data && addresses.data.length ? (
             <li className={`w-full ${activeTap === "editaddress" && "-mb-0.5 border-b-2 border-b-black"}`}>
               <a className="flex cursor-pointer justify-center py-2" onClick={() => changeTap("editaddress")}>
@@ -159,11 +161,19 @@ export default function AddressesPage() {
           </li>
         </ul>
       </div>
-      <div className="mt-32 px-4 pb-6 md:mt-0">
+      <div className="px-4 pb-6 pt-4 md:mt-0">
         {activeTap === "addresses" ? (
           addresses.data && addresses.data.length > 0 ? (
             addresses.data.map((address) => (
-              <AddressItem address={address} handleDelete={() => {}} handleEdit={() => {}} key={address._id} />
+              <AddressItem
+                address={address}
+                handleDelete={(id) => deleteAddressMutation.mutate(id)}
+                key={address._id}
+                handleEdit={(id) => {
+                  changeTap("editaddress");
+                  handleEditAddressChange(id);
+                }}
+              />
             ))
           ) : (
             <div className="text-center">

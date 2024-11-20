@@ -20,7 +20,7 @@ export default function FormDropdownInput({ value, label, error, onUpdate, optio
         className="block w-full rounded-sm border border-strongGray px-4 py-2 focus:border-primary focus:ring-primary"
         dir="ltr"
         name={name}
-        value={value || ""}
+        value={value}
         onChange={(event) => onUpdate(event.target.value, event.target.name)}
       >
         {options.map((option, index) => (

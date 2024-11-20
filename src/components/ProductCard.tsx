@@ -73,67 +73,68 @@ export default function ProductCard({ product }: Props) {
     addToCartHandler.handleAddToCart(!is.inCart, { productId: product._id, attributes: [], quantity: 1 });
 
   return (
-    <div className="w-full overflow-hidden rounded-sm border bg-white">
-      <div className="relative">
-        {product.pictures.length > 1 ? (
-          <>
-            <Carousel className="w-full" dir="ltr" setApi={setCarouselApi}>
-              <CarouselContent>
-                {product.pictures.map((img, index) => (
-                  <CarouselItem className="relative flex h-52 items-center" key={index}>
-                    <Image
-                      alt={product.name}
-                      className="h-full w-full object-contain"
-                      height={150}
-                      src={img.imageUrl}
-                      width={150}
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-            <CarouselIndecator
-              array={product.pictures}
-              className="absolute bottom-2 p-4"
-              selectedIndex={caroselImageIndex}
-              setSelectedIndex={(index) => carouselApi?.scrollTo(index, false)}
+    <div className="flex w-full flex-col justify-between overflow-hidden rounded-sm border bg-white">
+      <div>
+        <div className="relative">
+          {product.pictures.length > 1 ? (
+            <>
+              <Carousel className="w-full" dir="ltr" setApi={setCarouselApi}>
+                <CarouselContent>
+                  {product.pictures.map((img, index) => (
+                    <CarouselItem className="relative flex h-44 items-center" key={index}>
+                      <Image
+                        alt={product.name}
+                        className="h-full w-full object-contain"
+                        height={150}
+                        src={img.imageUrl}
+                        width={150}
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
+              <CarouselIndecator
+                array={product.pictures}
+                className="absolute bottom-2 p-4"
+                selectedIndex={caroselImageIndex}
+                setSelectedIndex={(index) => carouselApi?.scrollTo(index, false)}
+              />
+            </>
+          ) : (
+            <Image
+              alt="Converse sneakers"
+              className="h-44 w-full object-contain"
+              height={200}
+              src={product.pictures[0].imageUrl}
+              width={200}
             />
-          </>
-        ) : (
-          <Image
-            alt="Converse sneakers"
-            className="h-52 w-full object-contain"
-            height={200}
-            src={product.pictures[0].imageUrl}
-            width={200}
-          />
-        )}
-      </div>
+          )}
+        </div>
 
-      <div className="mt-2 flex flex-col gap-1 px-2 sm:px-4">
-        <LocalLink
-          className="overflow-clip text-ellipsis text-nowrap font-semibold text-gray-800 hover:underline"
-          href={`/product/${product.seName}`}
-        >
-          <span title={product.name}>{product.name}</span>
-        </LocalLink>
-        <p className="-mt-1 text-sm text-strongGray">
-          sold by:{" "}
-          <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor.seName}`}>
-            {product.vendor.name}
+        <div className="mt-2 flex flex-col gap-1 px-2 sm:px-4">
+          <LocalLink className="font-semibold text-gray-800 hover:underline" href={`/product/${product.seName}`}>
+            <span title={product.name}>{product.name}</span>
           </LocalLink>
-        </p>
-        <span className="font-semibold text-gray-800">{product.price.price}$</span>
-        <div className="flex items-center">
-          <RatingStars
-            rate={product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews}
-            size={15}
-          />
-          {user?.isRegistered ? (
-            <button className="px-2 text-lg text-primary" onClick={() => setIsAddReviewOpen(true, product._id)}>
-              +
-            </button>
+          {product.vendor.name ? (
+            <p className="-mt-1 text-sm text-strongGray">
+              sold by:{" "}
+              <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor.seName}`}>
+                {product.vendor.name}
+              </LocalLink>
+            </p>
           ) : null}
+          <span className="font-semibold text-gray-800">{product.price.price}$</span>
+          <div className="flex items-center">
+            <RatingStars
+              rate={product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews}
+              size={15}
+            />
+            {user?.isRegistered ? (
+              <button className="px-2 text-lg text-primary" onClick={() => setIsAddReviewOpen(true, product._id)}>
+                +
+              </button>
+            ) : null}
+          </div>
         </div>
       </div>
 

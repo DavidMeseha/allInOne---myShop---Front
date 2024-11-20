@@ -6,7 +6,6 @@ import getReviewedIds from "@/hooks/getReviewIds";
 import getSavesId from "@/hooks/getSavesId";
 import "@testing-library/jest-dom";
 import { act } from "@testing-library/react";
-import { useSearchParams } from "next/navigation";
 
 class IntersectionObserver {
   constructor(callback) {

@@ -31,7 +31,7 @@ export default function UserProfileDisplay() {
 
   const savesQuery = useQuery({
     queryKey: ["saves"],
-    queryFn: () => axios.get<IFullProduct[]>("/api/user/saves").then((res) => res.data),
+    queryFn: () => axios.get<IFullProduct[]>("/api/user/savedProducts").then((res) => res.data),
     enabled: activeTap === "bookmark"
   });
 

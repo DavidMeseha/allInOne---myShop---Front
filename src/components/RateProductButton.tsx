@@ -2,7 +2,6 @@
 
 import React from "react";
 import { IFullProduct } from "../types";
-import { useUser } from "../context/user";
 import { useGeneralStore } from "../stores/generalStore";
 import { BsStarFill } from "react-icons/bs";
 import { useUserStore } from "@/stores/userStore";
@@ -13,10 +12,9 @@ type Props = {
 };
 
 export default function RateProductButton({ product }: Props) {
-  const { user } = useUser();
-  const { reviewedProducts } = useUserStore();
+  const { reviews, user } = useUserStore();
   const { setIsAddReviewOpen } = useGeneralStore();
-  const isReviewed = reviewedProducts.includes(product._id);
+  const isReviewed = reviews.includes(product._id);
 
   const handleAddreviewClick = () => {
     if (!user) return;

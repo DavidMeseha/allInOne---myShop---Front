@@ -1,5 +1,4 @@
 import { queryClient } from "@/components/layout/MainLayout";
-import { useUser } from "@/context/user";
 import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 import { IFullProduct } from "@/types";
@@ -12,8 +11,7 @@ type Props = {
 };
 
 export default function useHandleLike({ product, onSuccess }: Props) {
-  const { user } = useUser();
-  const { setLikes } = useUserStore();
+  const { setLikes, user } = useUserStore();
 
   const likeMutation = useMutation({
     mutationKey: ["Like", product.seName],

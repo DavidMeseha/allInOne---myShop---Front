@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 type Props = {
@@ -9,7 +9,11 @@ type Props = {
 };
 
 export default function BackArrow({ onClick, color }: Props) {
-  return (
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+  return loading ? null : (
     <button aria-label="back" onClick={onClick}>
       {document.dir === "rtl" ? <BsArrowRight color={color} size={25} /> : <BsArrowLeft color={color} size={25} />}
     </button>

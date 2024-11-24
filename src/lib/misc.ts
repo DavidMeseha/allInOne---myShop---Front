@@ -1,4 +1,6 @@
-import { IProductAttribute } from "../types";
+import { IProductAttribute, Language } from "@/types";
+
+export const languages: Language[] = ["en", "ar"];
 
 export const parseCookies = (headerCookies: string) => {
   if (!headerCookies) return [];
@@ -23,4 +25,14 @@ export function manipulateDescription(text: string | null) {
   if (!text) return ["", ""];
   if (text.length < 170) return [text, ""];
   return [text.slice(0, 170), text.slice(170)];
+}
+
+export function replacePathnameLang(newLang: Language, pathname: string) {
+  const pathnameLang = languages.find((lang) => pathname.startsWith(`/${lang}/`) || pathname === `/${lang}`);
+  if (pathnameLang) return pathname.replace(pathnameLang, newLang);
+  else return `/${newLang + pathname}`;
+}
+
+export function getPathnameLang(pathname: string) {
+  return languages.find((lang) => pathname.startsWith(`/${lang}/`) || pathname === `/${lang}`);
 }

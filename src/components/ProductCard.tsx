@@ -12,7 +12,6 @@ import RatingStars from "./RatingStars";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CarouselIndecator from "./CarouselIndecator";
 import { useGeneralStore } from "@/stores/generalStore";
-import { useUser } from "@/context/user";
 
 type Props = {
   product: IFullProduct;
@@ -21,27 +20,27 @@ type Props = {
 export default function ProductCard({ product }: Props) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);
-  const { cartProducts, likes, savedProducts, reviewedProducts } = useUserStore();
+  const { cartItems, likes, saves, setCartItems, setLikes, setSaves } = useUserStore();
   const { setIsAddReviewOpen } = useGeneralStore();
+  const { user } = useUserStore();
   const [counters, setCounters] = useState({
     carts: product.carts,
     likes: product.likes,
     saves: product.saves,
     reviews: product.productReviewOverview.ratingSum / product.productReviewOverview.totalReviews
   });
-  const [is, setIs] = useState({
-    liked: likes.includes(product._id),
-    saved: savedProducts.includes(product._id),
-    reviewed: reviewedProducts.includes(product._id),
-    inCart: !!cartProducts.find((item) => item.product === product._id)
-  });
-  const { user } = useUser();
+
+  const inCart = cartItems.find((item) => item.product === product._id);
+  const inLikes = likes.find((item) => item === product._id);
+  const inSaves = saves.find((item) => item === product._id);
 
   const likeHandler = useHandleLike({
     product,
     onSuccess: (state) => {
       setCounters({ ...counters, likes: counters.likes + (state ? 1 : -1) });
-      setIs({ ...is, liked: state });
+      const temp = [...likes];
+      inLikes ? temp.splice(temp.indexOf(inLikes), 1) : temp.push(product._id);
+      setLikes([...temp]);
     }
   });
 
@@ -49,7 +48,9 @@ export default function ProductCard({ product }: Props) {
     product,
     onSuccess: (state) => {
       setCounters({ ...counters, saves: counters.saves + (state ? 1 : -1) });
-      setIs({ ...is, saved: state });
+      const temp = [...saves];
+      inSaves ? temp.splice(temp.indexOf(inSaves), 1) : temp.push(product._id);
+      setSaves([...temp]);
     }
   });
 
@@ -57,7 +58,11 @@ export default function ProductCard({ product }: Props) {
     product,
     onSuccess: (state) => {
       setCounters({ ...counters, carts: counters.carts + (state ? 1 : -1) });
-      setIs({ ...is, inCart: state });
+      const cartItemsTemp = [...cartItems];
+      inCart
+        ? cartItemsTemp.splice(cartItemsTemp.indexOf(inCart), 1)
+        : cartItemsTemp.push({ product: product._id, quantity: 1 });
+      setCartItems([...cartItemsTemp]);
     }
   });
 
@@ -67,10 +72,9 @@ export default function ProductCard({ product }: Props) {
     return () => carouselApi.destroy();
   }, [carouselApi]);
 
-  const handleLikeAction = () => likeHandler.handleLike(!is.liked);
-  const handleSaveAction = () => saveHandler.handleSave(!is.saved);
-  const handleAddToCart = () =>
-    addToCartHandler.handleAddToCart(!is.inCart, { productId: product._id, attributes: [], quantity: 1 });
+  const handleLikeAction = () => likeHandler.handleLike(!inLikes);
+  const handleSaveAction = () => saveHandler.handleSave(!inSaves);
+  const handleAddToCart = () => addToCartHandler.handleAddToCart(!inCart, { attributes: [], quantity: 1 });
 
   return (
     <div className="flex w-full flex-col justify-between overflow-hidden rounded-sm border bg-white">
@@ -140,7 +144,7 @@ export default function ProductCard({ product }: Props) {
 
       <div className="mt-4 flex border-t border-gray-200">
         <Button
-          className={`basis-1/3 rounded-none border-e fill-black p-1 ${is.inCart ? "bg-green-200" : "bg-white"}`}
+          className={`basis-1/3 rounded-none border-e fill-black p-1 ${inCart ? "bg-green-200" : "bg-white"}`}
           isLoading={addToCartHandler.isPending}
           spinnerSize="20"
           onClick={handleAddToCart}
@@ -151,7 +155,7 @@ export default function ProductCard({ product }: Props) {
           </div>
         </Button>
         <Button
-          className={`basis-1/3 rounded-none border-e fill-black p-1 ${is.liked ? "bg-red-200" : "bg-white"}`}
+          className={`basis-1/3 rounded-none border-e fill-black p-1 ${inLikes ? "bg-red-200" : "bg-white"}`}
           isLoading={likeHandler.isPending}
           spinnerSize="20"
           onClick={handleLikeAction}
@@ -162,7 +166,7 @@ export default function ProductCard({ product }: Props) {
           </div>
         </Button>
         <Button
-          className={`basis-1/3 rounded-none fill-black p-1 ${is.saved ? "bg-yellow-200" : "bg-white"}`}
+          className={`basis-1/3 rounded-none fill-black p-1 ${inSaves ? "bg-yellow-200" : "bg-white"}`}
           isLoading={saveHandler.isPending}
           spinnerSize="20"
           onClick={handleSaveAction}

@@ -2,7 +2,7 @@
 
 import { RefObject, useEffect } from "react";
 
-export default function ClickRecognition(exit: () => void, containerRef: RefObject<HTMLElement>) {
+export default function ClickRecognition(exit: () => void, containerRef: RefObject<HTMLElement | null>) {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (containerRef.current && event.target && !containerRef.current.contains(event.target as Node)) {

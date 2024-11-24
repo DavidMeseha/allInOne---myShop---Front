@@ -21,7 +21,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const params = props.params;
   try {
     const category = await getCategoryInfo(params.seName);
     const parentMeta = await parent;
@@ -40,7 +41,8 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   }
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page(props: Props) {
+  const params = props.params;
   try {
     const category = await getCategoryInfo(params.seName);
     return <ViewCategoryProfile category={category} />;

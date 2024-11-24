@@ -6,15 +6,14 @@ import { UserActivity } from "./UserActivity";
 import Button from "@/components/Button";
 import Image from "next/image";
 import { IFullProduct, IVendor, Pagination } from "@/types";
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { useInView } from "react-intersection-observer";
 import { BiLoaderCircle } from "react-icons/bi";
-import { toast } from "react-toastify";
 import { useUserStore } from "@/stores/userStore";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import ProductCard from "@/components/ProductCard";
-import { useUser } from "@/context/user";
+import useHandleFollow from "@/hooks/useHandleFollow";
 
 type Props = {
   vendor: IVendor;
@@ -23,8 +22,7 @@ type Props = {
 export default function ViewVendorProfile({ vendor }: Props) {
   const { t } = useTranslation();
   const [ref, isInView] = useInView();
-  const { setFollowedVendors, following } = useUserStore();
-  const { user } = useUser();
+  const { following } = useUserStore();
   const [followersCount, setFollowersCount] = useState(vendor.followersCount);
 
   const activities = [
@@ -40,23 +38,10 @@ export default function ViewVendorProfile({ vendor }: Props) {
     }
   ];
 
-  const followMutation = useMutation({
-    mutationKey: ["followVendor", vendor._id],
-    mutationFn: () => axios.post(`/api/user/followVendor/${vendor._id}`),
-    onSuccess: () => {
-      setFollowedVendors();
-      toast.success("Vendor followed successfully");
-      setFollowersCount(followersCount + 1);
-    }
-  });
-
-  const unfollowMutation = useMutation({
-    mutationKey: ["followVendor", vendor._id],
-    mutationFn: () => axios.post(`/api/user/unfollowVendor/${vendor._id}`),
-    onSuccess: () => {
-      setFollowedVendors();
-      toast.warning("Vendor unFollowed");
-      setFollowersCount(followersCount - 1);
+  const { handleFollow, isPending } = useHandleFollow({
+    vendor,
+    onSuccess: (follow) => {
+      setFollowersCount(followersCount + (follow ? 1 : -1));
     }
   });
 
@@ -80,12 +65,6 @@ export default function ViewVendorProfile({ vendor }: Props) {
       productsQuery.fetchNextPage();
   }, [isInView, lastPage]);
 
-  const handleFollowingState = () => {
-    if (!user?.isRegistered) return toast.warn("You need to login to perform action");
-    if (following.includes(vendor._id)) return unfollowMutation.mutate();
-    followMutation.mutate();
-  };
-
   return (
     <div className="py-4">
       <div className="flex w-full flex-row items-center justify-start px-4 md:mt-0">
@@ -106,7 +85,8 @@ export default function ViewVendorProfile({ vendor }: Props) {
           </div>
           <Button
             className="item-center mt-3 block bg-primary px-8 py-1.5 text-[15px] font-semibold text-white"
-            onClick={handleFollowingState}
+            isLoading={isPending}
+            onClick={() => handleFollow(!following.includes(vendor._id))}
           >
             {following.includes(vendor._id) ? t("unfollow") : t("follow")}
           </Button>

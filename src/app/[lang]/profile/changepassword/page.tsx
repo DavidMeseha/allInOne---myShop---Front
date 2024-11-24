@@ -1,7 +1,6 @@
 "use client";
 
 import FormTextInput from "@/components/FormTextInput";
-import { useUser } from "@/context/user";
 import { FieldError } from "@/types";
 import React, { useState } from "react";
 import { useTranslation } from "@/context/Translation";
@@ -9,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
+import { useUserStore } from "@/stores/userStore";
 
 interface FormErrors {
   original: FieldError;
@@ -19,7 +19,7 @@ const initialErrors: FormErrors = { original: false, new: false, confirm: false 
 const initialForm = { original: "", new: "", confirm: "" };
 
 export default function ChangePasswordPage() {
-  const { user } = useUser();
+  const { user } = useUserStore();
   const { t } = useTranslation();
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState<FormErrors>(initialErrors);

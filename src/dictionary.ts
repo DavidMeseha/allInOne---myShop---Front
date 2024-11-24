@@ -12,4 +12,4 @@ const dictionaries = {
 };
 
 export type Dictionaries = keyof typeof dictionaries;
-export const getDictionary = async (locale: Dictionaries) => await dictionaries[locale];
+export const getDictionary = async (locale: Dictionaries) => (await dictionaries[locale]) as Translation;

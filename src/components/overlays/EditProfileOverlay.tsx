@@ -3,7 +3,6 @@ import { CircleStencil, Cropper, CropperRef } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 import FormTextInput from "../FormTextInput";
 import { BsPencil } from "react-icons/bs";
-import { useUser } from "@/context/user";
 import { useGeneralStore } from "@/stores/generalStore";
 import Image from "next/image";
 import OverlayLayout from "./OverlayLayout";
@@ -16,6 +15,7 @@ import { toast } from "react-toastify";
 import Button from "../Button";
 import { queryClient } from "../layout/MainLayout";
 import { FieldError, UserProfile } from "@/types";
+import { useUserStore } from "@/stores/userStore";
 
 interface ProfileErrors {
   email: FieldError;
@@ -34,7 +34,7 @@ const today = new Date();
 
 export default function EditProfileOverlay() {
   const { setIsEditProfileOpen } = useGeneralStore();
-  const { user } = useUser();
+  const { user } = useUserStore();
   const { t } = useTranslation();
   const cropperRef = useRef<CropperRef>(null);
   const [cropping, setCropping] = useState<string | null>(null);

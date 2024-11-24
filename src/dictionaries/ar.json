@@ -52,6 +52,9 @@
   "male": "ذكر",
   "female": "أنثى",
 
+  "faildToSubmitYourAction": "فشل التنفيز",
+  "loginToPerformAction": "يجب تسجيل الدخول لتتمكن من تنفيز الطلب",
+
   "auth.password": "كلمة المرور",
   "auth.login": "تسجيل الدخول",
   "auth.email": "البريد الإلكتروني",
@@ -73,7 +76,7 @@
   "auth.forcedLogout": "تسجيل الخروج بسبب رمز التمييز غير صالح او منتهي الصلاحية",
   "auth.successfullRegister": "تم التسجيل بنجاح",
   "auth.successfullLogin": "تم تسجيل الدخول بنجاح",
-  "auth.successfullLogout": "تم تسجيل الخروج بنجاح",
+  "auth.successfullLogout": "تسجيل الخروج بنجاح",
   "auth.forgetPassword": "نسيت كلمة المرور ؟",
   "auth.confirm": "تاكيد",
   "auth.EnterEmailtoResetPassword": "ادخل البريد الالكتروني الخاص بك لتغير كلمة المرور",

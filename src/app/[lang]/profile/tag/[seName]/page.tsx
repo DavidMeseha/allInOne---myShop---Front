@@ -6,32 +6,33 @@ import { Metadata, ResolvingMetadata } from "next";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
 
-type Props = { params: { id: string } };
+type Props = { params: { seName: string } };
 
-const getTagInfo = cache(async (id: string) => {
-  return await axios.get<ITag>(`/api/Catalog/tag/${id}`).then((res) => res.data);
+const getTagInfo = cache(async (seName: string) => {
+  return await axios.get<ITag>(`/api/Catalog/tag/${seName}`).then((res) => res.data);
 });
 
 export const revalidate = 600;
 export const dynamicParams = true;
 export async function generateStaticParams() {
-  const tags = await axios.get<{ _id: string }[]>(`/api/catalog/allTags`).then((res) => res.data);
+  const tags = await axios.get<{ seName: string }[]>(`/api/catalog/allTags`).then((res) => res.data);
   return tags.map((tag) => ({
-    id: tag._id
+    seName: tag.seName
   }));
 }
 
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const params = props.params;
   try {
-    const tag = await getTagInfo(params.id);
+    const tag = await getTagInfo(params.seName);
     const parentMeta = await parent;
 
     return {
-      title: `${parentMeta.title?.absolute} | ${tag.name}`,
+      title: `${parentMeta.title?.absolute} | #${tag.name}`,
       description: tag.seName + " " + tag.productCount,
       openGraph: {
         type: "website",
-        title: `${parentMeta.title?.absolute} | ${tag.name}`,
+        title: `${parentMeta.title?.absolute} | #${tag.name}`,
         description: tag.seName + " " + tag.productCount
       }
     };
@@ -40,9 +41,10 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   }
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page(props: Props) {
+  const params = props.params;
   try {
-    const tag = await getTagInfo(params.id);
+    const tag = await getTagInfo(params.seName);
     return <ViewtagProfile tag={tag} />;
   } catch (err: any) {
     const error = err as AxiosError;

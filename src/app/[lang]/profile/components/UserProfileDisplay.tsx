@@ -17,11 +17,11 @@ export default function UserProfileDisplay() {
   const { t } = useTranslation();
   const { following } = useUserStore();
   const { isEditProfileOpen, setIsEditProfileOpen, setIsProfileMenuOpen } = useGeneralStore();
-  const { cartProducts } = useUserStore();
+  const { cartItems } = useUserStore();
   const [activeTap, setActiveTap] = useState<"cart" | "bookmark" | "likes">("cart");
 
-  const cartProductsQuery = useQuery({
-    queryKey: ["cartProducts"],
+  const cartItemsQuery = useQuery({
+    queryKey: ["cartItems"],
     queryFn: () =>
       axios
         .get<{ product: IFullProduct; quantity: number; attributes: IProductAttribute[] }[]>("/api/common/cart")
@@ -29,9 +29,9 @@ export default function UserProfileDisplay() {
     enabled: activeTap === "cart"
   });
 
-  const savedProductsQuery = useQuery({
-    queryKey: ["savedProducts"],
-    queryFn: () => axios.get<IFullProduct[]>("/api/user/savedProducts").then((res) => res.data),
+  const savesQuery = useQuery({
+    queryKey: ["saves"],
+    queryFn: () => axios.get<IFullProduct[]>("/api/user/saves").then((res) => res.data),
     enabled: activeTap === "bookmark"
   });
 
@@ -47,7 +47,7 @@ export default function UserProfileDisplay() {
   });
 
   const userInfo = userInfoQuery.data;
-  const isFeatching = savedProductsQuery.isFetching || likedProductsQuery.isFetching || cartProductsQuery.isFetching;
+  const isFeatching = savesQuery.isFetching || likedProductsQuery.isFetching || cartItemsQuery.isFetching;
 
   const activities = [
     {
@@ -70,7 +70,7 @@ export default function UserProfileDisplay() {
         className="absolute end-4 top-4 rounded-sm bg-primary px-4 py-2 text-xs text-white md:end-0 md:text-base"
         href="/checkout"
       >
-        {t("checkout")} ({cartProducts.length})
+        {t("checkout")} ({cartItems.length})
       </LocalLink>
       <div className="flex w-full flex-col items-center md:mt-0">
         <Image
@@ -122,9 +122,9 @@ export default function UserProfileDisplay() {
         </ul>
 
         {activeTap === "cart" &&
-          (cartProductsQuery.data && cartProductsQuery.data.length > 0 ? (
+          (cartItemsQuery.data && cartItemsQuery.data.length > 0 ? (
             <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-              {cartProductsQuery.data.map((item, index) => (
+              {cartItemsQuery.data.map((item, index) => (
                 <ProductCard key={index} product={item.product} />
               ))}
             </div>
@@ -133,10 +133,10 @@ export default function UserProfileDisplay() {
           ))}
 
         {activeTap === "bookmark" &&
-          (savedProductsQuery.data ? (
-            savedProductsQuery.data.length > 0 ? (
+          (savesQuery.data ? (
+            savesQuery.data.length > 0 ? (
               <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                {savedProductsQuery.data.map((item, index) => (
+                {savesQuery.data.map((item, index) => (
                   <ProductCard key={index} product={item} />
                 ))}
               </div>

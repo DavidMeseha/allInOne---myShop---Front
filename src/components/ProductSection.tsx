@@ -18,15 +18,13 @@ import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 import { toast } from "react-toastify";
 import Button from "./Button";
-import { useUser } from "@/context/user";
 
 export default function ProductSection({ product }: { product: IFullProduct }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);
   const [readMore, setReadMore] = useState(false);
   const { t } = useTranslation();
-  const { following, setFollowedVendors } = useUserStore();
-  const { user } = useUser();
+  const { following, setFollowedVendors, user } = useUserStore();
   const descriptionRef = useRef(manipulateDescription(product.fullDescription));
   const [main, extend] = descriptionRef.current;
 
@@ -124,7 +122,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
               aria-label="Navigate to a tag products"
               className="me-4 inline-block h-6 hover:underline"
               dir="ltr"
-              href={`/profile/tag/${tag._id}`}
+              href={`/profile/tag/${tag.seName}`}
               key={tag._id}
             >
               #{tag.name}

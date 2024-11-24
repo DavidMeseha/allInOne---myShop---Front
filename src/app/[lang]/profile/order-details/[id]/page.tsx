@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import { use } from "react";
 
 import { useTranslation } from "@/context/Translation";
 import { useQuery } from "@tanstack/react-query";
@@ -6,7 +7,8 @@ import axios from "@/lib/axios";
 import { IFullProduct, IOrder, IProductAttribute } from "@/types";
 import Image from "next/image";
 
-export default function OrderDetailsPage({ params }: { params: { id: string } }) {
+export default function OrderDetailsPage(props: { params: Promise<{ id: string }> }) {
+  const params = use(props.params);
   const { t } = useTranslation();
 
   const orderQuery = useQuery({

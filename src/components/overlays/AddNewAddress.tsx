@@ -37,7 +37,7 @@ export default function AddNewAddress() {
       }),
     onSuccess: () => {
       toast.success("Address Added Successfully");
-      queryClient.invalidateQueries({ queryKey: ["userAddresses", "cartProducts"] });
+      queryClient.invalidateQueries({ queryKey: ["userAddresses", "cartItems"] });
     }
   });
 

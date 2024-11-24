@@ -20,16 +20,16 @@ type Props = {
 };
 
 export default function CartItem({ product, attributes, quantity, canEdit = false }: Props) {
-  const { setCartProducts } = useUserStore();
+  const { setCartItems } = useUserStore();
   const [showDetails, setShowDetails] = useState(false);
   const containerRef = useRef(null);
   const { t } = useTranslation();
   const removeFromCartMutation = useMutation({
     mutationKey: ["removeFromCart", product._id],
-    mutationFn: () => axios.delete(`/api/common/cart/remove/${product.seName}`),
+    mutationFn: () => axios.delete(`/api/common/cart/remove/${product._id}`),
     onSuccess: () => {
-      setCartProducts();
-      queryClient.fetchQuery({ queryKey: ["cartProducts"] });
+      setCartItems();
+      queryClient.fetchQuery({ queryKey: ["cartItems"] });
     }
   });
 

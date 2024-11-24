@@ -51,7 +51,7 @@ export default function CheckoutPage() {
   });
 
   const checkoutQuery = useQuery({
-    queryKey: ["cartProducts"],
+    queryKey: ["cartItems"],
     queryFn: () =>
       axios
         .get<{
@@ -69,7 +69,7 @@ export default function CheckoutPage() {
         })
   });
 
-  const shoppingCartProducts = checkoutQuery.data?.cartItems ?? [];
+  const shoppingcartItems = checkoutQuery.data?.cartItems ?? [];
   const addresses = checkoutQuery.data?.addresses ?? [];
 
   const handleFieldOnChange = (value: string, name: string) => {
@@ -143,7 +143,7 @@ export default function CheckoutPage() {
         <Button className="text-nowrap bg-primary text-white">
           <div className="flex gap-6">
             <div>
-              {t("checkout.placeOrder")}({shoppingCartProducts.length})
+              {t("checkout.placeOrder")}({shoppingcartItems.length})
             </div>
             <div>{checkoutQuery.data?.total}$</div>
           </div>
@@ -182,7 +182,7 @@ export default function CheckoutPage() {
           </>
         )}
         {activeTap === "summary" &&
-          shoppingCartProducts.map((item) => (
+          shoppingcartItems.map((item) => (
             <CartItem
               attributes={item.attributes}
               key={item.product.seName}
@@ -198,7 +198,7 @@ export default function CheckoutPage() {
           onClick={handleSubmit}
         >
           <div className="flex w-full justify-between">
-            {t("checkout.placeOrder")}({shoppingCartProducts.length})<div>{checkoutQuery.data?.total}$</div>
+            {t("checkout.placeOrder")}({shoppingcartItems.length})<div>{checkoutQuery.data?.total}$</div>
           </div>
         </Button>
       </div>

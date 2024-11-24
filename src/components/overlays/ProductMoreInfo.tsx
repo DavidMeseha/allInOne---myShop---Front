@@ -9,7 +9,6 @@ import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/componen
 import CarouselIndecator from "../CarouselIndecator";
 import { LocalLink } from "@/components/LocalizedNavigation";
 import { BiLoaderCircle } from "react-icons/bi";
-import { useUser } from "@/context/user";
 import ProductAttributes from "../ProductAttributes";
 import Image from "next/image";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -19,8 +18,8 @@ import { IFullProduct, IProductAttribute } from "../../types";
 export default function ProductMoreInfoOverlay() {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [imageIndex, setImageIndex] = useState(0);
-  const { setCartProducts } = useUserStore();
-  const { user } = useUser();
+  const { setCartItems } = useUserStore();
+  const { user } = useUserStore();
   const [activeTap, setActiveTap] = useState<"description" | "reviews">("description");
   const { setIsProductMoreInfoOpen, overlayProductId } = useGeneralStore();
   const [customAttributes, setCustomAttributes] = useState<IProductAttribute[]>([]);
@@ -37,7 +36,7 @@ export default function ProductMoreInfoOverlay() {
       axios.post(`/api/common/cart/add/${props.productId}`),
     onSuccess: () => {
       setIsProductMoreInfoOpen(false);
-      setCartProducts();
+      setCartItems();
     }
   });
 
@@ -115,7 +114,7 @@ export default function ProductMoreInfoOverlay() {
       <div className="mb-4 text-center text-sm text-strongGray">
         {product?.productTags
           ? product?.productTags.map((tag, index) => (
-              <LocalLink className="me-4 hover:underline" dir="ltr" href={`/profile/tag/${tag._id}`} key={index}>
+              <LocalLink className="me-4 hover:underline" dir="ltr" href={`/profile/tag/${tag.seName}`} key={index}>
                 #{tag.name}
               </LocalLink>
             ))

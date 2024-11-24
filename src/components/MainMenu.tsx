@@ -8,10 +8,13 @@ import { BsCompass, BsCompassFill, BsHouse, BsHouseFill } from "react-icons/bs";
 import { useTranslation } from "@/context/Translation";
 import { useUserStore } from "@/stores/userStore";
 import { PiInfinity, PiShoppingCart, PiShoppingCartFill } from "react-icons/pi";
+import DropdownButton from "./DropdownButton";
+import { Language } from "@/types";
+import { changeLanguage } from "@/actions";
 
 export default function MainMenu() {
-  const { t } = useTranslation();
-  const { cartProducts } = useUserStore();
+  const { t, lang, languages } = useTranslation();
+  const { cartItems } = useUserStore();
   const { pathname } = useLocalPathname();
 
   const menu = [
@@ -53,7 +56,7 @@ export default function MainMenu() {
       IconActive: <BsCompassFill size={20} />
     },
     {
-      name: t("cart") + ` (${cartProducts.length})`,
+      name: t("cart") + ` (${cartItems.length})`,
       to: `/cart`,
       Icon: <PiShoppingCart size={20} />,
       IconActive: <PiShoppingCartFill size={20} />
@@ -79,6 +82,19 @@ export default function MainMenu() {
           )}
         </li>
       ))}
+      <li className="flex items-center gap-2 p-2">
+        <span>Language: </span>
+        <div className="w-full">
+          <DropdownButton
+            className="bg-transparent px-0"
+            options={languages}
+            value={lang}
+            onSelectItem={async (value) => await changeLanguage(value as Language, pathname)}
+          >
+            {lang.toUpperCase()}
+          </DropdownButton>
+        </div>
+      </li>
     </ul>
   );
 }

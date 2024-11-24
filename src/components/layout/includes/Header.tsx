@@ -5,7 +5,6 @@ import { BiSearch, BiShoppingBag, BiUser } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FiLogOut } from "react-icons/fi";
 import { useState } from "react";
-import { useUser } from "@/context/user";
 import { useGeneralStore } from "@/stores/generalStore";
 import Button from "@/components/Button";
 import { useTranslation } from "../../../context/Translation";
@@ -13,12 +12,16 @@ import Image from "next/image";
 import { useRouter } from "next-nprogress-bar";
 import DropdownButton from "@/components/DropdownButton";
 import { Dictionaries } from "@/dictionary";
+import { changeLanguage, logout } from "@/actions";
+import { usePathname } from "next/navigation";
+import { useUserStore } from "@/stores/userStore";
 
 export default function Header() {
-  const { user, logout } = useUser();
+  const { user } = useUserStore();
   const router = useRouter();
+  const pathname = usePathname();
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const { t, lang, changeLang } = useTranslation();
+  const { t, lang, languages } = useTranslation();
   const { setIsSearchOpen } = useGeneralStore();
 
   const goTo = () => {
@@ -61,10 +64,10 @@ export default function Header() {
           </Button>
 
           <DropdownButton
-            className="bg-transparent px-0"
-            options={["en", "ar"]}
+            className="w-fit bg-transparent px-0"
+            options={languages}
             value={lang}
-            onSelectItem={(value) => changeLang(value as Dictionaries)}
+            onSelectItem={async (value) => await changeLanguage(value as Dictionaries, pathname)}
           >
             {lang.toUpperCase()}
           </DropdownButton>
@@ -101,7 +104,7 @@ export default function Header() {
                     <button
                       className="flex w-full gap-1 border-t px-2 py-3 hover:bg-gray-100"
                       onClick={() => {
-                        logout();
+                        logout(pathname);
                         setShowMenu(false);
                       }}
                     >

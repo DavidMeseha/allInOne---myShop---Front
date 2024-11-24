@@ -1,5 +1,4 @@
 import { queryClient } from "@/components/layout/MainLayout";
-import { useUser } from "@/context/user";
 import axios from "@/lib/axios";
 import { useGeneralStore } from "@/stores/generalStore";
 import { useUserStore } from "@/stores/userStore";
@@ -12,25 +11,23 @@ type Props = {
 };
 
 interface MutationProps {
-  productId: string;
   attributes: IProductAttribute[];
   quantity: number;
 }
 
 export default function useHandleAddToCart({ product, onSuccess }: Props) {
-  const { user } = useUser();
-  const { setCartProducts } = useUserStore();
+  const { setCartItems, user } = useUserStore();
   const { setIsProductAttributesOpen } = useGeneralStore();
 
   const addToCartMutation = useMutation({
     mutationKey: ["addToCart"],
     mutationFn: (props: MutationProps) =>
-      axios.post(`/api/common/cart/add/${props.productId}`, {
+      axios.post(`/api/common/cart/add/${product._id}`, {
         attributes: props.attributes,
         quantity: props.quantity
       }),
     onSuccess: () => {
-      setCartProducts();
+      setCartItems();
       queryClient.invalidateQueries({ queryKey: ["cartProducts"] });
       onSuccess && onSuccess(true);
     }
@@ -40,7 +37,7 @@ export default function useHandleAddToCart({ product, onSuccess }: Props) {
     mutationKey: ["removeFromCart", product.seName],
     mutationFn: () => axios.delete(`/api/common/cart/remove/${product._id}`),
     onSuccess: () => {
-      setCartProducts();
+      setCartItems();
       queryClient.invalidateQueries({ queryKey: ["cartProducts"] });
       onSuccess && onSuccess(false);
     }
@@ -50,7 +47,7 @@ export default function useHandleAddToCart({ product, onSuccess }: Props) {
     if (!user || addToCartMutation.isPending || removeFromCartMutation.isPending) return;
     if (product.hasAttributes && addToCart)
       return setIsProductAttributesOpen(true, product._id, "Add To Cart", (attributes) =>
-        addToCartMutation.mutate({ productId: product._id, attributes, quantity: 1 })
+        addToCartMutation.mutate({ attributes, quantity: 1 })
       );
     if (addToCart && !product.hasAttributes) return addToCartMutation.mutate(props);
     removeFromCartMutation.mutate();

@@ -6,19 +6,19 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { IFullProduct, IProductAttribute } from "@/types";
 import Button from "@/components/Button";
-import { useUser } from "@/context/user";
 import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
 import { LocalLink } from "../../../components/LocalizedNavigation";
 import { BiLoaderCircle } from "react-icons/bi";
+import { useUserStore } from "@/stores/userStore";
 
 export default function Page() {
   const { t } = useTranslation();
-  const { user } = useUser();
+  const { user } = useUserStore();
   const router = useRouter();
 
   const checkoutQuery = useQuery({
-    queryKey: ["cartProducts"],
+    queryKey: ["cartItems"],
     queryFn: () =>
       axios
         .get<{

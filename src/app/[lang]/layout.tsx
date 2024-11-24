@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import MainLayout from "../../components/layout/MainLayout";
-import { Dictionaries, getDictionary, langs, Translation } from "../../dictionary";
+import { Dictionaries, getDictionary, langs } from "../../dictionary";
 import React, { ReactElement } from "react";
 import { cookies } from "next/headers";
 import axios from "@/lib/axios";
@@ -19,7 +19,7 @@ export default async function RootLayout({
   children: ReactElement;
   params: { lang: Dictionaries };
 }) {
-  const dictionary: Translation = await getDictionary(params.lang);
+  const dictionary = await getDictionary(params.lang);
 
   const token = cookies().get("session")?.value;
   const user = await axios
@@ -34,7 +34,7 @@ export default async function RootLayout({
         dir="ltr"
       >
         <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
-          <MainLayout dictionary={dictionary} lang={params.lang} token={token} user={token ? user : null}>
+          <MainLayout dictionary={dictionary} lang={params.lang} token={token} user={user ?? null}>
             {children}
             <ToastContainer />
           </MainLayout>

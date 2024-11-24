@@ -33,7 +33,7 @@ export default function TagsView() {
         <li className="hidden text-3xl font-bold md:inline-block">Tags</li>
         {tagsPages
           ? tagsPages.map((page) =>
-              page.data.map((tag) => <ListItem key={tag._id} tag={tag} to={`/profile/tag/${tag._id}`} />)
+              page.data.map((tag) => <ListItem key={tag._id} tag={tag} to={`/profile/tag/${tag.seName}`} />)
             )
           : null}
 

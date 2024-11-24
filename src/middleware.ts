@@ -1,13 +1,18 @@
-import { langs } from "@/dictionary";
 import { type MiddlewareConfig, type NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { getPathnameLang } from "./lib/misc";
 
 export async function middleware(req: NextRequest) {
   let res: NextResponse = NextResponse.next();
   const { pathname } = req.nextUrl;
-  const pathnameLang = langs.find((lang) => pathname.startsWith(`/${lang}/`) || pathname === `/${lang}`);
+  let lang = req.cookies.get("lang")?.value ?? "en";
+
+  const pathnameLang = getPathnameLang(pathname);
+  const pathnameTemp = pathname;
+  const pathOnly = pathnameLang ? pathnameTemp.replace("/" + pathnameLang, "") : pathname;
+
   if (!pathnameLang) {
-    req.nextUrl.pathname = `/${"en"}${pathname}`;
+    req.nextUrl.pathname = `/${lang}${pathOnly ?? ""}`;
     res = NextResponse.redirect(req.nextUrl);
   }
 

@@ -11,17 +11,17 @@ import axios from "@/lib/axios";
 import RatingStars from "@/components/RatingStars";
 import Button from "@/components/Button";
 import { useState } from "react";
-import { useUser } from "@/context/user";
 import { toast } from "react-toastify";
 import { queryClient } from "@/components/layout/MainLayout";
 import FormTextInput from "@/components/FormTextInput";
 import { useTranslation } from "@/context/Translation";
+import { useUserStore } from "@/stores/userStore";
 
 export default function ProductPage({ product }: { product: IFullProduct }) {
   const [review, setReview] = useState<string>("");
   const [rate, setRate] = useState(0);
   const [error, setError] = useState<false | string>(false);
-  const { user } = useUser();
+  const { user } = useUserStore();
   const { t } = useTranslation();
 
   const addReviewMutation = useMutation({

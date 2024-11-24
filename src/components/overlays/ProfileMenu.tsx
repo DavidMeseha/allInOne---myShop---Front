@@ -5,18 +5,19 @@ import OverlayLayout from "./OverlayLayout";
 import { useGeneralStore } from "@/stores/generalStore";
 import { LocalLink } from "@/components/LocalizedNavigation";
 import { FiLogOut } from "react-icons/fi";
-import { useUser } from "@/context/user";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { useTranslation } from "@/context/Translation";
 import { FaLanguage, FaRegAddressBook } from "react-icons/fa";
 import { BsCurrencyExchange, BsStar } from "react-icons/bs";
 import { PiPassword } from "react-icons/pi";
+import { changeLanguage, logout } from "@/actions";
+import { usePathname } from "next/navigation";
 
 export default function ProfileMenuOverlay() {
+  const pathname = usePathname();
   const { setIsProfileMenuOpen } = useGeneralStore();
-  const { logout } = useUser();
   const [activeTap, setActiveTap] = useState("main");
-  const { t, changeLang, languages, lang } = useTranslation();
+  const { t, languages, lang } = useTranslation();
 
   const userMenuNav = [
     {
@@ -68,7 +69,7 @@ export default function ProfileMenuOverlay() {
               </li>
             ))}
             <li>
-              <button className="flex items-center gap-4 py-2 font-semibold" onClick={logout}>
+              <button className="flex items-center gap-4 py-2 font-semibold" onClick={() => logout(pathname)}>
                 <FiLogOut size={20} />
                 {t("logout")}
               </button>
@@ -82,7 +83,7 @@ export default function ProfileMenuOverlay() {
                 <button
                   className="flex items-center gap-4 py-2 font-semibold"
                   onClick={() => {
-                    changeLang(language);
+                    changeLanguage(language, pathname);
                   }}
                 >
                   {lang === language &&

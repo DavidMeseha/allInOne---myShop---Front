@@ -3,36 +3,39 @@
 import Button from "@/components/Button";
 import { queryClient } from "@/components/layout/MainLayout";
 import { useTranslation } from "@/context/Translation";
-import axios from "@/lib/axios";
-import { useUserStore } from "@/stores/userStore";
 import { IVendor } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { LocalLink } from "@/components/LocalizedNavigation";
 import React from "react";
-import { toast } from "react-toastify";
+import useHandleFollow from "@/hooks/useHandleFollow";
+import { followings } from "@/actions";
+import { usePathname } from "next/navigation";
+import Loading from "@/components/loading";
 
 export default function FollowingPage() {
+  const pathname = usePathname();
   const follwingVendorsQuery = useQuery({
     queryKey: ["following"],
-    queryFn: () => axios.get<IVendor[]>("/api/user/followingVendors").then((res) => res.data)
+    queryFn: () => followings(pathname)
   });
+
+  if (follwingVendorsQuery.isFetching) return <Loading />;
+  if (!follwingVendorsQuery.data?.length)
+    return <div className="py-4 text-center text-strongGray">No Followed Vendors</div>;
   return <ul>{follwingVendorsQuery.data?.map((vendor) => <ListItem key={vendor._id} vendor={vendor} />)}</ul>;
 }
 
 function ListItem({ vendor }: { vendor: IVendor }) {
   const { t } = useTranslation();
-  const { setFollowedVendors } = useUserStore();
 
-  const unfollowMutation = useMutation({
-    mutationKey: ["followVendor", vendor._id],
-    mutationFn: () => axios.post(`/api/user/unfollowVendor/${vendor._id}`),
+  const { handleFollow, isPending } = useHandleFollow({
+    vendor,
     onSuccess: () => {
-      setFollowedVendors();
       queryClient.fetchQuery({ queryKey: ["following"] });
-      toast.warning("Vendor unFollowed");
     }
   });
+
   return (
     <li className="flex items-center justify-between px-4 py-2">
       <div className="flex w-full items-center gap-3">
@@ -54,8 +57,8 @@ function ListItem({ vendor }: { vendor: IVendor }) {
       <div>
         <Button
           className="flex items-center justify-center rounded-md bg-primary font-bold text-white"
-          isLoading={unfollowMutation.isPending}
-          onClick={() => unfollowMutation.mutate()}
+          isLoading={isPending}
+          onClick={() => handleFollow(false)}
         >
           {t("unfollow")}
         </Button>

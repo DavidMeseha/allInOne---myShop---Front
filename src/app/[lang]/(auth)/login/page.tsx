@@ -5,17 +5,19 @@ import { SubmitButton } from "@/components/SubmitButton";
 import axios from "@/lib/axios";
 import { User } from "@/types";
 import { cookies } from "next/headers";
-import { redirect, RedirectType } from "next/navigation";
+import { redirect } from "next/navigation";
 import { AxiosError } from "axios";
 import Link from "next/link";
-import { setToken } from "@/actions";
+import { setLanguage, setToken } from "@/actions";
 
 interface Props {
-  params: { lang: Dictionaries };
-  searchParams: { message: string };
+  params: Promise<{ lang: Dictionaries }>;
+  searchParams: Promise<{ error: string }>;
 }
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page(props: Props) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const dictionary = await getDictionary(params.lang);
 
   const login = async (form: FormData) => {
@@ -23,6 +25,7 @@ export default async function Page({ params, searchParams }: Props) {
     const email = form.get("email");
     const password = form.get("password");
 
+    let userLang;
     try {
       const res = await axios
         .post<{
@@ -36,14 +39,16 @@ export default async function Page({ params, searchParams }: Props) {
         .then((data) => data.data);
 
       setToken(res.token);
+      setLanguage(res.user.language);
+      userLang = res.user.language;
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
       return redirect(
-        `/${params.lang}/login?message=${encodeURIComponent(error.response?.data.message ?? error.message)}`
+        `/${params.lang}/login?error=${encodeURIComponent(error.response?.data.message ?? error.message)}`
       );
     }
 
-    return redirect(`/${params.lang}`, RedirectType.push);
+    return redirect(`/${userLang}`);
   };
 
   return (
@@ -54,9 +59,9 @@ export default async function Page({ params, searchParams }: Props) {
           {dictionary["auth.dontHaveAnAccount"]}
         </Link>
       </div>
-      <FormTextInput name="email" placeholder={dictionary["auth.login"]} type="email" />
-      <FormTextInput name="password" placeholder={dictionary["auth.login"]} type="password" />
-      <div className="min-h-[21px] text-[14px] font-semibold text-red-500">{searchParams.message}</div>
+      <FormTextInput name="email" placeholder={dictionary["auth.email"]} type="email" />
+      <FormTextInput name="password" placeholder={dictionary["auth.password"]} type="password" />
+      <div className="min-h-[21px] text-[14px] font-semibold text-red-500">{searchParams.error}</div>
       <div className="mt-2 pb-2">
         <SubmitButton
           className={`w-full bg-primary py-3 text-base font-semibold text-white`}

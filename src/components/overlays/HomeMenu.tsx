@@ -4,13 +4,13 @@ import React from "react";
 import VendorMenu from "../VendorMenu";
 import { useGeneralStore } from "@/stores/generalStore";
 import { RiCloseLine } from "react-icons/ri";
-import { useUser } from "@/context/user";
 import MainMenu from "../MainMenu";
 import { useTranslation } from "@/context/Translation";
+import { useUserStore } from "@/stores/userStore";
 
 export default function HomeMenu() {
   const { isHomeMenuOpen, setIsHomeMenuOpen } = useGeneralStore();
-  const { user } = useUser();
+  const { user } = useUserStore();
   const { t } = useTranslation();
 
   return (

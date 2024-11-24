@@ -1,5 +1,4 @@
 import { queryClient } from "@/components/layout/MainLayout";
-import { useUser } from "@/context/user";
 import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 import { IFullProduct } from "@/types";
@@ -12,14 +11,13 @@ type Props = {
 };
 
 export default function useHandleSave({ product, onSuccess }: Props) {
-  const { user } = useUser();
-  const { setSavedProducts } = useUserStore();
+  const { setSaves, user } = useUserStore();
 
   const saveMutation = useMutation({
     mutationKey: ["save", product.seName],
     mutationFn: () => axios.post(`/api/user/saveProduct/${product._id}`),
     onSuccess: () => {
-      setSavedProducts();
+      setSaves();
       queryClient.invalidateQueries({ queryKey: ["savedProducts"] });
       onSuccess && onSuccess(true);
     }
@@ -29,7 +27,7 @@ export default function useHandleSave({ product, onSuccess }: Props) {
     mutationKey: ["unsave", product.seName],
     mutationFn: () => axios.post(`/api/user/unsaveProduct/${product._id}`),
     onSuccess: () => {
-      setSavedProducts();
+      setSaves();
       queryClient.invalidateQueries({ queryKey: ["savedProducts"] });
       onSuccess && onSuccess(false);
     }

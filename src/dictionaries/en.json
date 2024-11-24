@@ -52,6 +52,9 @@
   "male": "Male",
   "female": "Female",
 
+  "faildToSubmitYourAction": "Field to save product",
+  "loginToPerformAction": "You need to login to perform action",
+
   "auth.password": "Password",
   "auth.login": "Login",
   "auth.email": "Email",

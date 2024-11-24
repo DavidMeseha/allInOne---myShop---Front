@@ -3,7 +3,6 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { BiMinus, BiSolidCloudUpload } from "react-icons/bi";
 import { useRouter } from "next-nprogress-bar";
-import { useUser } from "@/context/user";
 import { FieldError } from "../../../types";
 import { TagsInput } from "react-tag-input-component";
 import "react-advanced-cropper/dist/style.css";
@@ -16,6 +15,7 @@ import { useTranslation } from "@/context/Translation";
 import Image from "next/image";
 import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axios";
+import { useUserStore } from "@/stores/userStore";
 
 type NewProduct = {
   name: string;
@@ -74,7 +74,7 @@ const initialErrors: Errors = {
 };
 
 export default function Upload() {
-  const { user } = useUser();
+  const { user } = useUserStore();
   const { t } = useTranslation();
   const router = useRouter();
 

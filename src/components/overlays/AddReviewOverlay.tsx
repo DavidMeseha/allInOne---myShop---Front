@@ -16,7 +16,7 @@ type FormError = {
 
 export default function AddReviewOverlay() {
   const { setIsAddReviewOpen, overlayProductId } = useGeneralStore();
-  const { setReviewedProducts } = useUserStore();
+  const { setReviews } = useUserStore();
   const [form, setForm] = useState({ reviewText: "", rating: 0 });
   const [error, setError] = useState<FormError>({ reviewText: false, rating: false });
 
@@ -27,7 +27,7 @@ export default function AddReviewOverlay() {
     onSuccess: () => {
       toast.success("Review Added Successfully");
       setForm({ rating: 0, reviewText: "" });
-      setReviewedProducts();
+      setReviews();
       setIsAddReviewOpen(false);
     },
 

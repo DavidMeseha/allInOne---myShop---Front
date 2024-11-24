@@ -11,11 +11,13 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 
 interface Props {
-  params: { lang: Dictionaries };
-  searchParams: { message: string };
+  params: Promise<{ lang: Dictionaries }>;
+  searchParams: Promise<{ error: string }>;
 }
 
-export default async function page({ params, searchParams }: Props) {
+export default async function page(props: Props) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const dictionary = await getDictionary(params.lang);
 
   const register = async (form: FormData) => {
@@ -40,10 +42,10 @@ export default async function page({ params, searchParams }: Props) {
       );
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;
-      return redirect(`/${[params.lang]}/register?message=${error.response?.data.message ?? ""}`);
+      return redirect(`/${params.lang}/register?error=${encodeURIComponent(error.response?.data.message ?? "")}`);
     }
 
-    return redirect(`/${params.lang}/login`);
+    return redirect(`/${params.lang}/login?message=${encodeURIComponent(dictionary["auth.successfullRegister"])}`);
   };
 
   return (
@@ -105,7 +107,7 @@ export default async function page({ params, searchParams }: Props) {
 
       <DateDropdownNumbers title="Date Of Birth" />
 
-      <div className="text-red-600">{searchParams.message}</div>
+      <div className="text-red-600">{searchParams.error}</div>
       <SubmitButton className="my-6 w-full bg-primary font-semibold text-white" formAction={register}>
         {dictionary["auth.register"]}
       </SubmitButton>

@@ -1,9 +1,9 @@
 import { act, fireEvent, screen } from "@testing-library/react";
-import SubMenuItem from "@/components/SubMenuItem";
-import en from "@/dictionaries/en.json";
 import { BsCompass, BsCompassFill } from "react-icons/bs";
 import { renderWithTransation } from "../../test-mic";
 import { usePathname } from "next/navigation";
+import en from "../../src/dictionaries/en.json";
+import SubMenuItem from "../../src/components/SubMenuItem";
 
 describe("Sub Menu Item", () => {
   const menuItem = {

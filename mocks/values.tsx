@@ -46,33 +46,36 @@ export const mockGeneralStore = create<GeneralStore>()((set) => ({
 }));
 
 export const mockUserStore = create<UserStore>()((set) => ({
-  reviewedProducts: [],
-  cartProducts: [],
-  savedProducts: [],
+  user: null,
+  reviews: [],
+  cartItems: [],
+  saves: [],
   likes: [],
   following: [],
 
-  setReviewedProducts: async () => {
-    set({ reviewedProducts: ["1", "2"] });
+  setReviews: async () => {
+    set({ reviews: ["1", "2"] });
   },
   setLikes: async () => {
     set({ likes: ["1", "2"] });
   },
-  setCartProducts: async () => {
+  setCartItems: async () => {
     const result = [
       { product: "1", quantity: 1 },
       { product: "2", quantity: 2 }
     ];
-    set({ cartProducts: result });
+    set({ cartItems: result });
   },
-  setSavedProducts: async () => {
+  setSaves: async () => {
     const result = ["1", "2"];
-    set({ savedProducts: result });
+    set({ saves: result });
   },
   setFollowedVendors: async () => {
     const result = ["1", "2"];
     set({ following: result });
-  }
+  },
+  setUser: (user) => set({ user }),
+  setUserActions: jest.fn()
 }));
 
 export const mockHomeProduct: IFullProduct = {

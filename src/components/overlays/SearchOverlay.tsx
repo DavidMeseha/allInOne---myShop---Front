@@ -8,9 +8,9 @@ import Image from "next/image";
 import { RiCloseLine } from "react-icons/ri";
 import Button from "../Button";
 import { useGeneralStore } from "@/stores/generalStore";
-import { Variants, motion } from "framer-motion";
 import { LocalLink } from "@/components/LocalizedNavigation";
 import { BiLoaderCircle } from "react-icons/bi";
+import { Variants, motion } from "framer-motion";
 
 type SearchResponseItem = {
   item: IFullProduct | IVendor | ITag | ICategory;
@@ -61,7 +61,7 @@ export default function SearchOverlay() {
   const items = searchQuery.data?.data ?? [];
 
   const setupItemLocalLink = (item: SearchResponseItem) => {
-    return `/${item.type === "product" ? `product/${item.item._id}` : `profile/${item.type}/${item.item._id}`}`;
+    return `/${item.type === "product" ? `product/${item.item.seName}` : `profile/${item.type}/${item.item.seName}`}`;
   };
 
   return (

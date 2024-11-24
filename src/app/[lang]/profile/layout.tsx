@@ -4,19 +4,23 @@ import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { useGeneralStore } from "@/stores/generalStore";
 import { BiMenu } from "react-icons/bi";
-import { useUser } from "@/context/user";
 import { useTranslation } from "@/context/Translation";
 import BackArrow from "@/components/BackArrow";
+import { useUserStore } from "@/stores/userStore";
 
 type Props = {
   children: React.ReactNode;
-  params: { id: string };
+  params: { seName: string };
 };
 
-export default function ProfileLayout({ children, params }: Props) {
+export default function ProfileLayout(props: Props) {
+  const params = props.params;
+
+  const { children } = props;
+
   const { setIsProfileMenuOpen } = useGeneralStore();
   const { t, lang } = useTranslation();
-  const { user } = useUser();
+  const { user } = useUserStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -32,7 +36,7 @@ export default function ProfileLayout({ children, params }: Props) {
   };
 
   let path = pathname.replace(`/${lang}`, "");
-  path = params.id ? path.replace(params.id, "") : path;
+  path = params.seName ? path.replace(params.seName, "") : path;
 
   return (
     <>

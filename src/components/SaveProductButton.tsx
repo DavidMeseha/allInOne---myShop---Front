@@ -12,18 +12,20 @@ type Props = {
 };
 
 export default function SaveProductButton({ product }: Props) {
-  const { savedProducts } = useUserStore();
-  const [isSaved, setIsSaved] = useState(savedProducts.includes(product._id));
+  const { saves, setSaves } = useUserStore();
   const [count, setCount] = useState(product.likes);
+  const inSaves = saves.find((item) => item === product._id);
   const { handleSave, isPending } = useHandleSave({
     product,
     onSuccess: (state) => {
       setCount(count + (state ? 1 : -1));
-      setIsSaved(state);
+      const temp = [...saves];
+      inSaves ? temp.splice(temp.indexOf(inSaves), 1) : temp.push(product._id);
+      setSaves([...temp]);
     }
   });
 
-  const handleSaveAction = () => handleSave(!isSaved);
+  const handleSaveAction = () => handleSave(!inSaves);
   return (
     <button aria-label="Like Product" className="fill-black text-center" onClick={handleSaveAction}>
       <div className="rounded-full bg-gray-200 p-2">
@@ -31,7 +33,7 @@ export default function SaveProductButton({ product }: Props) {
           <BiLoaderCircle className="animate-spin" size="25" />
         ) : (
           <BsBookmarkFill
-            className={`transition-all ${isSaved ? "fill-primary" : "fill-black"} text-black hover:fill-primary`}
+            className={`transition-all ${inSaves ? "fill-primary" : "fill-black"} text-black hover:fill-primary`}
             size="25"
           />
         )}

@@ -12,18 +12,21 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function LikeProductButton({ product }: Props) {
-  const { likes } = useUserStore();
-  const [isLiked, setIsLiked] = useState(likes.includes(product._id));
+  const { likes, setLikes } = useUserStore();
   const [count, setCount] = useState(product.likes);
+  const inLikes = likes.find((item) => item === product._id);
+
   const { handleLike, isPending } = useHandleLike({
     product,
     onSuccess: (state) => {
       setCount(count + (state ? 1 : -1));
-      setIsLiked(state);
+      const temp = [...likes];
+      inLikes ? temp.splice(temp.indexOf(inLikes), 1) : temp.push(product._id);
+      setLikes([...temp]);
     }
   });
 
-  const handleLikeAction = () => handleLike(!isLiked);
+  const handleLikeAction = () => handleLike(!inLikes);
 
   return (
     <button aria-label="Like Product" className="fill-black text-center" onClick={handleLikeAction}>
@@ -32,7 +35,7 @@ export default function LikeProductButton({ product }: Props) {
           <BiLoaderCircle className="animate-spin text-black" size={25} />
         ) : (
           <AiFillHeart
-            className={`transition-all ${isLiked ? "fill-primary" : "fill-black"} text-black hover:fill-primary`}
+            className={`transition-all ${inLikes ? "fill-primary" : "fill-black"} text-black hover:fill-primary`}
             size="25"
           />
         )}

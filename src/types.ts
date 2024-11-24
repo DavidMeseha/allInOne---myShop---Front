@@ -1,5 +1,7 @@
 export type FieldError = string | false;
 
+export type Language = "en" | "ar";
+
 export interface Pagination {
   current: number;
   limit: number;
@@ -38,7 +40,7 @@ export interface User {
   isRegistered: boolean;
   imageUrl: string;
   _id: string;
-  language: string;
+  language: Language;
 }
 
 export interface Review {
@@ -84,12 +86,6 @@ export interface Vendor {
     alternate_text: string;
     id: number;
   };
-  id: number;
-}
-
-export interface Language {
-  name: string;
-  flag_image_file_name: string;
   id: number;
 }
 

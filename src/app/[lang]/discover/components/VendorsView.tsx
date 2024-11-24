@@ -3,13 +3,13 @@
 import { LocalLink } from "@/components/LocalizedNavigation";
 import Image from "next/image";
 import { IVendor, Pagination } from "@/types";
-import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import Button from "@/components/Button";
-import { toast } from "react-toastify";
 import { useUserStore } from "@/stores/userStore";
-import { useUser } from "@/context/user";
 import Loading from "@/components/loading";
+import useHandleFollow from "@/hooks/useHandleFollow";
+import { useTranslation } from "@/context/Translation";
 
 export default function VendorsView() {
   const vendorsQuery = useInfiniteQuery({
@@ -68,23 +68,9 @@ type ListItemProps = {
 };
 
 function ListItem({ vendor, to }: ListItemProps) {
-  const { setFollowedVendors, following } = useUserStore();
-  const { user } = useUser();
-
-  const followMutation = useMutation({
-    mutationKey: ["followVendor", vendor.seName],
-    mutationFn: () => axios.post(`/api/user/followVendor/${vendor._id}`),
-    onSuccess: () => {
-      setFollowedVendors();
-      toast.success("Vendor followed successfully");
-    }
-  });
-
-  const handleFollowClick = () => {
-    if (!user) return;
-    if (user.isRegistered) return followMutation.mutate();
-    toast.warn("You Need To Login To perform Action");
-  };
+  const { t } = useTranslation();
+  const { following } = useUserStore();
+  const { handleFollow, isPending } = useHandleFollow({ vendor });
 
   return (
     <li className="flex items-center justify-between px-4 py-2">
@@ -106,12 +92,12 @@ function ListItem({ vendor, to }: ListItemProps) {
       </div>
       <div>
         {following.includes(vendor._id) ? (
-          <div className="text-strongGray">followed</div>
+          <div className="text-strongGray">{t("profile.following")}</div>
         ) : (
           <Button
             className="bg-primary px-4 font-bold text-white"
-            isLoading={followMutation.isPending}
-            onClick={handleFollowClick}
+            isLoading={isPending}
+            onClick={() => handleFollow(true)}
           >
             +
           </Button>

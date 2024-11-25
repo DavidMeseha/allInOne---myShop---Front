@@ -12,7 +12,7 @@ import { useUserStore } from "@/stores/userStore";
 import { IFullProduct, IProductAttribute } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 type Props = {
@@ -78,11 +78,11 @@ export default function PPage({ product }: Props) {
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
             <div className="mx-auto max-w-md shrink-0 lg:max-w-md">
               <Image
+                alt={product.name}
                 className="mx-auto w-full max-w-40 object-contain lg:max-w-full"
+                height={500}
                 src={product.pictures[0].imageUrl}
                 width={500}
-                height={500}
-                alt={product.name}
               />
             </div>
 
@@ -93,8 +93,8 @@ export default function PPage({ product }: Props) {
 
                 <div className="mt-2 flex items-center gap-2 sm:mt-0">
                   <RatingStars
-                    size={15}
                     rate={product.productReviewOverview.ratingSum / (product.productReviewOverview.totalReviews || 1)}
+                    size={15}
                   />
                   <p className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
                     (
@@ -109,8 +109,8 @@ export default function PPage({ product }: Props) {
               <div className="mt-6">
                 <ProductAttributes
                   customAttributes={customAttributes}
-                  productAttributes={product.productAttributes}
                   handleChange={handleAttributesChange}
+                  productAttributes={product.productAttributes}
                 />
               </div>
 
@@ -118,9 +118,9 @@ export default function PPage({ product }: Props) {
                 <LikeProductButton product={product} />
                 <SaveProductButton product={product} />
                 <AddToCartButton
+                  isLoading={addToCartMutation.isPending}
                   product={product}
                   onClick={addToCartClickHandle}
-                  isLoading={addToCartMutation.isPending}
                 />
                 <RateProductButton product={product} />
               </div>
@@ -135,8 +135,8 @@ export default function PPage({ product }: Props) {
 
       <h1 className="px-4 text-2xl font-bold">Similar Products</h1>
       <section
-        ref={ref}
         className="relative mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
+        ref={ref}
       >
         {productsQuery.data?.data.data.map((product) => <ProductCard key={product._id} product={product} />)}
       </section>

@@ -1,4 +1,3 @@
-import ProductPage from "../ProductPage";
 import axios from "@/lib/axios";
 import { Metadata, ResolvingMetadata } from "next";
 import { IFullProduct } from "@/types";

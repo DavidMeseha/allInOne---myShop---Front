@@ -169,6 +169,14 @@
   "cart.empty": "عربة التسوق فارغه",
 
   "orderDetails.orderItems": "عناصر الطلب",
+  "orderDetails.orderNumber": "رقم الطلب",
+  "orderDetails.shipping": "الشحن",
+  "orderDetails.payment": "الدفع",
+  "orderDetails.subtotal": "المجموع الفرعي",
+  "orderDetails.shippingFees": "رسوم الشحن",
+  "orderDetails.codFees": "رسوم الدفع عند الاستلام",
+  "orderDetails.billing": "الفاتوره",
+  "orderDetails.statuses": "حالات الطلب",
 
   "checkout.placeOrder": "إتمام الطلب",
   "checkout.nextStep": "الخطوة التالية",

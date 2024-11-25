@@ -7,9 +7,11 @@ import { useUserStore } from "@/stores/userStore";
 
 type Props = {
   product: IFullProduct;
+  onClick?: () => void;
+  isLoading?: boolean;
 };
 
-export default function AddToCartButton({ product }: Props) {
+export default function AddToCartButton({ product, onClick, isLoading }: Props) {
   const { cartItems, setCartItems } = useUserStore();
   const [count, setCount] = useState(product.carts);
   const inCart = cartItems.find((item) => item.product === product._id);
@@ -24,12 +26,12 @@ export default function AddToCartButton({ product }: Props) {
     }
   });
 
-  const addToCart = () => handleAddToCart(!inCart, { attributes: [], quantity: 1 });
+  const addToCart = () => (onClick ? onClick() : handleAddToCart(!inCart, { attributes: [], quantity: 1 }));
 
   return (
     <button aria-label="Product add to cart" className="fill-black text-center" onClick={addToCart}>
       <div className="rounded-full bg-gray-200 p-2">
-        {isPending ? (
+        {isPending || isLoading ? (
           <BiLoaderCircle className="animate-spin" size="25" />
         ) : (
           <BsCartFill className={`p-0.5 transition-all ${inCart ? "fill-primary" : ""} hover:fill-primary`} size="25" />

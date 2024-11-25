@@ -169,6 +169,14 @@
   "cart.empty": "Empty Cart",
 
   "orderDetails.orderItems": "Order Items",
+  "orderDetails.orderNumber": "Order Number",
+  "orderDetails.shipping": "Shipping",
+  "orderDetails.payment": "Payment",
+  "orderDetails.subtotal": "Subtotal",
+  "orderDetails.shippingFees": "Shipping Fees",
+  "orderDetails.codFees": "COD Fees",
+  "orderDetails.billing": "Billing",
+  "orderDetails.statuses": "Order statuses",
 
   "checkout.placeOrder": "Place Order",
   "checkout.nextStep": "Next Step",

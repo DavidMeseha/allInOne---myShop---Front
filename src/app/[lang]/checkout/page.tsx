@@ -35,7 +35,7 @@ export default function CheckoutPage() {
   const [form, setForm] = useState(initialCheckoutForm);
   const { setIsAddAddressOpen } = useGeneralStore();
   const { t } = useTranslation();
-  const [orderProcessing, setIsPeocessing] = useState(false);
+  const [orderProcessing, setIsProcessing] = useState(false);
 
   const placeOrderMutation = useMutation({
     mutationKey: ["placeOrder"],
@@ -85,15 +85,24 @@ export default function CheckoutPage() {
         return placeOrderMutation.mutate();
       }
 
-      if (!elements || !stripe) return toast.error("Stripe error, refresh and try again");
+      if (!elements || !stripe) {
+        setIsProcessing(false);
+        return toast.error("Stripe error, refresh and try again");
+      }
       const cardElement = elements.getElement(CardElement);
-      if (!cardElement) return toast.error("Stripe error, refresh and try again");
+      if (!cardElement) {
+        setIsProcessing(false);
+        return toast.error("Stripe error, refresh and try again");
+      }
 
       // Create payment intent on the server
       const res = await preperPaymentMutation.mutateAsync();
       const paymentSecret = res.data.paymentSecret;
 
-      if (!paymentSecret) return toast.error(t("checkout.failedToVerifyPayment"));
+      if (!paymentSecret) {
+        setIsProcessing(false);
+        return toast.error(t("checkout.failedToVerifyPayment"));
+      }
 
       // Confirm the payment with the card details
       const { error: stripeError } = await stripe.confirmCardPayment(paymentSecret, {
@@ -102,13 +111,14 @@ export default function CheckoutPage() {
         }
       });
 
-      if (stripeError) return toast.error(t("checkout.failedToVerifyPayment"));
-      else placeOrderMutation.mutate();
+      if (stripeError) {
+        setIsProcessing(false);
+        return toast.error(t("checkout.failedToVerifyPayment"));
+      } else placeOrderMutation.mutate();
     };
 
-    setIsPeocessing(true);
-    await process();
-    setIsPeocessing(false);
+    setIsProcessing(true);
+    process();
   };
 
   return (

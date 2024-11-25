@@ -7,5 +7,5 @@ describe("user register", () => {
     cy.url().should("include", "/register");
   });
 
-  it("failed due to wrong")
+  it("failed due to wrong");
 });

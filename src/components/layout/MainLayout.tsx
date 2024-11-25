@@ -4,7 +4,7 @@ import ProgressBarProvider from "@/context/ProgressBarProvider";
 import AllOverlays from "@/components/overlays/AllOverlays";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import BottomNav from "./includes/BottomNav";
 import { QueryClient } from "@tanstack/react-query";
 import { Dictionaries, Translation } from "../../dictionary";
@@ -41,7 +41,7 @@ export default function MainLayout({
   const { setCountries } = useGeneralStore();
   const pathname = usePathname();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const init = async () => {
       if (user === null) return await registerGuest(pathname);
       setUserActions();
@@ -66,20 +66,14 @@ export default function MainLayout({
             <NetworkErrors>
               <Elements stripe={stripePromise}>
                 <AllOverlays />
-                {pathname.includes("/product/") ? (
-                  <>{children}</>
-                ) : (
-                  <>
-                    <Header />
-                    <div className="mx-auto flex w-full justify-between px-0">
-                      <SideNav />
-                      <div className="relative mx-auto mb-[80px] mt-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
-                        <div className="m-auto max-w-[1200px] md:px-4">{children}</div>
-                      </div>
-                    </div>
-                    <BottomNav />
-                  </>
-                )}
+                <Header />
+                <div className="mx-auto flex w-full justify-between px-0">
+                  <SideNav />
+                  <div className="relative mx-auto mb-[80px] mt-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
+                    <div className="m-auto max-w-[1200px] md:px-4">{children}</div>
+                  </div>
+                </div>
+                <BottomNav />
               </Elements>
             </NetworkErrors>
           </TranslationProvider>

@@ -1,6 +1,6 @@
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { useInView } from "react-intersection-observer";
-import { mockHomeProduct } from "../../mocks/values";
+import { mockHomeProduct } from "../../__mocks__/values";
 import { useRouter } from "next-nprogress-bar";
 import useEmblaCarousel from "embla-carousel-react";
 import en from "@/dictionaries/en.json";

@@ -26,7 +26,9 @@ export default function GlobalError() {
             style={{ objectFit: "contain" }}
             width={250}
           />
-          <h1 style={{ fontSize: "2.25rem", fontWeight: "700", color: "gray" }}>Somthing Wrong Happend</h1>
+          <h1 style={{ fontSize: "2.25rem", fontWeight: "700", color: "gray", textAlign: "center" }}>
+            Somthing Wrong Happend
+          </h1>
           <Button
             style={{
               color: "white",

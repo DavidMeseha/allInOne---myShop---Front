@@ -1,4 +1,4 @@
-"usee client";
+"use client";
 
 import Link, { LinkProps } from "next/link";
 import { useTranslation } from "@/context/Translation";

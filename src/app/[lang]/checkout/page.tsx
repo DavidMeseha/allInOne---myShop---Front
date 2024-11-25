@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { IAddress, IFullProduct, IProductAttribute } from "@/types";
+import { IAddress, IFullProduct, IOrder, IProductAttribute } from "@/types";
 import CartItem from "../../../components/CartItem";
 import { useRouter } from "next-nprogress-bar";
 import BackArrow from "@/components/BackArrow";
@@ -30,19 +30,22 @@ const initialCheckoutForm: ICheckoutForm = {
 export default function CheckoutPage() {
   const stripe = useStripe();
   const elements = useElements();
+  const router = useRouter();
   const [activeTap, setActiveTap] = useState<"shipping" | "billing" | "summary">("shipping");
   const [form, setForm] = useState(initialCheckoutForm);
   const { setIsAddAddressOpen } = useGeneralStore();
   const { t } = useTranslation();
-  const router = useRouter();
+  const [orderProcessing, setIsPeocessing] = useState(false);
 
   const placeOrderMutation = useMutation({
     mutationKey: ["placeOrder"],
     mutationFn: () =>
-      axios.post(`/api/user/order/submit`, {
+      axios.post<IOrder>(`/api/user/order/submit`, {
         ...form
       }),
-    onSuccess: () => toast.success("Order Placed Successfully")
+    onSuccess: (res) => {
+      router.push(`/order-success/${res.data._id}`);
+    }
   });
 
   const preperPaymentMutation = useMutation({
@@ -51,7 +54,7 @@ export default function CheckoutPage() {
   });
 
   const checkoutQuery = useQuery({
-    queryKey: ["cartItems"],
+    queryKey: ["checkoutData"],
     queryFn: () =>
       axios
         .get<{
@@ -77,27 +80,35 @@ export default function CheckoutPage() {
   };
 
   const handleSubmit = async () => {
-    if (form.billingMethod === "cod") return placeOrderMutation.mutate();
-
-    if (!elements || !stripe) return;
-    const cardElement = elements.getElement(CardElement);
-    if (!cardElement) return;
-
-    // Create payment intent on the server
-    await preperPaymentMutation.mutateAsync();
-    if (!preperPaymentMutation.data) return;
-
-    const { paymentSecret } = preperPaymentMutation.data.data;
-
-    // Confirm the payment with the card details
-    const { error: stripeError } = await stripe.confirmCardPayment(paymentSecret, {
-      payment_method: {
-        card: cardElement
+    const process = async () => {
+      if (form.billingMethod === "cod") {
+        return placeOrderMutation.mutate();
       }
-    });
 
-    if (stripeError) return;
-    else placeOrderMutation.mutate();
+      if (!elements || !stripe) return toast.error("Stripe error, refresh and try again");
+      const cardElement = elements.getElement(CardElement);
+      if (!cardElement) return toast.error("Stripe error, refresh and try again");
+
+      // Create payment intent on the server
+      const res = await preperPaymentMutation.mutateAsync();
+      const paymentSecret = res.data.paymentSecret;
+
+      if (!paymentSecret) return toast.error(t("checkout.failedToVerifyPayment"));
+
+      // Confirm the payment with the card details
+      const { error: stripeError } = await stripe.confirmCardPayment(paymentSecret, {
+        payment_method: {
+          card: cardElement
+        }
+      });
+
+      if (stripeError) return toast.error(t("checkout.failedToVerifyPayment"));
+      else placeOrderMutation.mutate();
+    };
+
+    setIsPeocessing(true);
+    await process();
+    setIsPeocessing(false);
   };
 
   return (
@@ -140,7 +151,11 @@ export default function CheckoutPage() {
             </a>
           </li>
         </ul>
-        <Button className="text-nowrap bg-primary text-white">
+        <Button
+          className="text-nowrap bg-primary text-white"
+          isLoading={orderProcessing || placeOrderMutation.isPending}
+          onClick={handleSubmit}
+        >
           <div className="flex gap-6">
             <div>
               {t("checkout.placeOrder")}({shoppingcartItems.length})
@@ -157,8 +172,11 @@ export default function CheckoutPage() {
                 <FormDropdownInput
                   label=""
                   name="shippingAddressId"
-                  options={addresses.map((address) => ({ name: address.address, value: address._id }))}
                   value={form.shippingAddressId}
+                  options={addresses.map((address) => ({
+                    name: address.address,
+                    value: address._id
+                  }))}
                   onUpdate={handleFieldOnChange}
                 />
               </div>

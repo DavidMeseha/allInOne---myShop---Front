@@ -3,13 +3,12 @@ import OverlayLayout from "./OverlayLayout";
 import { useGeneralStore } from "@/stores/generalStore";
 import { FieldError } from "@/types";
 import Button from "../Button";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { toast } from "react-toastify";
 import { useTranslation } from "@/context/Translation";
 import FormTextInput from "../FormTextInput";
 import FormDropdownInput from "../FormDropdownInput";
-import { queryClient } from "../layout/MainLayout";
 
 interface FormErrors {
   address: FieldError;
@@ -21,6 +20,7 @@ const initialErrors: FormErrors = { address: false, city: false, country: false 
 const initialForm = { _id: "", address: "", city: "", country: "" };
 
 export default function AddNewAddress() {
+  const queryClient = useQueryClient();
   const { setIsAddAddressOpen } = useGeneralStore();
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState<FormErrors>(initialErrors);
@@ -37,7 +37,7 @@ export default function AddNewAddress() {
       }),
     onSuccess: () => {
       toast.success("Address Added Successfully");
-      queryClient.invalidateQueries({ queryKey: ["userAddresses", "cartItems"] });
+      queryClient.invalidateQueries({ queryKey: ["checkoutData"] });
     }
   });
 

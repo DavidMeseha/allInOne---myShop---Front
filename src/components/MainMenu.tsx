@@ -82,18 +82,15 @@ export default function MainMenu() {
           )}
         </li>
       ))}
-      <li className="flex items-center gap-2 p-2">
-        <span>Language: </span>
-        <div className="w-full">
-          <DropdownButton
-            className="bg-transparent px-0"
-            options={languages}
-            value={lang}
-            onSelectItem={async (value) => await changeLanguage(value as Language, pathname)}
-          >
-            {lang.toUpperCase()}
-          </DropdownButton>
-        </div>
+      <li className="p-2 md:hidden">
+        <DropdownButton
+          className="bg-transparent px-0"
+          options={languages}
+          value={lang}
+          onSelectItem={async (value) => await changeLanguage(value as Language, pathname)}
+        >
+          {lang.toUpperCase()}
+        </DropdownButton>
       </li>
     </ul>
   );

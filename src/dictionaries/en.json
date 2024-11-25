@@ -51,6 +51,7 @@
   "NoNetwork": "You Are Oflline Check Your Network",
   "male": "Male",
   "female": "Female",
+  "continueShopping": "Continue Shopping",
 
   "faildToSubmitYourAction": "Field to save product",
   "loginToPerformAction": "You need to login to perform action",
@@ -186,6 +187,8 @@
   "checkout.billingMethod": "Billing Method",
   "checkout.ground": "Ground",
   "checkout.air": "Air",
+  "checkout.failedToVerifyPayment": "Failed to verify your payment",
+  "checkout.orderPlacedSuccessfully": "Order Placed Successfully",
 
   "discover.vendors": "vendors",
   "discover.products": "Products",

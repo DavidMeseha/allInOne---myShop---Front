@@ -54,7 +54,7 @@ export default function HomePage({ products, loadMore }: Props) {
         <Button aria-label="Open Main Menu" className="p-0" onClick={() => setIsHomeMenuOpen(true)}>
           <BiMenu className="fill-black" size={25} />
         </Button>
-        <h1 className="text-xl font-bold">Home</h1>
+        <h1 className="text-xl font-bold">{t("home")}</h1>
         <Button aria-label="Open Search Page" className="p-0" onClick={() => setIsSearchOpen(true)}>
           <BsSearch className="fill-black" size={25} />
         </Button>

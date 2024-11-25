@@ -25,8 +25,8 @@ export default function NotFound() {
             src="/images/product-not-found.png"
             width={400}
           />
-          <h1 className="text-4xl font-bold text-strongGray">404: Resource Not Found</h1>
-          <p className="mt-4 text-primary hover:underline">Redirecting...</p>
+          <h1 className="text-center text-4xl font-bold text-strongGray">404: Resource Not Found</h1>
+          <p className="mt-4 text-center text-primary hover:underline">Redirecting...</p>
         </div>
       </body>
     </html>

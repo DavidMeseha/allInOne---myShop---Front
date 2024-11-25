@@ -1,11 +1,17 @@
-import getCartIds from "@/hooks/getCartItems";
 import getCountries from "@/hooks/getCountries";
-import getFollowingIds from "@/hooks/getFollowingIds";
-import getLikeIds from "@/hooks/getLikesId";
-import getReviewedIds from "@/hooks/getReviewIds";
-import getSavesId from "@/hooks/getSavesId";
 import "@testing-library/jest-dom";
 import { act } from "@testing-library/react";
+import {
+  followings,
+  getCartIds,
+  getAllUserActions,
+  getFollowIds,
+  getLikeIds,
+  getReviewIds,
+  getSaveIds,
+  registerGuest,
+  logout
+} from "@/actions";
 
 class IntersectionObserver {
   constructor(callback) {
@@ -55,7 +61,9 @@ jest.mock("react-intersection-observer", () => ({
 
 jest.mock("next/navigation", () => ({
   usePathname: jest.fn(),
-  useSearchParams: jest.fn()
+  useSearchParams: jest.fn(() => ({
+    get: (key) => "some message"
+  }))
 }));
 
 jest.mock("next-nprogress-bar", () => {
@@ -67,18 +75,30 @@ jest.mock("next-nprogress-bar", () => {
 
 jest.mock("./src/lib/axios.ts");
 
-jest.mock("./src/hooks/getCartItems.ts", () => jest.fn());
-jest.mock("./src/hooks/getCountries.ts", () => jest.fn());
-jest.mock("./src/hooks/getFollowingIds.ts", () => jest.fn());
-jest.mock("./src/hooks/getLikesId.ts", () => jest.fn());
-jest.mock("./src/hooks/getReviewIds.ts", () => jest.fn());
-jest.mock("./src/hooks/getSavesId.ts", () => jest.fn());
+// jest.mock("./src/actions", {
+//   addToCart: jest.fn(),
+//   changeLanguage: jest.fn(),
+//   follow: jest.fn(),
+//   followings: jest.fn(),
+//   getCartIds: jest.fn(),
+//   getAllUserActions: jest.fn(),
+//   getFollowIds: jest.fn(),
+//   getLikeIds: jest.fn(),
+//   getReviewIds: jest.fn(),
+//   getSaveIds: jest.fn(),
+//   registerGuest: jest.fn(),
+//   logout: jest.fn()
+// });
 
-act(() => {
-  getCartIds.mockResolvedValue([]);
-  getCountries.mockResolvedValue([]);
-  getFollowingIds.mockResolvedValue([]);
-  getLikeIds.mockResolvedValue([]);
-  getReviewedIds.mockResolvedValue([]);
-  getSavesId.mockResolvedValue([]);
-});
+// act(() => {
+//   followings.mockResolvedValue([]);
+//   getCartIds.mockResolvedValue([]);
+//   getAllUserActions.mockResolvedValue([]);
+//   getFollowIds.mockResolvedValue([]);
+//   getLikeIds.mockResolvedValue([]);
+//   getReviewIds.mockResolvedValue([]);
+//   getSaveIds.mockResolvedValue([]);
+//   registerGuest.mockResolvedValue([]);
+//   logout.mockResolvedValue([]);
+//   getCountries.mockResolvedValue([]);
+// });

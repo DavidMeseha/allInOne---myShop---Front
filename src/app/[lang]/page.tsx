@@ -22,6 +22,5 @@ export default async function Page() {
   };
 
   const products = (await getProducts()).data;
-
   return <HomePage loadMore={loadMore} products={products} />;
 }

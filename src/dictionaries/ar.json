@@ -51,6 +51,7 @@
   "NoNetwork": "لا يوجد اتصال بالشبكه, تاكد من لالتصال",
   "male": "ذكر",
   "female": "أنثى",
+  "continueShopping": "استمر في التسوق",
 
   "faildToSubmitYourAction": "فشل التنفيز",
   "loginToPerformAction": "يجب تسجيل الدخول لتتمكن من تنفيز الطلب",
@@ -186,6 +187,8 @@
   "checkout.billingMethod": "طريقة الدفع",
   "checkout.ground": "بري",
   "checkout.air": "جوي",
+  "checkout.failedToVerifyPayment": "فشل اتمام عملة الدفع",
+  "checkout.orderPlacedSuccessfully": "تم استلام طلبك بنجاح",
 
   "discover.vendors": "البائعون",
   "discover.products": "المنتجات",

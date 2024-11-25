@@ -41,7 +41,7 @@ export default function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 end-0 start-0 z-20 block w-full border border-gray-300 bg-white md:hidden">
-      <div className="m-auto flex w-11/12 justify-between text-center font-bold">
+      <div className="flex w-full justify-between text-center font-bold">
         {bottomNav.map((item, index) => (
           <React.Fragment key={index}>
             <LocalLink className="block w-1/4 p-2" href={item.to} scroll={false}>

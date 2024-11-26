@@ -21,6 +21,12 @@ const nextConfig = {
         hostname: "all-in-one-my-shop-back.vercel.app",
         port: "",
         pathname: "/images/**"
+      },
+      {
+        protocol: "https",
+        hostname: "rxbeaxrpqdbp4d9h.public.blob.vercel-storage.com",
+        port: "",
+        pathname: "/**"
       }
     ]
   },

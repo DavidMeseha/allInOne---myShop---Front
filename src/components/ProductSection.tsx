@@ -80,7 +80,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             <LocalLink
               aria-label="Navigate to product page"
               className="cursor-pointer font-bold hover:underline"
-              href={`/vandor/${product.vendor.seName}`}
+              href={`/profile/vendor/${product.vendor.seName}`}
             >
               {product.vendor.name}
             </LocalLink>

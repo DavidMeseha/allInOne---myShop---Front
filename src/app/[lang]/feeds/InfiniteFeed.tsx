@@ -45,11 +45,7 @@ export default function InfiniteFeed({ products, loadMore }: Props) {
             <ProductSection key={index} product={product} />
           ))}
           <div className="flex justify-center py-7 text-center">
-            {hasMore ? (
-              <BiLoaderCircle className="animate-spin fill-primary" data-testid="loading" size={35} />
-            ) : (
-              t("endOfContent")
-            )}
+            {hasMore ? <BiLoaderCircle className="animate-spin fill-primary" data-testid="loading" size={35} /> : null}
           </div>
         </div>
       </div>

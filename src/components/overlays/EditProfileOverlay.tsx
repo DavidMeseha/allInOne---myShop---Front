@@ -90,7 +90,6 @@ export default function EditProfileOverlay() {
       }),
 
     onSuccess: (data) => {
-      console.log(data.data.imageUrl);
       setForm({ ...form, imageUrl: data.data.imageUrl });
       setCropping(null);
     }

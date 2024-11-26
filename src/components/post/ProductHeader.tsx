@@ -6,6 +6,7 @@ import AddToCartButton from "../AddToCartButton";
 import SaveProductButton from "../SaveProductButton";
 import Image from "next/image";
 import { IFullProduct } from "@/types";
+import RateProductButton from "../RateProductButton";
 
 export interface CommentsHeaderCompTypes {
   product: IFullProduct;
@@ -42,6 +43,7 @@ export default function ProductHeader({ product }: CommentsHeaderCompTypes) {
         <LikeProductButton product={product} />
         <SaveProductButton product={product} />
         <AddToCartButton product={product} />
+        <RateProductButton product={product} />
       </div>
     </>
   );

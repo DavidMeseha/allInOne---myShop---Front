@@ -76,7 +76,8 @@ export default function EditProfileOverlay() {
     mutationFn: () => axios.put("/api/user/info", { ...form }),
     onSuccess: () => {
       toast.success("Profile Updated Successfuly");
-      queryClient.fetchQuery({ queryKey: ["userInfo"] });
+      queryClient.invalidateQueries({ queryKey: ["userInfo"] });
+      setIsEditProfileOpen(false);
     }
   });
 
@@ -89,6 +90,7 @@ export default function EditProfileOverlay() {
       }),
 
     onSuccess: (data) => {
+      console.log(data.data.imageUrl);
       setForm({ ...form, imageUrl: data.data.imageUrl });
       setCropping(null);
     }
@@ -176,12 +178,12 @@ export default function EditProfileOverlay() {
                   width={95}
                 />
 
-                <button
+                <div
                   aria-label="Edit Profile"
                   className="absolute bottom-0 right-0 h-8 w-8 rounded-full border border-gray-300 bg-white p-1 shadow-xl"
                 >
                   <BsPencil className="ml-0.5" size="17" />
-                </button>
+                </div>
               </label>
               <input
                 accept="image/png, image/jpeg, image/jpg"
@@ -194,7 +196,7 @@ export default function EditProfileOverlay() {
 
             <div className="mt-1.5 w-full border-b p-2">
               <FormTextInput
-                error={false}
+                error={error.firstName}
                 label="First Name"
                 name="firstName"
                 placeholder="First Name"
@@ -203,7 +205,7 @@ export default function EditProfileOverlay() {
                 onChange={(e) => fieldChangeHandle(e.target.value, e.target.name)}
               />
               <FormTextInput
-                error={false}
+                error={error.lastName}
                 label="Last Name"
                 name="lastName"
                 placeholder="Last Name"
@@ -231,7 +233,7 @@ export default function EditProfileOverlay() {
                 year={form.dateOfBirthYear ?? today.getFullYear()}
               />
               <FormTextInput
-                error={false}
+                error={error.phone}
                 label="Phone Number"
                 name="phone"
                 placeholder="Phone Number"

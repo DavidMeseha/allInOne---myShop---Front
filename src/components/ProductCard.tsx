@@ -12,12 +12,14 @@ import RatingStars from "./RatingStars";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CarouselIndecator from "./CarouselIndecator";
 import { useGeneralStore } from "@/stores/generalStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Props = {
   product: IFullProduct;
 };
 
 export default function ProductCard({ product }: Props) {
+  const queryClient = useQueryClient();
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);
   const { cartItems, likes, saves, setCartItems, setLikes, setSaves } = useUserStore();
@@ -41,6 +43,7 @@ export default function ProductCard({ product }: Props) {
       const temp = [...likes];
       inLikes ? temp.splice(temp.indexOf(inLikes), 1) : temp.push(product._id);
       setLikes([...temp]);
+      queryClient.invalidateQueries({ queryKey: ["likedProducts"] });
     }
   });
 
@@ -51,6 +54,7 @@ export default function ProductCard({ product }: Props) {
       const temp = [...saves];
       inSaves ? temp.splice(temp.indexOf(inSaves), 1) : temp.push(product._id);
       setSaves([...temp]);
+      queryClient.invalidateQueries({ queryKey: ["savedProducts"] });
     }
   });
 
@@ -63,6 +67,7 @@ export default function ProductCard({ product }: Props) {
         ? cartItemsTemp.splice(cartItemsTemp.indexOf(inCart), 1)
         : cartItemsTemp.push({ product: product._id, quantity: 1 });
       setCartItems([...cartItemsTemp]);
+      queryClient.invalidateQueries({ queryKey: ["cartItems"] });
     }
   });
 

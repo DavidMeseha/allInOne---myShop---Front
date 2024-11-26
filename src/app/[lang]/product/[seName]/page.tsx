@@ -24,7 +24,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const params = await props.params;
+  const params = props.params;
   try {
     const res = await getProduct(params.seName);
     const product = res;
@@ -46,7 +46,7 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
 }
 
 export default async function Page(props: Props) {
-  const params = await props.params;
+  const params = props.params;
   try {
     const product = await getProduct(params.seName);
     return <PPage product={product} />;

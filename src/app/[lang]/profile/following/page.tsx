@@ -11,7 +11,7 @@ import React from "react";
 import useHandleFollow from "@/hooks/useHandleFollow";
 import { followings } from "@/actions";
 import { usePathname } from "next/navigation";
-import Loading from "@/components/loading";
+import Loading from "@/components/LoadingUi/LoadingSpinner";
 
 export default function FollowingPage() {
   const pathname = usePathname();

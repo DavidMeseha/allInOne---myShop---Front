@@ -30,7 +30,7 @@ export default function UserProfileDisplay() {
   });
 
   const savesQuery = useQuery({
-    queryKey: ["saves"],
+    queryKey: ["savedProducts"],
     queryFn: () => axios.get<IFullProduct[]>("/api/user/savedProducts").then((res) => res.data),
     enabled: activeTap === "bookmark"
   });
@@ -159,7 +159,7 @@ export default function UserProfileDisplay() {
           ) : null)}
 
         {isFeatching ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 text-primary">
+          <div className="absolute inset-0 flex justify-center bg-white bg-opacity-50 pt-8 text-primary">
             <BiLoaderCircle className="animate-spin" size={40} />
           </div>
         ) : null}

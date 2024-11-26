@@ -7,7 +7,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import Button from "@/components/Button";
 import { useUserStore } from "@/stores/userStore";
-import Loading from "@/components/loading";
+import Loading from "@/components/LoadingUi/LoadingSpinner";
 import useHandleFollow from "@/hooks/useHandleFollow";
 import { useTranslation } from "@/context/Translation";
 

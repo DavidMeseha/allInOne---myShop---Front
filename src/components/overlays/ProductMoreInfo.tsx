@@ -50,7 +50,6 @@ export default function ProductMoreInfoOverlay() {
   });
 
   const product = productQuery.data;
-  console.log(product?.productReviews);
 
   const handleAttributesChange = (attributeId: string, value: string[]) => {
     if (!product) return;

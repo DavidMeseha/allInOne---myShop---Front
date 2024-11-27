@@ -9,7 +9,6 @@ import { useTranslation } from "@/context/Translation";
 import { useUserStore } from "@/stores/userStore";
 import { PiInfinity, PiShoppingCart, PiShoppingCartFill } from "react-icons/pi";
 import DropdownButton from "./DropdownButton";
-import { Language } from "@/types";
 import { changeLanguage } from "@/actions";
 import { startProgress, stopProgress } from "next-nprogress-bar";
 import { Dictionaries } from "@/dictionary";

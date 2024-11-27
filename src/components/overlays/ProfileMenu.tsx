@@ -8,7 +8,7 @@ import { FiLogOut } from "react-icons/fi";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { useTranslation } from "@/context/Translation";
 import { FaLanguage, FaRegAddressBook } from "react-icons/fa";
-import { BsCurrencyExchange, BsStar } from "react-icons/bs";
+import { BsStar } from "react-icons/bs";
 import { PiPassword } from "react-icons/pi";
 import { changeLanguage, logout } from "@/actions";
 import { usePathname } from "next/navigation";
@@ -47,7 +47,7 @@ export default function ProfileMenuOverlay() {
   ];
 
   return (
-    <OverlayLayout title={t("profile")} close={() => setIsProfileMenuOpen(false)}>
+    <OverlayLayout close={() => setIsProfileMenuOpen(false)} title={t("profile")}>
       <>
         {activeTap === "main" && (
           <ul>

@@ -153,11 +153,11 @@ export default function ProductCard({ product }: Props) {
 
       <div className="mt-4 flex border-t border-gray-200">
         <Button
+          aria-label="Add to cart"
           className={`basis-1/3 rounded-none border-e fill-black p-1 ${inCart ? "bg-green-200" : "bg-white"}`}
           isLoading={addToCartHandler.isPending}
           spinnerSize="20"
           onClick={handleAddToCart}
-          aria-label="Add to cart"
         >
           <div className="flex items-center justify-center gap-1">
             <RiShoppingCartLine size={20} />
@@ -165,11 +165,11 @@ export default function ProductCard({ product }: Props) {
           </div>
         </Button>
         <Button
+          aria-label="like product"
           className={`basis-1/3 rounded-none border-e fill-black p-1 ${inLikes ? "bg-red-200" : "bg-white"}`}
           isLoading={likeHandler.isPending}
           spinnerSize="20"
           onClick={handleLikeAction}
-          aria-label="like product"
         >
           <div className="flex items-center justify-center gap-1">
             <RiHeart2Line size={20} />
@@ -177,11 +177,11 @@ export default function ProductCard({ product }: Props) {
           </div>
         </Button>
         <Button
+          aria-label="save product"
           className={`basis-1/3 rounded-none fill-black p-1 ${inSaves ? "bg-yellow-200" : "bg-white"}`}
           isLoading={saveHandler.isPending}
           spinnerSize="20"
           onClick={handleSaveAction}
-          aria-label="save product"
         >
           <div className="flex items-center justify-center gap-1">
             <RiBookmark2Line size={20} />

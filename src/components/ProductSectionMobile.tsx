@@ -10,15 +10,11 @@ import RateProductButton from "./RateProductButton";
 import SaveProductButton from "./SaveProductButton";
 import AddToCartButton from "./AddToCartButton";
 import Image from "next/image";
-import { BsStarFill } from "react-icons/bs";
-import { useGeneralStore } from "@/stores/generalStore";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import ViewMoreButton from "./ViewMoreButton";
 
 export default function ProductSectionMobile({ product }: { product: IFullProduct }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);
-  const { setIsProductMoreInfoOpen } = useGeneralStore();
 
   useEffect(() => {
     if (!carouselApi) return;

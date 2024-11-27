@@ -42,7 +42,6 @@
   "readMore": "أقراء المزيد",
   "readLess": "أقراء القيل",
   "soldBy": "البائع",
-  "productNotFound": "المنتج غير موجود!",
   "loadMore": "المزيد",
   "yourCart": "عربة التسوق",
   "feeds": "موجزات",
@@ -52,7 +51,10 @@
   "male": "ذكر",
   "female": "أنثى",
   "continueShopping": "استمر في التسوق",
+  "description": "الوصف",
+  "reviews": "الاراء",
 
+  "productNotFound": "المنتج غير موجود!",
   "faildToSubmitYourAction": "فشل التنفيز",
   "loginToPerformAction": "يجب تسجيل الدخول لتتمكن من تنفيز الطلب",
   "couldNotChangeLanguage": "فشل تغيير اللغة",

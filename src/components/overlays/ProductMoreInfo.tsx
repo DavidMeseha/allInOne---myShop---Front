@@ -8,17 +8,19 @@ import { useUserStore } from "@/stores/userStore";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import CarouselIndecator from "../CarouselIndecator";
 import { LocalLink } from "@/components/LocalizedNavigation";
-import { BiLoaderCircle } from "react-icons/bi";
 import ProductAttributes from "../ProductAttributes";
 import Image from "next/image";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { IFullProduct, IProductAttribute } from "../../types";
+import Button from "../Button";
+import { useTranslation } from "@/context/Translation";
 
 export default function ProductMoreInfoOverlay() {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [imageIndex, setImageIndex] = useState(0);
   const { setCartItems } = useUserStore();
+  const { t } = useTranslation();
   const { user } = useUserStore();
   const [activeTap, setActiveTap] = useState<"description" | "reviews">("description");
   const { setIsProductMoreInfoOpen, overlayProductId } = useGeneralStore();
@@ -50,6 +52,7 @@ export default function ProductMoreInfoOverlay() {
   });
 
   const product = productQuery.data;
+  const reviews = product?.productReviews ?? [];
 
   const handleAttributesChange = (attributeId: string, value: string[]) => {
     if (!product) return;
@@ -108,7 +111,7 @@ export default function ProductMoreInfoOverlay() {
         className="text-base text-strongGray hover:text-primary hover:underline"
         href={`/vendor/${product?.vendor.seName}`}
       >
-        Sold By: {product?.vendor.name}
+        {t("soldBy")}: {product?.vendor.name}
       </LocalLink>
       <div className="mb-2 text-lg font-bold">{product?.price.price}$</div>
       <div className="mb-4 text-center text-sm text-strongGray">
@@ -129,17 +132,24 @@ export default function ProductMoreInfoOverlay() {
           />
         </div>
       ) : null}
+      <Button
+        className="w-full bg-primary text-white"
+        onClick={addToCartClickHandle}
+        isLoading={addToCartMutation.isPending}
+      >
+        {t("addToCart")}
+      </Button>
       <ul className="sticky -top-4 z-20 flex w-full items-center border-b bg-white">
         <li
           className={`w-full ${activeTap === "description" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
         >
-          <a className="flex justify-center py-2" onClick={() => setActiveTap("description")}>
-            Description
+          <a role="button" className="flex justify-center py-2" onClick={() => setActiveTap("description")}>
+            {t("description")}
           </a>
         </li>
         <li className={`w-full ${activeTap === "reviews" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}>
-          <a className="flex justify-center py-2" onClick={() => setActiveTap("reviews")}>
-            Reviews
+          <a role="button" className="flex justify-center py-2" onClick={() => setActiveTap("reviews")}>
+            {t("reviews")}
           </a>
         </li>
       </ul>
@@ -148,8 +158,9 @@ export default function ProductMoreInfoOverlay() {
           <p dangerouslySetInnerHTML={{ __html: product?.fullDescription ?? "" }}></p>
         ) : null}
 
-        {activeTap === "reviews"
-          ? product?.productReviews?.map((review) => (
+        {activeTap === "reviews" ? (
+          reviews.length ? (
+            reviews.map((review) => (
               <div className="mb-4 flex items-start gap-3" key={review._id}>
                 <Image
                   alt={review.customer.firstName + " " + review.customer.lastName}
@@ -164,20 +175,10 @@ export default function ProductMoreInfoOverlay() {
                 </div>
               </div>
             ))
-          : null}
-
-        <div className="fixed bottom-0 end-0 start-0 z-30 border-t bg-white px-6 py-4">
-          <button
-            className="flex w-full justify-center rounded-md bg-primary px-4 py-2 text-white"
-            onClick={addToCartClickHandle}
-          >
-            {addToCartMutation.isPending ? (
-              <BiLoaderCircle className="animate-spin fill-white" size="24" />
-            ) : (
-              "Add To Cart"
-            )}
-          </button>
-        </div>
+          ) : (
+            <div className="py-4 text-center text-strongGray">No Reviews Avilable</div>
+          )
+        ) : null}
       </div>
     </OverlayLayout>
   );

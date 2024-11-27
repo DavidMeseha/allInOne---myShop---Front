@@ -12,44 +12,22 @@ import { useTranslation } from "@/context/Translation";
 import Image from "next/image";
 import { manipulateDescription } from "@/lib/misc";
 import { IFullProduct } from "@/types";
-import { useMutation } from "@tanstack/react-query";
-import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
-import { toast } from "react-toastify";
 import Button from "./Button";
+import ViewMoreButton from "./ViewMoreButton";
+import useHandleFollow from "@/hooks/useHandleFollow";
 
 export default function ProductSection({ product }: { product: IFullProduct }) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [caroselImageIndex, setCaroselImageIndex] = useState(0);
   const [readMore, setReadMore] = useState(false);
   const { t } = useTranslation();
-  const { following, setFollowedVendors, user } = useUserStore();
+  const { following } = useUserStore();
   const descriptionRef = useRef(manipulateDescription(product.fullDescription));
   const [main, extend] = descriptionRef.current;
+  const isFollowed = following.includes(product.vendor._id);
 
-  const followMutation = useMutation({
-    mutationKey: ["followVendor", product.vendor._id],
-    mutationFn: () => axios.post(`/api/user/followVendor/${product.vendor._id}`),
-    onSuccess: () => {
-      setFollowedVendors();
-      toast.success("Vendor followed successfully");
-    }
-  });
-
-  const unfollowMutation = useMutation({
-    mutationKey: ["followVendor", product.vendor._id],
-    mutationFn: () => axios.post(`/api/user/unfollowVendor/${product.vendor._id}`),
-    onSuccess: () => {
-      setFollowedVendors();
-      toast.warning("Vendor unFollowed");
-    }
-  });
-
-  const handleFollowClick = () => {
-    if (user?.isRegistered)
-      following.includes(product.vendor._id) ? unfollowMutation.mutate() : followMutation.mutate();
-    else toast.warn("You need to login to perform action");
-  };
+  const followAction = useHandleFollow({ vendor: product.vendor });
 
   useEffect(() => {
     if (!carouselApi) return;
@@ -58,7 +36,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
   }, [carouselApi]);
 
   return (
-    <div className="flex border-b py-6">
+    <div className="flex items-start border-b py-6">
       <div className="w-11">
         <LocalLink aria-label="Navigate to specific vendor profile" href={`/profile/vendor/${product.vendor.seName}`}>
           <Image
@@ -92,10 +70,10 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
 
           <Button
             className="border border-primary bg-white fill-primary px-5 py-0.5 text-sm font-semibold text-primary hover:bg-[#ffeef2]"
-            isLoading={followMutation.isPending || unfollowMutation.isPending}
-            onClick={handleFollowClick}
+            isLoading={followAction.isPending}
+            onClick={() => followAction.handleFollow(!isFollowed)}
           >
-            {following.includes(product.vendor._id) ? t("unfollow") : t("follow")}
+            {isFollowed ? t("unfollow") : t("follow")}
           </Button>
         </div>
         <p className="max-w-[300px] text-[15px] md:max-w-[400px]">
@@ -170,6 +148,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             )}
           </div>
           <div className="relative flex flex-col items-center gap-2 p-2">
+            <ViewMoreButton product={product} />
             <LikeProductButton product={product} />
             <RateProductButton product={product} />
             <SaveProductButton product={product} />

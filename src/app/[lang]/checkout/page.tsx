@@ -98,7 +98,6 @@ export default function CheckoutPage() {
       // Create payment intent on the server
       const res = await preperPaymentMutation.mutateAsync();
       const paymentSecret = res.data.paymentSecret;
-
       if (!paymentSecret) {
         setIsProcessing(false);
         return toast.error(t("checkout.failedToVerifyPayment"));
@@ -149,14 +148,14 @@ export default function CheckoutPage() {
           <li
             className={`border-s border-t px-6 ${activeTap === "shipping" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
           >
-            <a className="flex justify-center py-2" onClick={() => setActiveTap("shipping")}>
+            <a className="flex justify-center py-2" role="button" onClick={() => setActiveTap("shipping")}>
               {t("checkout.shipping")}
             </a>
           </li>
           <li
             className={`border-x border-t px-6 ${activeTap === "summary" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
           >
-            <a className="flex justify-center py-2" onClick={() => setActiveTap("summary")}>
+            <a className="flex justify-center py-2" role="button" onClick={() => setActiveTap("summary")}>
               {t("checkout.products")}
             </a>
           </li>

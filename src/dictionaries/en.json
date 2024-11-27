@@ -42,7 +42,6 @@
   "readMore": "Read More",
   "readLess": "Read Less",
   "soldBy": "Sold by",
-  "productNotFound": "Product Not Found!",
   "loadMore": "Load More",
   "yourCart": "Your Cart",
   "feeds": "Feeds",
@@ -52,7 +51,10 @@
   "male": "Male",
   "female": "Female",
   "continueShopping": "Continue Shopping",
+  "description": "Description",
+  "reviews": "Reviews",
 
+  "productNotFound": "Product Not Found!",
   "faildToSubmitYourAction": "Field to save product",
   "loginToPerformAction": "You need to login to perform action",
   "couldNotChangeLanguage": "Could not change language",

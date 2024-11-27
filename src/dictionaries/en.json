@@ -55,6 +55,7 @@
 
   "faildToSubmitYourAction": "Field to save product",
   "loginToPerformAction": "You need to login to perform action",
+  "couldNotChangeLanguage": "Could not change language",
 
   "auth.password": "Password",
   "auth.login": "Login",

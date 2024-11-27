@@ -1,8 +1,9 @@
 "use server";
+
 import { cookies } from "next/headers";
 import axios from "./lib/axios";
 import { redirect } from "next/navigation";
-import { IProductAttribute, IVendor, Language, User } from "./types";
+import { IVendor, Language, User } from "./types";
 import { Dictionaries } from "./dictionary";
 import { getPathnameLang, replacePathnameLang } from "./lib/misc";
 
@@ -41,7 +42,7 @@ export async function logout(pathname: string) {
     return redirect(pathname);
   }
   const redirectLink = replacePathnameLang("en", pathname);
-  redirect(redirectLink + `?message=${"auth.successfullLogout"}`);
+  redirect(redirectLink + "?message=auth.successfullLogout");
 }
 
 export async function registerGuest(pathname: string) {
@@ -126,127 +127,12 @@ export async function changeLanguage(lang: Dictionaries, pathname: string) {
   const pathOnly = tempPath.replace("/" + pathnameLang, "");
 
   try {
-    await axios.post(
-      `/api/common/changeLanguage/${lang}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${cookies().get("session")?.value}`,
-          "Accept-Language": cookies().get("lang")?.value
-        }
-      }
-    );
+    await axios.post(`/api/common/changeLanguage/${lang}`, {}, axiosConfig());
     await setLanguage(lang);
   } catch {
-    return redirect(pathname);
+    return { success: false, redirect: !!redirect(pathname + "?error=couldNotChangeLanguage") };
   }
-  return redirect(`/${lang}${pathOnly}`);
-}
-
-export async function saveProduct(productId: string, pathanme: string) {
-  try {
-    await axios.post(
-      `/api/user/saveProduct/${productId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${cookies().get("session")?.value}`,
-          "Accept-Language": cookies().get("lang")?.value
-        }
-      }
-    );
-    return { success: true };
-  } catch {
-    redirect(pathanme + "?error=faildToSubmitYourAction");
-  }
-}
-
-export async function unsaveProduct(productId: string, pathanme: string) {
-  try {
-    await axios.post(
-      `/api/user/unsaveProduct/${productId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${cookies().get("session")?.value}`,
-          "Accept-Language": cookies().get("lang")?.value
-        }
-      }
-    );
-    return { success: true };
-  } catch {
-    redirect(pathanme + "?error=faildToSubmitYourAction");
-  }
-}
-
-export async function likeProduct(productId: string, pathanme: string) {
-  try {
-    await axios.post(
-      `/api/user/likeProduct/${productId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${cookies().get("session")?.value}`,
-          "Accept-Language": cookies().get("lang")?.value
-        }
-      }
-    );
-    return { success: true };
-  } catch {
-    redirect(pathanme + "?error=faildToSubmitYourAction");
-  }
-}
-
-export async function unlikeProduct(productId: string, pathanme: string) {
-  try {
-    await axios.post(
-      `/api/user/unlikeProduct/${productId}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${cookies().get("session")?.value}`,
-          "Accept-Language": cookies().get("lang")?.value
-        }
-      }
-    );
-    return { success: true };
-  } catch {
-    redirect(pathanme + "?error=faildToSubmitYourAction");
-  }
-}
-
-export async function addToCart(
-  productId: string,
-  data: { attributes: IProductAttribute[]; quantity: number },
-  pathanme: string
-) {
-  try {
-    await axios.post(
-      `/api/common/cart/add/${productId}`,
-      {
-        attributes: data.attributes,
-        quantity: data.quantity
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${cookies().get("session")?.value}`,
-          "Accept-Language": cookies().get("lang")?.value
-        }
-      }
-    );
-    return { success: true };
-  } catch {
-    redirect(pathanme + "?error=faildToSubmitYourAction");
-  }
-}
-
-export async function removeFromCart(productId: string, pathanme: string) {
-  try {
-    await axios.delete(`/api/common/cart/remove/${productId}`, axiosConfig());
-    return { success: true };
-  } catch {
-    redirect(pathanme + "?error=faildToSubmitYourAction");
-  }
+  return { success: true, redirect: !!redirect(`/${lang}${pathOnly}`) };
 }
 
 export async function follow(vendorId: string, pathanme: string) {

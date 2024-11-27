@@ -9,7 +9,7 @@ import { useGeneralStore } from "@/stores/generalStore";
 import Button from "@/components/Button";
 import { useTranslation } from "../../../context/Translation";
 import Image from "next/image";
-import { useRouter } from "next-nprogress-bar";
+import { useRouter, startProgress, stopProgress } from "next-nprogress-bar";
 import DropdownButton from "@/components/DropdownButton";
 import { Dictionaries } from "@/dictionary";
 import { changeLanguage, logout } from "@/actions";
@@ -67,7 +67,11 @@ export default function Header() {
             className="w-fit bg-transparent px-0"
             options={languages}
             value={lang}
-            onSelectItem={async (value) => await changeLanguage(value as Dictionaries, pathname)}
+            onSelectItem={async (value) => {
+              startProgress();
+              const res = await changeLanguage(value as Dictionaries, pathname);
+              if (res.success) stopProgress();
+            }}
           >
             {lang.toUpperCase()}
           </DropdownButton>

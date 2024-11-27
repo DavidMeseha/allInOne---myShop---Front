@@ -11,6 +11,8 @@ import { PiInfinity, PiShoppingCart, PiShoppingCartFill } from "react-icons/pi";
 import DropdownButton from "./DropdownButton";
 import { Language } from "@/types";
 import { changeLanguage } from "@/actions";
+import { startProgress, stopProgress } from "next-nprogress-bar";
+import { Dictionaries } from "@/dictionary";
 
 export default function MainMenu() {
   const { t, lang, languages } = useTranslation();
@@ -87,7 +89,11 @@ export default function MainMenu() {
           className="bg-transparent px-0"
           options={languages}
           value={lang}
-          onSelectItem={async (value) => await changeLanguage(value as Language, pathname)}
+          onSelectItem={async (value) => {
+            startProgress();
+            const res = await changeLanguage(value as Dictionaries, pathname);
+            if (res.success) stopProgress();
+          }}
         >
           {lang.toUpperCase()}
         </DropdownButton>

@@ -139,7 +139,11 @@ export default function ProductCard({ product }: Props) {
               size={15}
             />
             {user?.isRegistered ? (
-              <button className="px-2 text-lg text-primary" onClick={() => setIsAddReviewOpen(true, product._id)}>
+              <button
+                aria-label="Add review"
+                className="px-2 text-lg text-primary"
+                onClick={() => setIsAddReviewOpen(true, product._id)}
+              >
                 +
               </button>
             ) : null}
@@ -153,6 +157,7 @@ export default function ProductCard({ product }: Props) {
           isLoading={addToCartHandler.isPending}
           spinnerSize="20"
           onClick={handleAddToCart}
+          aria-label="Add to cart"
         >
           <div className="flex items-center justify-center gap-1">
             <RiShoppingCartLine size={20} />
@@ -164,6 +169,7 @@ export default function ProductCard({ product }: Props) {
           isLoading={likeHandler.isPending}
           spinnerSize="20"
           onClick={handleLikeAction}
+          aria-label="like product"
         >
           <div className="flex items-center justify-center gap-1">
             <RiHeart2Line size={20} />
@@ -175,6 +181,7 @@ export default function ProductCard({ product }: Props) {
           isLoading={saveHandler.isPending}
           spinnerSize="20"
           onClick={handleSaveAction}
+          aria-label="save product"
         >
           <div className="flex items-center justify-center gap-1">
             <RiBookmark2Line size={20} />

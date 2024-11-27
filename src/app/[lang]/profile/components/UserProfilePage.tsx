@@ -13,7 +13,7 @@ export default function UserProfilePage() {
   const { user, cartItems } = useUserStore();
   const router = useRouter();
 
-  if (user?.isRegistered) return <UserProfileDisplay />;
+  if (user && user.isRegistered) return <UserProfileDisplay />;
 
   return (
     <>

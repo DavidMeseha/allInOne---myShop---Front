@@ -54,9 +54,7 @@ export default function ReviewsPage() {
             Load More
           </Button>
         </div>
-      ) : (
-        <div className="p-4 text-center">No More reviews</div>
-      )}
+      ) : null}
     </ul>
   );
 }
@@ -65,7 +63,7 @@ function ReviewItem({ review }: { review: IProductReview }) {
   return (
     <li className="border-b py-6">
       <div className="flex justify-between">
-        <LocalLink className="mt-2 font-bold text-primary hover:underline" href={`/product/${review.product?._id}`}>
+        <LocalLink className="mt-2 font-bold text-primary hover:underline" href={`/product/${review.product?.seName}`}>
           {review.product?.name}
         </LocalLink>
         <div>
@@ -73,6 +71,9 @@ function ReviewItem({ review }: { review: IProductReview }) {
         </div>
       </div>
       <p className="mt-2">{review.reviewText}</p>
+      {review.createdAt ? (
+        <div className="flex justify-end text-xs text-strongGray">{new Date(review.createdAt).toLocaleString()}</div>
+      ) : null}
     </li>
   );
 }

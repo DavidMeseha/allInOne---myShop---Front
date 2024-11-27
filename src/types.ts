@@ -455,6 +455,7 @@ export interface IProductReview {
   reviewText: string;
   rating: number;
   _id: string;
+  createdAt: string;
 }
 
 export interface IVendor {

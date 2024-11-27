@@ -11,7 +11,6 @@ import AddToCartButton from "./AddToCartButton";
 import { useTranslation } from "@/context/Translation";
 import Image from "next/image";
 import { manipulateDescription } from "@/lib/misc";
-import DOMPurify from "dompurify";
 import { IFullProduct } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axios";
@@ -100,8 +99,8 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
           </Button>
         </div>
         <p className="max-w-[300px] text-[15px] md:max-w-[400px]">
-          <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(main) }}></span>
-          {readMore ? <span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(extend) }}></span> : null}
+          <span>{main}</span>
+          {readMore ? <span>{extend}</span> : null}
           {extend.length > 0 ? (
             <>
               {!readMore && <span>...</span>}

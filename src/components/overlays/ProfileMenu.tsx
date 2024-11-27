@@ -12,6 +12,7 @@ import { BsCurrencyExchange, BsStar } from "react-icons/bs";
 import { PiPassword } from "react-icons/pi";
 import { changeLanguage, logout } from "@/actions";
 import { usePathname } from "next/navigation";
+import { startProgress, stopProgress } from "next-nprogress-bar";
 
 export default function ProfileMenuOverlay() {
   const pathname = usePathname();
@@ -34,10 +35,10 @@ export default function ProfileMenuOverlay() {
       name: t("profile.languages"),
       icon: <FaLanguage size={20} />
     },
-    {
-      name: t("profile.currency"),
-      icon: <BsCurrencyExchange size={20} />
-    },
+    // {
+    //   name: t("profile.currency"),
+    //   icon: <BsCurrencyExchange size={20} />
+    // },
     {
       name: t("profile.changePassword"),
       to: "/profile/changepassword",
@@ -46,7 +47,7 @@ export default function ProfileMenuOverlay() {
   ];
 
   return (
-    <OverlayLayout close={() => setIsProfileMenuOpen(false)}>
+    <OverlayLayout title={t("profile")} close={() => setIsProfileMenuOpen(false)}>
       <>
         {activeTap === "main" && (
           <ul>
@@ -82,8 +83,10 @@ export default function ProfileMenuOverlay() {
               <li key={language}>
                 <button
                   className="flex items-center gap-4 py-2 font-semibold"
-                  onClick={() => {
-                    changeLanguage(language, pathname);
+                  onClick={async () => {
+                    startProgress();
+                    const res = await changeLanguage(language, pathname);
+                    if (res.success) stopProgress();
                   }}
                 >
                   {lang === language &&

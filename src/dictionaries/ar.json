@@ -55,6 +55,7 @@
 
   "faildToSubmitYourAction": "فشل التنفيز",
   "loginToPerformAction": "يجب تسجيل الدخول لتتمكن من تنفيز الطلب",
+  "couldNotChangeLanguage": "فشل تغيير اللغة",
 
   "auth.password": "كلمة المرور",
   "auth.login": "تسجيل الدخول",

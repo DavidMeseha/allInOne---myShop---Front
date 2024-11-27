@@ -1,6 +1,6 @@
-##TechShop - Ecommerce
+# TechShop - Ecommerce
 
-###Technologies
+## Technologies
 - React.js
 - Next.js(App router)
 - TailwindCss
@@ -11,7 +11,7 @@
 - Cypress (E2E testing)
 - Prettier, ESLint, Typescript (Code Quality)
 
-###Features:-
+## Features:-
 - Cart, save, like
 - Product attributes customization
 - User profile
@@ -19,8 +19,7 @@
 - auth
 - placing order with card payment(Stripe)
 
-
-###Technical Features
+## Technical Features
 - Infinite Loading
 - Pagination
 - image/upload

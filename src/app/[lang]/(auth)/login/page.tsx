@@ -1,9 +1,8 @@
 import FormTextInput from "@/components/FormTextInput";
-import { Dictionaries } from "@/dictionary";
 import { getDictionary } from "../../../../dictionary";
 import { SubmitButton } from "@/components/SubmitButton";
 import axios from "@/lib/axios";
-import { User } from "@/types";
+import { Language, User } from "@/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { AxiosError } from "axios";
@@ -11,7 +10,7 @@ import Link from "next/link";
 import { setLanguage, setToken } from "@/actions";
 
 interface Props {
-  params: Promise<{ lang: Dictionaries }>;
+  params: Promise<{ lang: Language }>;
   searchParams: Promise<{ error: string }>;
 }
 

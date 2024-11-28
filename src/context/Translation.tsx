@@ -1,16 +1,17 @@
 "use client";
 
-import { Dictionaries, TKey, Translation } from "@/dictionary";
+import { TKey, Translation } from "@/dictionary";
 import React, { useContext, useEffect } from "react";
 import { createContext } from "react";
 import { TFunction } from "../dictionary";
 import { useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
+import { Language } from "@/types";
 
-type Props = { translation: Translation; children: React.ReactNode; lang: Dictionaries };
+type Props = { translation: Translation; children: React.ReactNode; lang: Language };
 type TContext = {
   t: TFunction;
-  lang: Dictionaries;
+  lang: Language;
   languages: ["en", "ar"];
 };
 

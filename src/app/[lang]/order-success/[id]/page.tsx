@@ -1,8 +1,9 @@
 import { Success } from "@/components/Icons";
 import { LocalLink } from "@/components/LocalizedNavigation";
-import { Dictionaries, getDictionary } from "@/dictionary";
+import { getDictionary } from "@/dictionary";
+import { Language } from "@/types";
 
-export default async function Page({ params }: { params: { lang: Dictionaries; id: string } }) {
+export default async function Page({ params }: { params: { lang: Language; id: string } }) {
   const dictionary = await getDictionary(params.lang);
 
   return (

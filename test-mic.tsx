@@ -1,4 +1,4 @@
-import { Dictionaries, Translation } from "@/dictionary";
+import { Translation } from "@/dictionary";
 import en from "@/dictionaries/en.json";
 import ar from "@/dictionaries/ar.json";
 import MainLayout from "@/components/layout/MainLayout";
@@ -6,7 +6,7 @@ import { act, render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TranslationProvider } from "@/context/Translation";
 import React from "react";
-import { User } from "@/types";
+import { Language, User } from "@/types";
 
 const queryClient = new QueryClient();
 
@@ -22,11 +22,7 @@ const user: User = {
   language: "en"
 };
 
-export const renderWithProviders = async (
-  ui: React.ReactNode,
-  lang: Dictionaries = "en",
-  dictionary: Translation = en
-) => {
+export const renderWithProviders = async (ui: React.ReactNode, lang: Language = "en", dictionary: Translation = en) => {
   return await act(async () =>
     render(
       <MainLayout dictionary={dictionary} lang={lang} token="xxxxx-xxxx-xxxx" user={user}>
@@ -36,11 +32,7 @@ export const renderWithProviders = async (
   );
 };
 
-export const renderDiscoverPages = async (
-  ui: React.ReactNode,
-  lang: Dictionaries = "en",
-  dictionary: Translation = en
-) => {
+export const renderDiscoverPages = async (ui: React.ReactNode, lang: Language = "en", dictionary: Translation = en) => {
   return render(
     <QueryClientProvider client={queryClient}>
       <TranslationProvider lang={lang} translation={dictionary}>
@@ -52,7 +44,7 @@ export const renderDiscoverPages = async (
 
 export const renderWithTransation = async (
   ui: React.ReactNode,
-  lang: Dictionaries = "en",
+  lang: Language = "en",
   dictionary: Translation = en
 ) => {
   return render(
@@ -69,5 +61,5 @@ const dictionaries = {
   ar: ar
 };
 
-export const languages: Dictionaries[] = ["en", "ar"];
-export const getDictionary = (lang: Dictionaries) => dictionaries[lang];
+export const languages: Language[] = ["en", "ar"];
+export const getDictionary = (lang: Language) => dictionaries[lang as keyof typeof dictionaries];

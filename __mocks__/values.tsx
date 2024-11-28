@@ -102,7 +102,8 @@ export const mockHomeProduct: IFullProduct = {
       },
       reviewText: "",
       rating: 3,
-      _id: ""
+      _id: "",
+      createdAt: ""
     }
   ],
   vendor: {

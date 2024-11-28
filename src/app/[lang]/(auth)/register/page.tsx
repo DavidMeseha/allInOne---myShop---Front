@@ -2,16 +2,17 @@ import DateDropdownNumbers from "@/components/DateDropdownNumbers";
 import FormTextInput from "@/components/FormTextInput";
 import RadioGroup from "@/components/RadioGroup";
 import { SubmitButton } from "@/components/SubmitButton";
-import { Dictionaries, getDictionary } from "@/dictionary";
+import { getDictionary } from "@/dictionary";
 import { AxiosError } from "axios";
 import { redirect } from "next/navigation";
 import axios from "@/lib/axios";
 import React from "react";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { Language } from "@/types";
 
 interface Props {
-  params: Promise<{ lang: Dictionaries }>;
+  params: Promise<{ lang: Language }>;
   searchParams: Promise<{ error: string }>;
 }
 

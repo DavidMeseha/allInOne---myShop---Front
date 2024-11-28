@@ -18,19 +18,16 @@ export default function useHandleFollow({ vendor, onSuccess }: Props) {
   const pathname = usePathname();
 
   const followAction = async () => {
-    setIsPending(true);
     const res = await follow(vendor._id, pathname);
-    if (res && res.success) {
+    if (res) {
       await setFollowedVendors();
       onSuccess && onSuccess(true);
     }
-    setIsPending(false);
   };
 
   const unfollowAction = async () => {
-    setIsPending(true);
     const res = await unfollow(vendor._id, pathname);
-    if (res && res.success) {
+    if (res) {
       await setFollowedVendors();
       onSuccess && onSuccess(false);
     }
@@ -39,6 +36,7 @@ export default function useHandleFollow({ vendor, onSuccess }: Props) {
   const handleFollow = async (follow: boolean) => {
     if (!user || isPending) return;
     if (!user.isRegistered) return toast.warn(t("loginToPerformAction"));
+    setIsPending(true);
     if (follow) await followAction();
     else await unfollowAction();
     setIsPending(false);

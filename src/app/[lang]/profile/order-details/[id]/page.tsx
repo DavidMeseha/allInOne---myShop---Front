@@ -21,7 +21,7 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
     <>
       <div className="p-4">
         <div className="relative mt-4 rounded-md border p-4">
-          <div className="absolute -top-2 bg-white px-4 text-xs font-normal text-strongGray">{order?._id}</div>
+          <div className="absolute -top-2 bg-white px-4 text-xs font-normal text-secondary">{order?._id}</div>
           <ul>
             {!orderQuery.isFetching ? (
               order && order.items.map((item) => <ProductListItem item={item} key={item.product.seName} />)
@@ -108,9 +108,9 @@ function ProductListItem({
         />
         <div>
           <p className="font-bold">{item.product.name}</p>
-          <p className="text-strongGray">{item.product.price.price}$</p>
+          <p className="text-secondary">{item.product.price.price}$</p>
         </div>
-        <span className="font-normal text-strongGray"> X{item.quantity}</span>
+        <span className="font-normal text-secondary"> X{item.quantity}</span>
       </div>
       <p>{item.product.price.price * item.quantity}$</p>
     </li>

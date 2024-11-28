@@ -48,7 +48,7 @@ export default function CartItem({ product, attributes, quantity, canEdit = fals
           />
           <div>
             <p className="font-bold">{product.name}</p>
-            <p className="text-sm text-strongGray">
+            <p className="text-sm text-secondary">
               {product.price.price}$ . quantity: {quantity}
             </p>
           </div>

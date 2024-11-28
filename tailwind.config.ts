@@ -18,10 +18,11 @@ const config = {
     },
     extend: {
       colors: {
-        primary: "#df2a60",
-        secondary: "#20D5EC",
+        primary: "#2929cc",
+        "primary-300": "#a5a5ed",
+        "primary-100": "#d6d6f7",
         lightGray: "#f1f1f1",
-        strongGray: "#707070"
+        secondary: "#707070"
       },
       keyframes: {
         "accordion-down": {

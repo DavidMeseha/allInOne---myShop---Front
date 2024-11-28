@@ -108,16 +108,16 @@ export default function ProductMoreInfoOverlay() {
       )}
       <h1 className="text-2xl font-bold">{product?.name}</h1>
       <LocalLink
-        className="text-base text-strongGray hover:text-primary hover:underline"
+        className="text-base text-secondary hover:text-primary hover:underline"
         href={`/vendor/${product?.vendor.seName}`}
       >
         {t("soldBy")}: {product?.vendor.name}
       </LocalLink>
       <div className="mb-2 text-lg font-bold">{product?.price.price}$</div>
-      <div className="mb-4 text-center text-sm text-strongGray">
+      <div className="mb-4 text-center text-sm text-secondary">
         {product?.productTags
-          ? product?.productTags.map((tag, index) => (
-              <LocalLink className="me-4 hover:underline" dir="ltr" href={`/profile/tag/${tag.seName}`} key={index}>
+          ? product?.productTags.map((tag) => (
+              <LocalLink className="me-4 hover:underline" dir="ltr" href={`/profile/tag/${tag.seName}`} key={tag._id}>
                 #{tag.name}
               </LocalLink>
             ))
@@ -134,21 +134,21 @@ export default function ProductMoreInfoOverlay() {
       ) : null}
       <Button
         className="w-full bg-primary text-white"
-        onClick={addToCartClickHandle}
         isLoading={addToCartMutation.isPending}
+        onClick={addToCartClickHandle}
       >
         {t("addToCart")}
       </Button>
       <ul className="sticky -top-4 z-20 flex w-full items-center border-b bg-white">
         <li
-          className={`w-full ${activeTap === "description" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
+          className={`w-full ${activeTap === "description" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}
         >
-          <a role="button" className="flex justify-center py-2" onClick={() => setActiveTap("description")}>
+          <a className="flex justify-center py-2" role="button" onClick={() => setActiveTap("description")}>
             {t("description")}
           </a>
         </li>
-        <li className={`w-full ${activeTap === "reviews" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}>
-          <a role="button" className="flex justify-center py-2" onClick={() => setActiveTap("reviews")}>
+        <li className={`w-full ${activeTap === "reviews" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}>
+          <a className="flex justify-center py-2" role="button" onClick={() => setActiveTap("reviews")}>
             {t("reviews")}
           </a>
         </li>
@@ -176,7 +176,7 @@ export default function ProductMoreInfoOverlay() {
               </div>
             ))
           ) : (
-            <div className="py-4 text-center text-strongGray">No Reviews Avilable</div>
+            <div className="py-4 text-center text-secondary">No Reviews Avilable</div>
           )
         ) : null}
       </div>

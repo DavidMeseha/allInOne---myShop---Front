@@ -18,7 +18,7 @@ export default function FormTextInput({ label, error, className, ...props }: Tex
       </label>
       <input
         autoComplete="off"
-        className="block w-full rounded-sm border border-strongGray px-4 py-2 focus:border-primary focus:ring-primary"
+        className="block w-full rounded-sm border border-secondary px-4 py-2 focus:border-primary focus:ring-primary"
         {...props}
       />
 

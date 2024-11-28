@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { lang: Dictionaries; i
       <div className="mb-10 w-16 fill-green-600">
         <Success />
       </div>
-      <h1 className="mb-4 text-center text-xl font-bold text-strongGray">
+      <h1 className="mb-4 text-center text-xl font-bold text-secondary">
         {dictionary["checkout.orderPlacedSuccessfully"]} <span className="text-primary">{params.id}</span>
       </h1>
       <LocalLink className="bg-primary px-4 py-2 text-white" href="/">

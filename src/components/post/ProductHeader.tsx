@@ -28,7 +28,7 @@ export default function ProductHeader({ product }: CommentsHeaderCompTypes) {
         <div className="ml-3 pt-0.5">
           <div className="relative z-10 font-semibold hover:underline">{product.name}</div>
 
-          <div className="relative text-sm text-strongGray">
+          <div className="relative text-sm text-secondary">
             by:
             <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor.seName}`}>
               {" " + product.vendor.name}

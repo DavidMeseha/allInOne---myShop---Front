@@ -1,6 +1,9 @@
+import en from "@/dictionaries/en.json";
 export type FieldError = string | false;
 
-export type Language = "en" | "ar";
+export type Language = "en" | "ar" | "fr";
+
+export type Translation = typeof en;
 
 export interface Pagination {
   current: number;

@@ -74,7 +74,7 @@ function ListItem({ to, category }: ListItemProps) {
           {category.name}
         </LocalLink>
       </div>
-      <p className="text-strongGray">
+      <p className="text-secondary">
         {t("discover.products")}: {category.productsCount || 0}
       </p>
     </li>

@@ -27,21 +27,21 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
         <ul className="sticky top-11 z-30 flex w-full cursor-pointer items-center border-b bg-white">
           <li
-            className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "vendors" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
+            className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "vendors" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}
           >
             <LocalLink className="flex justify-center py-2" href="/discover/vendors">
               {t("discover.vendors")}
             </LocalLink>
           </li>
           <li
-            className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "categories" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
+            className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "categories" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}
           >
             <LocalLink className="flex justify-center py-2" href="/discover/categories">
               {t("discover.categories")}
             </LocalLink>
           </li>
           <li
-            className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "tags" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
+            className={`w-full ${pathname.split("/")[pathname.split("/").length - 1] === "tags" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}
           >
             <LocalLink className="flex justify-center py-2" href="/discover/tags">
               {t("discover.tags")}

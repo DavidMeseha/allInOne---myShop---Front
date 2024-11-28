@@ -14,7 +14,7 @@ export default function Input({ label, className, ...props }: Props) {
       </div>
       <input
         {...props}
-        className={cn("w-full rounded-md border-strongGray focus:border-primary focus:ring-primary", className)}
+        className={cn("w-full rounded-md border-secondary focus:border-primary focus:ring-primary", className)}
       />
     </div>
   );

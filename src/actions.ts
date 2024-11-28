@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import axios from "./lib/axios";
 import { redirect } from "next/navigation";
 import { IVendor, Language, User } from "./types";
-import { Dictionaries } from "./dictionary";
 import { getPathnameLang, replacePathnameLang } from "./lib/misc";
 
 const axiosConfig = () => {
@@ -121,7 +120,7 @@ export async function getAllUserActions() {
   }
 }
 
-export async function changeLanguage(lang: Dictionaries, pathname: string) {
+export async function changeLanguage(lang: Language, pathname: string) {
   const pathnameLang = getPathnameLang(pathname);
   const tempPath = pathname;
   const pathOnly = tempPath.replace("/" + pathnameLang, "");
@@ -130,9 +129,9 @@ export async function changeLanguage(lang: Dictionaries, pathname: string) {
     await axios.post(`/api/common/changeLanguage/${lang}`, {}, axiosConfig());
     await setLanguage(lang);
   } catch {
-    return { success: false, redirect: !!redirect(pathname + "?error=couldNotChangeLanguage") };
+    return redirect(pathname + "?error=couldNotChangeLanguage");
   }
-  return { success: true, redirect: !!redirect(`/${lang}${pathOnly}`) };
+  return redirect(`/${lang}${pathOnly}`);
 }
 
 export async function follow(vendorId: string, pathanme: string) {

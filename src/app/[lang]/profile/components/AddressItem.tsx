@@ -18,7 +18,7 @@ export default function AddressItem({ address, handleDelete, handleEdit }: Props
     <div className="mb-6 flex justify-between">
       <div className="w-10/12">
         <h3 className="text-lg font-bold">{address.address}</h3>
-        <p className="text-sm text-strongGray">
+        <p className="text-sm text-secondary">
           {address.city.name}, {address.country.name}
         </p>
       </div>

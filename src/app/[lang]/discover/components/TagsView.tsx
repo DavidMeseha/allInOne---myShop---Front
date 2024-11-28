@@ -68,7 +68,7 @@ function ListItem({ tag, to }: ListItemProps) {
       <BsHash size={35} />
       <LocalLink className="text-sm font-bold" href={to}>
         <p>{tag.name}</p>
-        <p className="w-max text-xs text-strongGray">{tag.productCount} products</p>
+        <p className="w-max text-xs text-secondary">{tag.productCount} products</p>
       </LocalLink>
     </li>
   );

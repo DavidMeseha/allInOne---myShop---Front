@@ -61,7 +61,7 @@ export default function ViewtagProfile({ tag }: Props) {
             )}
           </div>
         ) : (
-          <div className="py-14 text-center text-strongGray">{t("profile.noProducts")}</div>
+          <div className="py-14 text-center text-secondary">{t("profile.noProducts")}</div>
         )
       ) : null}
 

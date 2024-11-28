@@ -13,11 +13,11 @@ export default function OrderItem({ order }: Props) {
         <LocalLink className="text-lg font-bold" href={`/profile/order-details/${order._id}`}>
           #{order._id}
         </LocalLink>
-        <p className="max-w-[250px] overflow-clip text-ellipsis text-nowrap text-xs text-strongGray">
+        <p className="max-w-[250px] overflow-clip text-ellipsis text-nowrap text-xs text-secondary">
           {order.items.map((item) => item.product.name + ", ")}
         </p>
       </div>
-      <div className="w-[50px] text-xs text-strongGray">{order.shippingStatus}</div>
+      <div className="w-[50px] text-xs text-secondary">{order.shippingStatus}</div>
     </li>
   );
 }

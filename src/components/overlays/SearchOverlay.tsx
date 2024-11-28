@@ -78,7 +78,7 @@ export default function SearchOverlay() {
               type="text"
               onChange={(e) => handleChange(e.target.value)}
             />
-            <Button className="absolute end-0 top-0 py-4 text-strongGray" onClick={() => setIsSearchOpen(false)}>
+            <Button className="absolute end-0 top-0 py-4 text-secondary" onClick={() => setIsSearchOpen(false)}>
               <RiCloseLine size="30" />
             </Button>
           </div>
@@ -124,7 +124,7 @@ export default function SearchOverlay() {
                   ) : null}
                   <div>
                     <h3 className="font-semibold">{item.item.name}</h3>
-                    <p className="text-sm text-strongGray">{item.type}</p>
+                    <p className="text-sm text-secondary">{item.type}</p>
                   </div>
                 </LocalLink>
               ))

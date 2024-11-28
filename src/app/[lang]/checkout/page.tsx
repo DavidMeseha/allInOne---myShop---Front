@@ -129,14 +129,12 @@ export default function CheckoutPage() {
           <div className="w-6" />
         </div>
         <ul className="sticky top-11 z-30 flex w-full items-center border-b bg-white">
-          <li
-            className={`w-full ${activeTap === "shipping" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
-          >
+          <li className={`w-full ${activeTap === "shipping" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}>
             <a className="flex justify-center py-2" onClick={() => setActiveTap("shipping")}>
               {t("checkout.shipping")}
             </a>
           </li>
-          <li className={`w-full ${activeTap === "summary" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}>
+          <li className={`w-full ${activeTap === "summary" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}>
             <a className="flex justify-center py-2" onClick={() => setActiveTap("summary")}>
               {t("checkout.products")}
             </a>
@@ -146,14 +144,14 @@ export default function CheckoutPage() {
       <div className="sticky top-[60px] z-30 hidden w-full justify-between border-b bg-white pt-4 md:flex">
         <ul className="flex items-center">
           <li
-            className={`border-s border-t px-6 ${activeTap === "shipping" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
+            className={`border-s border-t px-6 ${activeTap === "shipping" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}
           >
             <a className="flex justify-center py-2" role="button" onClick={() => setActiveTap("shipping")}>
               {t("checkout.shipping")}
             </a>
           </li>
           <li
-            className={`border-x border-t px-6 ${activeTap === "summary" ? "-mb-0.5 border-b-2 border-b-black" : "text-strongGray"}`}
+            className={`border-x border-t px-6 ${activeTap === "summary" ? "-mb-0.5 border-b-2 border-b-black" : "text-secondary"}`}
           >
             <a className="flex justify-center py-2" role="button" onClick={() => setActiveTap("summary")}>
               {t("checkout.products")}

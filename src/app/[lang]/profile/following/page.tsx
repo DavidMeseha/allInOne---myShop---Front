@@ -22,7 +22,7 @@ export default function FollowingPage() {
 
   if (follwingVendorsQuery.isFetching) return <Loading />;
   if (!follwingVendorsQuery.data?.length)
-    return <div className="py-4 text-center text-strongGray">No Followed Vendors</div>;
+    return <div className="py-4 text-center text-secondary">No Followed Vendors</div>;
   return <ul>{follwingVendorsQuery.data?.map((vendor) => <ListItem key={vendor._id} vendor={vendor} />)}</ul>;
 }
 
@@ -51,7 +51,7 @@ function ListItem({ vendor }: { vendor: IVendor }) {
           <LocalLink className="font-bold" href={`/profile/vendor/${vendor.seName}`}>
             {vendor.name}
           </LocalLink>
-          <p className="text-strongGray">{vendor.productCount} Products</p>
+          <p className="text-secondary">{vendor.productCount} Products</p>
         </div>
       </div>
       <div>

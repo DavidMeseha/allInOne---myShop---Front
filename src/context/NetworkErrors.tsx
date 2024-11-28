@@ -72,7 +72,7 @@ export default function NetworkErrors({ children }: { children: React.ReactNode 
           src="/images/product-not-found.png"
           width={400}
         />
-        <h1 className="text-4xl font-bold text-strongGray">{t(error)}</h1>
+        <h1 className="text-4xl font-bold text-secondary">{t(error)}</h1>
         <Button className="mt-4 bg-primary text-white hover:underline" onClick={checkError}>
           <div className="flex items-center gap-2">
             Retry <FaRedo size={13} />

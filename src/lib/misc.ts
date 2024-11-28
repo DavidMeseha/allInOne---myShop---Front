@@ -1,6 +1,6 @@
 import { IProductAttribute, Language } from "@/types";
 
-export const languages: Language[] = ["en", "ar"];
+export const languages: Language[] = ["en", "ar", "fr"];
 
 /**
  * Sets the default attributes by limiting the values to the first one.

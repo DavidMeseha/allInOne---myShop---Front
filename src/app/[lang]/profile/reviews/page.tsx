@@ -36,7 +36,7 @@ export default function ReviewsPage() {
             )}
           </div>
         ) : (
-          <div className="py-14 text-center text-strongGray">You Created No Reviews Yet</div>
+          <div className="py-14 text-center text-secondary">You Created No Reviews Yet</div>
         )
       ) : null}
 
@@ -72,7 +72,7 @@ function ReviewItem({ review }: { review: IProductReview }) {
       </div>
       <p className="mt-2">{review.reviewText}</p>
       {review.createdAt ? (
-        <div className="flex justify-end text-xs text-strongGray">{new Date(review.createdAt).toLocaleString()}</div>
+        <div className="flex justify-end text-xs text-secondary">{new Date(review.createdAt).toLocaleString()}</div>
       ) : null}
     </li>
   );

@@ -3,10 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --primary: #fa2d6c;
-  --secondary: #20d5ec;
+  --primary: #2929cc;
+  --primary-300: #a5a5ed;
+  --primary-100: #d6d6f7;
   --lightGray: #f1f1f1;
-  --strongGray: #7c7c7c;
+  --secondary: #7c7c7c;
 }
 
 @layer base {
@@ -17,7 +18,7 @@
 }
 
 .text-blend {
-  color: #fa2d6c;
+  color: var(--primary);
   mix-blend-mode: difference;
 }
 
@@ -27,5 +28,5 @@
 }
 
 .rmsc .dropdown-container {
-  border-color: var(--strongGray) !important;
+  border-color: var(--secondary) !important;
 }

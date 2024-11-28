@@ -9,7 +9,7 @@ export default function ProgressBarProvider({ children }: Props) {
   return (
     <>
       {children}
-      <AppProgressBar color="#FA2D6C" height="4px" options={{ showSpinner: false }} shallowRouting />
+      <AppProgressBar color="#2929cc" height="4px" options={{ showSpinner: false }} shallowRouting />
     </>
   );
 }

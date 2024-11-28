@@ -1,24 +1,19 @@
 import { ToastContainer } from "react-toastify";
 import MainLayout from "../../components/layout/MainLayout";
-import { Dictionaries, getDictionary, langs } from "../../dictionary";
+import { getDictionary } from "../../dictionary";
 import React, { ReactElement } from "react";
 import { cookies } from "next/headers";
 import axios from "@/lib/axios";
-import { User } from "@/types";
+import { Language, User } from "@/types";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { languages } from "@/lib/misc";
 
 export async function generateStaticParams() {
-  return langs.map((lang) => ({ lang }));
+  return languages.map((lang) => ({ lang }));
 }
 
-export default async function RootLayout({
-  children,
-  params
-}: {
-  children: ReactElement;
-  params: { lang: Dictionaries };
-}) {
+export default async function RootLayout({ children, params }: { children: ReactElement; params: { lang: Language } }) {
   const dictionary = await getDictionary(params.lang);
 
   const token = cookies().get("session")?.value;

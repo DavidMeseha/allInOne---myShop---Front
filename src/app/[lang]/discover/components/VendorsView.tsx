@@ -41,7 +41,7 @@ export default function VendorsView() {
             )}
           </div>
         ) : (
-          <div className="py-14 text-center text-strongGray">You Created No Reviews Yet</div>
+          <div className="py-14 text-center text-secondary">You Created No Reviews Yet</div>
         )
       ) : null}
 
@@ -87,12 +87,12 @@ function ListItem({ vendor, to }: ListItemProps) {
           <LocalLink className="font-bold hover:underline" href={to}>
             {vendor.name}
           </LocalLink>
-          <p className="text-strongGray">Products: {vendor.productCount}</p>
+          <p className="text-secondary">Products: {vendor.productCount}</p>
         </div>
       </div>
       <div>
         {following.includes(vendor._id) ? (
-          <div className="text-strongGray">{t("profile.following")}</div>
+          <div className="text-secondary">{t("profile.following")}</div>
         ) : (
           <Button
             className="bg-primary px-4 font-bold text-white"

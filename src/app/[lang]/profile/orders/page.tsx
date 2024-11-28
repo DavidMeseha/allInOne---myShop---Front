@@ -27,7 +27,7 @@ export default function OrdersPage() {
         ) : orders.length > 0 ? (
           orders.map((order) => <OrderItem key={order._id} order={order} />)
         ) : (
-          <li className="text-center text-strongGray">No Orders Avilable</li>
+          <li className="text-center text-secondary">No Orders Avilable</li>
         )}
       </ul>
     </>

@@ -61,7 +61,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             >
               {product.vendor.name}
             </LocalLink>
-            <p className="text-sm text-strongGray">
+            <p className="text-sm text-secondary">
               <LocalLink className="inline-block h-6 hover:text-primary" href={`/product/${product.seName}`}>
                 {product.name}
               </LocalLink>
@@ -93,7 +93,7 @@ export default function ProductSection({ product }: { product: IFullProduct }) {
             </>
           ) : null}
         </p>
-        <div className="text-sm text-strongGray">
+        <div className="text-sm text-secondary">
           {product.productTags.map((tag) => (
             <LocalLink
               aria-label="Navigate to a tag products"

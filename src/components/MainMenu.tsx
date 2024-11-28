@@ -11,10 +11,11 @@ import { PiInfinity, PiShoppingCart, PiShoppingCartFill } from "react-icons/pi";
 import DropdownButton from "./DropdownButton";
 import { changeLanguage } from "@/actions";
 import { startProgress, stopProgress } from "next-nprogress-bar";
-import { Dictionaries } from "@/dictionary";
+import { languages } from "@/lib/misc";
+import { Language } from "@/types";
 
 export default function MainMenu() {
-  const { t, lang, languages } = useTranslation();
+  const { t, lang } = useTranslation();
   const { cartItems } = useUserStore();
   const { pathname } = useLocalPathname();
 
@@ -89,9 +90,10 @@ export default function MainMenu() {
           options={languages}
           value={lang}
           onSelectItem={async (value) => {
+            if (value === lang) return;
             startProgress();
-            const res = await changeLanguage(value as Dictionaries, pathname);
-            if (res.success) stopProgress();
+            await changeLanguage(value as Language, pathname);
+            stopProgress();
           }}
         >
           {lang.toUpperCase()}

@@ -11,17 +11,18 @@ import { useTranslation } from "../../../context/Translation";
 import Image from "next/image";
 import { useRouter, startProgress, stopProgress } from "next-nprogress-bar";
 import DropdownButton from "@/components/DropdownButton";
-import { Dictionaries } from "@/dictionary";
 import { changeLanguage, logout } from "@/actions";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/stores/userStore";
+import { Language } from "@/types";
+import { languages } from "@/lib/misc";
 
 export default function Header() {
   const { user } = useUserStore();
   const router = useRouter();
   const pathname = usePathname();
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const { t, lang, languages } = useTranslation();
+  const { t, lang } = useTranslation();
   const { setIsSearchOpen } = useGeneralStore();
 
   const goTo = () => {
@@ -68,9 +69,10 @@ export default function Header() {
             options={languages}
             value={lang}
             onSelectItem={async (value) => {
+              if (value === lang) return;
               startProgress();
-              const res = await changeLanguage(value as Dictionaries, pathname);
-              if (res.success) stopProgress();
+              await changeLanguage(value as Language, pathname);
+              stopProgress();
             }}
           >
             {lang.toUpperCase()}

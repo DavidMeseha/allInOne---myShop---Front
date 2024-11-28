@@ -23,7 +23,7 @@ export default function RadioGroup({ value, options, title, onChange, className,
           <label className="mb-2" htmlFor={option.value} key={index}>
             {!onChange && !value ? (
               <input
-                className="me-2 border-red-300 bg-red-100 text-red-500 focus:ring-red-200"
+                className="me-2 border-primary-300 bg-primary-100 text-primary focus:ring-primary-100"
                 id={option.value}
                 name={name ?? title}
                 type="radio"
@@ -33,7 +33,7 @@ export default function RadioGroup({ value, options, title, onChange, className,
             ) : (
               <input
                 checked={value === option.value}
-                className="me-2 border-red-300 bg-red-100 text-red-500 focus:ring-red-200"
+                className="me-2 border-primary-300 bg-primary-100 text-primary focus:ring-primary-100"
                 id={option.value}
                 name={name ?? title}
                 type="radio"

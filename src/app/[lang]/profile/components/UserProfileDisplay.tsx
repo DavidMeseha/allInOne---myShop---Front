@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { UserActivity } from "./UserActivity";
 import Image from "next/image";
 import { FiSettings } from "react-icons/fi";
-import { BsBookmark, BsCart, BsHeart } from "react-icons/bs";
+import { BsBookmark, BsCart } from "react-icons/bs";
 import { BiLoaderCircle, BiPencil } from "react-icons/bi";
 import { LocalLink } from "@/components/LocalizedNavigation";
 import ProductCard from "@/components/ProductCard";
@@ -18,7 +18,7 @@ export default function UserProfileDisplay() {
   const { following } = useUserStore();
   const { isEditProfileOpen, setIsEditProfileOpen, setIsProfileMenuOpen } = useGeneralStore();
   const { cartItems } = useUserStore();
-  const [activeTap, setActiveTap] = useState<"cart" | "bookmark" | "likes">("cart");
+  const [isCart, setIsCart] = useState<boolean>(true);
 
   const cartItemsQuery = useQuery({
     queryKey: ["cartItems"],
@@ -26,20 +26,16 @@ export default function UserProfileDisplay() {
       axios
         .get<{ product: IFullProduct; quantity: number; attributes: IProductAttribute[] }[]>("/api/common/cart")
         .then((res) => res.data),
-    enabled: activeTap === "cart"
+    enabled: isCart
   });
+  const cartProducts = cartItemsQuery.data ?? [];
 
   const savesQuery = useQuery({
     queryKey: ["savedProducts"],
     queryFn: () => axios.get<IFullProduct[]>("/api/user/savedProducts").then((res) => res.data),
-    enabled: activeTap === "bookmark"
+    enabled: !isCart
   });
-
-  const likedProductsQuery = useQuery({
-    queryKey: ["likedProducts"],
-    queryFn: () => axios.get<IFullProduct[]>("/api/user/likedProducts").then((res) => res.data),
-    enabled: activeTap === "likes"
-  });
+  const savedProducts = savesQuery.data ?? [];
 
   const userInfoQuery = useQuery({
     queryKey: ["userInfo"],
@@ -47,7 +43,7 @@ export default function UserProfileDisplay() {
   });
 
   const userInfo = userInfoQuery.data;
-  const isFeatching = savesQuery.isFetching || likedProductsQuery.isFetching || cartItemsQuery.isFetching;
+  const isFeatching = savesQuery.isFetching || cartItemsQuery.isFetching;
 
   const activities = [
     {
@@ -104,62 +100,40 @@ export default function UserProfileDisplay() {
 
       <div className="relative">
         <ul className="sticky top-[45px] z-10 mt-2 flex w-full items-center border-b border-t-[1px] bg-white md:top-0">
-          <li className={`w-full ${activeTap === "cart" && "-mb-0.5 border-b-2 border-b-black"}`}>
-            <a className="flex justify-center py-2" onClick={() => setActiveTap("cart")}>
+          <li className={`w-full ${isCart && "-mb-0.5 border-b-2 border-b-black"}`}>
+            <a className="flex justify-center py-2" onClick={() => setIsCart(true)}>
               <BsCart size={20} />
             </a>
           </li>
-          <li className={`w-full ${activeTap === "bookmark" && "-mb-0.5 border-b-2 border-b-black"}`}>
-            <a className="flex justify-center py-2" onClick={() => setActiveTap("bookmark")}>
+          <li className={`w-full ${!isCart && "-mb-0.5 border-b-2 border-b-black"}`}>
+            <a className="flex justify-center py-2" onClick={() => setIsCart(false)}>
               <BsBookmark size={20} />
-            </a>
-          </li>
-          <li className={`w-full ${activeTap === "likes" && "-mb-0.5 border-b-2 border-b-black"}`}>
-            <a className="flex justify-center py-2" onClick={() => setActiveTap("likes")}>
-              <BsHeart size={20} />
             </a>
           </li>
         </ul>
 
-        {activeTap === "cart" &&
-          (cartItemsQuery.data && cartItemsQuery.data.length > 0 ? (
+        {isCart ? (
+          cartProducts.length > 0 ? (
             <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-              {cartItemsQuery.data.map((item, index) => (
+              {cartProducts.map((item, index) => (
                 <ProductCard key={index} product={item.product} />
               ))}
             </div>
           ) : (
-            <div className="py-14 text-center text-strongGray">{t("profile.emptyCart")}</div>
-          ))}
-
-        {activeTap === "bookmark" &&
-          (savesQuery.data ? (
-            savesQuery.data.length > 0 ? (
-              <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                {savesQuery.data.map((item, index) => (
-                  <ProductCard key={index} product={item} />
-                ))}
-              </div>
-            ) : (
-              <div className="py-14 text-center text-strongGray">{t("profile.noSaves")}</div>
-            )
-          ) : null)}
-
-        {activeTap === "likes" &&
-          (likedProductsQuery.data ? (
-            likedProductsQuery.data.length > 0 ? (
-              <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
-                {likedProductsQuery.data.map((item, index) => (
-                  <ProductCard key={index} product={item} />
-                ))}
-              </div>
-            ) : (
-              <div className="py-14 text-center text-strongGray">{t("profile.noSaves")}</div>
-            )
-          ) : null)}
+            !isFeatching && <div className="py-14 text-center text-secondary">{t("profile.emptyCart")}</div>
+          )
+        ) : savedProducts.length > 0 ? (
+          <div className="mt-4 grid grid-cols-2 gap-3 px-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+            {savedProducts.map((item, index) => (
+              <ProductCard key={index} product={item} />
+            ))}
+          </div>
+        ) : (
+          !isFeatching && <div className="py-14 text-center text-secondary">{t("profile.noSaves")}</div>
+        )}
 
         {isFeatching ? (
-          <div className="absolute inset-0 flex justify-center bg-white bg-opacity-50 pt-8 text-primary">
+          <div className="absolute inset-0 flex justify-center bg-white bg-opacity-50 pt-20 text-primary">
             <BiLoaderCircle className="animate-spin" size={40} />
           </div>
         ) : null}

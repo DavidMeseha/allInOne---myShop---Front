@@ -125,7 +125,7 @@ export default function ProductCard({ product }: Props) {
             <span title={product.name}>{product.name}</span>
           </LocalLink>
           {product.vendor.name ? (
-            <p className="-mt-1 text-sm text-strongGray">
+            <p className="-mt-1 text-sm text-secondary">
               sold by:{" "}
               <LocalLink className="hover:text-primary" href={`/profile/vendor/${product.vendor.seName}`}>
                 {product.vendor.name}

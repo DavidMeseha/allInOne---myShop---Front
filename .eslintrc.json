@@ -8,7 +8,7 @@
       }
     },
     {
-      "files": ["**/__tests__/**/*.[jt]s?(x)", "./mocks/*.tsx", "jest.setup.js", "./cypress/**/*.ts"],
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "./__mocks__/*.tsx", "jest.setup.js", "./cypress/**/*.ts"],
       "rules": {
         "no-unused-expressions": "off",
         "no-undef": "off"

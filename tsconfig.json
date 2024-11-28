@@ -31,5 +31,5 @@
     "__tests__/**/*.tsx",
     "jest.setup.js"
   ],
-  "exclude": ["node_modules", "cypress", "__test__", "__mocks__"]
+  "exclude": ["node_modules"]
 }

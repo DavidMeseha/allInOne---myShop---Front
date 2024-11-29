@@ -15,7 +15,7 @@ export interface UserStore {
   setSaves: (saves?: string[]) => Promise<void>;
   setFollowedVendors: (followed?: string[]) => Promise<void>;
   setReviews: (reviews?: string[]) => Promise<void>;
-  setUser: (user: User) => void;
+  setUser: (user: User | null) => void;
   setUserActions: () => Promise<void>;
 }
 
@@ -50,7 +50,7 @@ export const useUserStore = create<UserStore>()(
           const result = followed ?? (await getFollowIds());
           set({ following: result });
         },
-        setUser: (user: User) => set({ user: user }),
+        setUser: (user: User | null) => set({ user: user }),
         setUserActions: async () => {
           const result = await getAllUserActions();
           set({

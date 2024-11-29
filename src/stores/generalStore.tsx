@@ -89,12 +89,16 @@ export const useGeneralStore = create<GeneralStore>()(
           productId?: string,
           actionName?: string,
           action?: (attr: IProductAttribute[]) => void
-        ) =>
+        ) => {
           set((prev) => ({
             isAddToCartOpen: val,
-            overlayProductId: productId ?? prev.overlayProductId,
-            action: { name: actionName ?? null, fn: action ?? null }
-          }))
+            overlayProductId: productId ?? prev.overlayProductId
+          }));
+
+          setTimeout(() => {
+            set({ action: { name: actionName ?? null, fn: action ?? null } });
+          }, 150);
+        }
       }),
       {
         name: "store",

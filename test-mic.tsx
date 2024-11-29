@@ -10,7 +10,7 @@ import { Language, User } from "@/types";
 
 const queryClient = new QueryClient();
 
-const user: User = {
+export const user: User = {
   _id: "xxx",
   email: "xxxxx@xxxx.xxx",
   firstName: "xxxx",
@@ -25,7 +25,7 @@ const user: User = {
 export const renderWithProviders = async (ui: React.ReactNode, lang: Language = "en", dictionary: Translation = en) => {
   return await act(async () =>
     render(
-      <MainLayout dictionary={dictionary} lang={lang} token="xxxxx-xxxx-xxxx" user={user}>
+      <MainLayout dictionary={dictionary} lang={lang} token="xxxxx-xxxx-xxxx">
         {ui}
       </MainLayout>
     )

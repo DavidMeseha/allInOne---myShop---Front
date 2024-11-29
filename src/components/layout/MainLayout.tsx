@@ -8,8 +8,6 @@ import React, { useEffect, useState } from "react";
 import BottomNav from "./includes/BottomNav";
 import { QueryClient } from "@tanstack/react-query";
 import { TranslationProvider } from "@/context/Translation";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import axios from "@/lib/axios";
 import Header from "./includes/Header";
 import SideNav from "./includes/SideNav";
@@ -18,10 +16,8 @@ import { Language, Translation } from "@/types";
 import { useGeneralStore } from "@/stores/generalStore";
 import UserSetupWrapper from "./includes/UserSetupWrapper";
 import { useUserStore } from "@/stores/userStore";
-import { usePathname } from "next/navigation";
 
 export const queryClient = new QueryClient();
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIP_KEY ?? "");
 
 export default function MainLayout({
   children,
@@ -34,7 +30,6 @@ export default function MainLayout({
   lang: Language;
   token: string | undefined;
 }) {
-  const pathname = usePathname();
   const { setCountries } = useGeneralStore();
   const { setUser } = useUserStore();
   const [loading, setLoading] = useState(true);

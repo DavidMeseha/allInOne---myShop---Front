@@ -88,7 +88,7 @@ export default function Header() {
               <div className="me-4 flex items-center">
                 <div className="relative">
                   <button
-                    className="border-primary-300 mt-1 rounded-full border"
+                    className="mt-1 rounded-full border border-primary-300"
                     onClick={() => setShowMenu(!showMenu)}
                   >
                     <Image

@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     type: "website",
     title: "TechShop",
     description: ""
+  },
+  verification: {
+    google: "LNXuD0OB-K9UiZBq_wJGKs72Ypb6eJ2Y1I-GvhN7a_o"
   }
 };
 

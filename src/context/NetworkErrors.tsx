@@ -1,6 +1,5 @@
 "use client";
 import Button from "@/components/Button";
-import { queryClient } from "@/components/layout/MainLayout";
 import axios from "@/lib/axios";
 import { AxiosError } from "axios";
 import Image from "next/image";
@@ -23,12 +22,8 @@ export default function NetworkErrors({ children }: { children: React.ReactNode 
       (res) => res,
       (error: AxiosError) => {
         if (!navigator.onLine) return Promise.reject(error);
-
         if (error.response) {
           if (error.status === 500) toast.error(t("serverFail"));
-          if (error.status === 403) {
-            queryClient.clear();
-          }
         } else if (error.request) {
           setOnlineState("ServerDown");
         }

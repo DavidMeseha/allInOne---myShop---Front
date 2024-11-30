@@ -7,6 +7,7 @@ import { Language } from "@/types";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { languages } from "@/lib/misc";
+import Transition from "@/context/Transition";
 
 export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
@@ -24,7 +25,7 @@ export default async function Layout({ children, params }: { children: ReactElem
       >
         <div dir={params.lang === "ar" ? "rtl" : "ltr"}>
           <MainLayout dictionary={dictionary} lang={params.lang} token={token}>
-            {children}
+            <Transition>{children}</Transition>
             <ToastContainer />
           </MainLayout>
           <Analytics />

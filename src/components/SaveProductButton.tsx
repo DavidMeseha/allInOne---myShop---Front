@@ -21,7 +21,7 @@ export default function SaveProductButton({ product }: Props) {
       setCount(count + (state ? 1 : -1));
       const temp = [...saves];
       inSaves ? temp.splice(temp.indexOf(inSaves), 1) : temp.push(product._id);
-      setSaves([...temp]);
+      setSaves({ saves: [...temp] });
     }
   });
 

@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import { persist, devtools, createJSONStorage } from "zustand/middleware";
-import { getAllUserActions, getCartIds, getFollowIds, getLikeIds, getReviewIds, getSaveIds } from "@/actions";
+import { getCartIds } from "@/actions";
 import { User } from "@/types";
+import { getFollowIds, getLikeIds, getReviewIds, getSaveIds, getUserActions } from "@/hooks/getUserActions";
+import { GenericAbortSignal } from "axios";
 
 export interface UserStore {
   user: User | null;
@@ -12,7 +14,7 @@ export interface UserStore {
   likes: string[];
   setLikes: (likes?: string[]) => Promise<void>;
   setCartItems: (cartItems?: { product: string; quantity: number }[]) => Promise<void>;
-  setSaves: (saves?: string[]) => Promise<void>;
+  setSaves: (props?: { saves?: string[]; signal?: GenericAbortSignal }) => Promise<void>;
   setFollowedVendors: (followed?: string[]) => Promise<void>;
   setReviews: (reviews?: string[]) => Promise<void>;
   setUser: (user: User | null) => void;
@@ -42,8 +44,8 @@ export const useUserStore = create<UserStore>()(
           const result = cartItems ?? (await getCartIds());
           set({ cartItems: result });
         },
-        setSaves: async (saves?: string[]) => {
-          const result = saves ?? (await getSaveIds());
+        setSaves: async (props?: { saves?: string[]; }) => {
+          const result = props?.saves ?? (await getSaveIds());
           set({ saves: result });
         },
         setFollowedVendors: async (followed?: string[]) => {
@@ -52,7 +54,7 @@ export const useUserStore = create<UserStore>()(
         },
         setUser: (user: User | null) => set({ user: user }),
         setUserActions: async () => {
-          const result = await getAllUserActions();
+          const result = await getUserActions();
           set({
             reviews: result.reviews,
             likes: result.likes,

@@ -63,63 +63,6 @@ export async function getCartIds() {
   }
 }
 
-export async function getLikeIds() {
-  try {
-    const res = await axios.get<string[]>("/api/common/likesId", axiosConfig());
-    return res.data;
-  } catch {
-    return [];
-  }
-}
-
-export async function getSaveIds() {
-  try {
-    const res = await axios.get<string[]>("/api/common/savesId", axiosConfig());
-    return res.data;
-  } catch {
-    return [];
-  }
-}
-
-export async function getFollowIds() {
-  try {
-    const res = await axios.get<string[]>("/api/common/followingIds", axiosConfig());
-    return res.data;
-  } catch {
-    return [];
-  }
-}
-
-export async function getReviewIds() {
-  try {
-    const res = await axios.get<string[]>("/api/common/reviewedIds", axiosConfig());
-    return res.data;
-  } catch {
-    return [];
-  }
-}
-
-export async function getAllUserActions() {
-  try {
-    const res = await axios.get<{
-      reviews: string[];
-      cart: { product: string; quantity: number }[];
-      likes: string[];
-      saves: string[];
-      follows: string[];
-    }>("/api/common/allActions", axiosConfig());
-    return res.data;
-  } catch {
-    return {
-      reviews: [],
-      cart: [],
-      likes: [],
-      saves: [],
-      follows: []
-    };
-  }
-}
-
 export async function changeLanguage(lang: Language, pathname: string) {
   const pathnameLang = getPathnameLang(pathname);
   const tempPath = pathname;

@@ -1,8 +1,6 @@
 import { IFullProduct, Pagination } from "@/types";
 import HomePage from "./HomePage";
 import axios from "@/lib/axios";
-import { Suspense } from "react";
-import ProductsSetLoading from "@/components/LoadingUi/ProductsSetLoading";
 
 export default async function Page() {
   const getProducts = async (page = 1) => {
@@ -25,9 +23,5 @@ export default async function Page() {
 
   const products = await getProducts();
 
-  return (
-    <Suspense fallback={<ProductsSetLoading count={6} />}>
-      <HomePage loadMore={loadMore} products={products.data} />;
-    </Suspense>
-  );
+  return <HomePage loadMore={loadMore} products={products.data} />;
 }

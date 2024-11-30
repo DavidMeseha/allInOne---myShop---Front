@@ -4,7 +4,7 @@ import { IFullProduct } from "@/types";
 import { cache } from "react";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
-import PPage from "../PPage";
+import ProductPage from "../ProductPage";
 
 type Props = {
   params: { seName: string };
@@ -49,7 +49,7 @@ export default async function Page(props: Props) {
   const params = props.params;
   try {
     const product = await getProduct(params.seName);
-    return <PPage product={product} />;
+    return <ProductPage product={product} />;
   } catch (err: any) {
     const error = err as AxiosError;
     if (error.response && error.response.status >= 400 && error.response.status < 500) notFound();

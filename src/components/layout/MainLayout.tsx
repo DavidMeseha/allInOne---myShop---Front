@@ -15,7 +15,6 @@ import NetworkErrors from "@/context/NetworkErrors";
 import { Language, Translation } from "@/types";
 import { useGeneralStore } from "@/stores/generalStore";
 import UserSetupWrapper from "./includes/UserSetupWrapper";
-import { useUserStore } from "@/stores/userStore";
 
 export const queryClient = new QueryClient();
 
@@ -31,7 +30,6 @@ export default function MainLayout({
   token: string | undefined;
 }) {
   const { setCountries } = useGeneralStore();
-  const { setUser } = useUserStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,8 +43,6 @@ export default function MainLayout({
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
-
-    setUser(null);
     queryClient.invalidateQueries({ queryKey: ["checkToken"] });
   }, [token]);
 

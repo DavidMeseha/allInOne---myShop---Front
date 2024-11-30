@@ -38,23 +38,21 @@ export default function ProductCard({ product }: Props) {
 
   const likeHandler = useHandleLike({
     product,
-    onSuccess: (state) => {
+    onClick: (state) => {
       setCounters({ ...counters, likes: counters.likes + (state ? 1 : -1) });
       const temp = [...likes];
       inLikes ? temp.splice(temp.indexOf(inLikes), 1) : temp.push(product._id);
       setLikes([...temp]);
-      queryClient.invalidateQueries({ queryKey: ["likedProducts"] });
     }
   });
 
   const saveHandler = useHandleSave({
     product,
-    onSuccess: (state) => {
+    onClick: (state) => {
       setCounters({ ...counters, saves: counters.saves + (state ? 1 : -1) });
       const temp = [...saves];
       inSaves ? temp.splice(temp.indexOf(inSaves), 1) : temp.push(product._id);
-      setSaves([...temp]);
-      queryClient.invalidateQueries({ queryKey: ["savedProducts"] });
+      setSaves({ saves: [...temp] });
     }
   });
 
@@ -167,7 +165,6 @@ export default function ProductCard({ product }: Props) {
         <Button
           aria-label="like product"
           className={`basis-1/3 rounded-none border-e fill-black p-1 ${inLikes ? "bg-red-200" : "bg-white"}`}
-          isLoading={likeHandler.isPending}
           spinnerSize="20"
           onClick={handleLikeAction}
         >
@@ -179,7 +176,6 @@ export default function ProductCard({ product }: Props) {
         <Button
           aria-label="save product"
           className={`basis-1/3 rounded-none fill-black p-1 ${inSaves ? "bg-yellow-200" : "bg-white"}`}
-          isLoading={saveHandler.isPending}
           spinnerSize="20"
           onClick={handleSaveAction}
         >

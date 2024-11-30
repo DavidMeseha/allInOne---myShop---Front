@@ -2,7 +2,7 @@ import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 import { IFullProduct } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -16,7 +16,6 @@ export default function useHandleSave({ product, onSuccess, onError, onClick }: 
   const { setSaves, user } = useUserStore();
   const queryClient = useQueryClient();
   const actionTimeoutRef = useRef<number>();
-  const [processing, setProcessing] = useState<boolean>(false);
 
   const saveMutation = useMutation({
     mutationKey: ["save", product.seName],
@@ -40,7 +39,6 @@ export default function useHandleSave({ product, onSuccess, onError, onClick }: 
   });
 
   const handleSave = async (save: boolean) => {
-    setProcessing(true);
     if (actionTimeoutRef.current) clearTimeout(actionTimeoutRef.current);
     if (user && !user.isRegistered) return toast.warn("You need to login to perform action", { toastId: "saveError" });
     onClick && onClick(save);
@@ -48,9 +46,8 @@ export default function useHandleSave({ product, onSuccess, onError, onClick }: 
       if (save) await saveMutation.mutateAsync();
       else await unsaveMutation.mutateAsync();
       setSaves();
-      setProcessing(false);
     }, 0);
   };
 
-  return { handleSave, isPending: saveMutation.isPending || unsaveMutation.isPending || processing };
+  return { handleSave, isPending: saveMutation.isPending || unsaveMutation.isPending };
 }

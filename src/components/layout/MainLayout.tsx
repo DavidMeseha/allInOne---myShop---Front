@@ -43,7 +43,7 @@ export default function MainLayout({
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
-  }, []);
+  }, [token]);
 
   return (
     <>

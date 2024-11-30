@@ -1,43 +1,55 @@
 import axios from "@/lib/axios";
-import { GenericAbortSignal } from "axios";
 
-export async function getLikeIds(signal?: GenericAbortSignal) {
+let savesTimeoutId: number;
+let likesTimeoutId: number;
+
+export async function getLikeIds(): Promise<string[]> {
+  return await new Promise((resolve) => {
+    clearTimeout(likesTimeoutId);
+    likesTimeoutId = window.setTimeout(async () => {
+      try {
+        const res = await axios.get<string[]>("/api/common/likesId");
+        resolve(res.data);
+      } catch {
+        resolve([]);
+      }
+    }, 400);
+  });
+}
+
+export async function getSaveIds(): Promise<string[]> {
+  return await new Promise((resolve) => {
+    clearTimeout(savesTimeoutId);
+    savesTimeoutId = window.setTimeout(async () => {
+      try {
+        const res = await axios.get<string[]>("/api/common/savesId");
+        resolve(res.data);
+      } catch {
+        resolve([]);
+      }
+    }, 400);
+  });
+}
+
+export async function getFollowIds() {
   try {
-    const res = await axios.get<string[]>("/api/common/likesId", { signal });
+    const res = await axios.get<string[]>("/api/common/followingIds");
     return res.data;
   } catch {
     return [];
   }
 }
 
-export async function getSaveIds(signal?: GenericAbortSignal) {
+export async function getReviewIds() {
   try {
-    const res = await axios.get<string[]>("/api/common/savesId", { signal });
+    const res = await axios.get<string[]>("/api/common/reviewedIds");
     return res.data;
   } catch {
     return [];
   }
 }
 
-export async function getFollowIds(signal?: GenericAbortSignal) {
-  try {
-    const res = await axios.get<string[]>("/api/common/followingIds", { signal });
-    return res.data;
-  } catch {
-    return [];
-  }
-}
-
-export async function getReviewIds(signal?: GenericAbortSignal) {
-  try {
-    const res = await axios.get<string[]>("/api/common/reviewedIds", { signal });
-    return res.data;
-  } catch {
-    return [];
-  }
-}
-
-export async function getUserActions(signal?: GenericAbortSignal) {
+export async function getUserActions() {
   try {
     const res = await axios.get<{
       reviews: string[];
@@ -45,7 +57,7 @@ export async function getUserActions(signal?: GenericAbortSignal) {
       likes: string[];
       saves: string[];
       follows: string[];
-    }>("/api/common/allActions", { signal });
+    }>("/api/common/allActions");
     return res.data;
   } catch {
     return {

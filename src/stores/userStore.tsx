@@ -44,7 +44,7 @@ export const useUserStore = create<UserStore>()(
           const result = cartItems ?? (await getCartIds());
           set({ cartItems: result });
         },
-        setSaves: async (props?: { saves?: string[]; }) => {
+        setSaves: async (props?: { saves?: string[] }) => {
           const result = props?.saves ?? (await getSaveIds());
           set({ saves: result });
         },

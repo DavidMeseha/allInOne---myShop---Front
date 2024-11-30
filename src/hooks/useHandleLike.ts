@@ -16,7 +16,6 @@ type Props = {
 export default function useHandleLike({ product, onSuccess, onError, onClick }: Props) {
   const { setLikes, user } = useUserStore();
   const actionTimeoutRef = useRef<number>();
-  const sourceOfTrouthTimeoutRef = useRef<number>();
 
   const likeMutation = useMutation({
     mutationKey: ["like", product.seName],
@@ -40,17 +39,14 @@ export default function useHandleLike({ product, onSuccess, onError, onClick }: 
 
   const handleLike = (like: boolean) => {
     if (actionTimeoutRef.current) clearTimeout(actionTimeoutRef.current);
-    if (sourceOfTrouthTimeoutRef.current) clearTimeout(sourceOfTrouthTimeoutRef.current);
 
     if (user && !user.isRegistered) return toast.warn("You need to login to perform action", { toastId: "likeError" });
     onClick && onClick(like);
     actionTimeoutRef.current = window.setTimeout(async () => {
       if (like) await likeMutation.mutateAsync();
       else await unlikeMutation.mutateAsync();
-      sourceOfTrouthTimeoutRef.current = window.setTimeout(() => {
-        setLikes();
-      }, 500);
-    }, 200);
+      setLikes();
+    }, 0);
   };
 
   return { handleLike, isPending: likeMutation.isPending || unlikeMutation.isPending };

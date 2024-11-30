@@ -31,6 +31,7 @@ export default function UserSetupWrapper({ children }: { children: React.ReactNo
           return res.data;
         })
         .catch(() => {
+          if (user?.isRegistered) toast.error(t("auth.forcedLogout"));
           guestTokenMutation.mutate();
         })
   });
@@ -38,7 +39,6 @@ export default function UserSetupWrapper({ children }: { children: React.ReactNo
   const guestTokenMutation = useMutation({
     mutationFn: () => axios.get<{ user: User; token: string }>("/api/auth/guest"),
     onSuccess: async (res) => {
-      if (user?.isRegistered) toast.error(t("auth.forcedLogout"));
       setUser(res.data.user);
       await setToken(res.data.token);
       resetAxiosIterceptor(res.data.token);

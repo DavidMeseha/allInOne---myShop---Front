@@ -9,9 +9,9 @@ export default function Transition({ children }: { children: React.ReactNode }) 
   return (
     <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
       <motion.div
-        key={pathname}
-        initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
+        key={pathname}
         // exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
       >

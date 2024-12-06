@@ -62,7 +62,7 @@ export default function UserSetupWrapper({ children }: { children: React.ReactNo
         }),
 
     enabled: !!user?.isRegistered,
-    refetchInterval: 60_000
+    refetchInterval: 1_680_000
   });
 
   return children;

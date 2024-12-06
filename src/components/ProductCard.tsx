@@ -52,7 +52,7 @@ export default function ProductCard({ product }: Props) {
       setCounters({ ...counters, saves: counters.saves + (state ? 1 : -1) });
       const temp = [...saves];
       inSaves ? temp.splice(temp.indexOf(inSaves), 1) : temp.push(product._id);
-      setSaves({ saves: [...temp] });
+      setSaves([...temp]);
     }
   });
 
@@ -142,7 +142,7 @@ export default function ProductCard({ product }: Props) {
                 className="px-2 text-lg text-primary"
                 onClick={() => setIsAddReviewOpen(true, product._id)}
               >
-                +
+                <div className="h-2">+</div>
               </button>
             ) : null}
           </div>

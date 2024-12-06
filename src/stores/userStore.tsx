@@ -3,7 +3,6 @@ import { persist, devtools, createJSONStorage } from "zustand/middleware";
 import { getCartIds } from "@/actions";
 import { User } from "@/types";
 import { getFollowIds, getLikeIds, getReviewIds, getSaveIds, getUserActions } from "@/hooks/getUserActions";
-import { GenericAbortSignal } from "axios";
 
 export interface UserStore {
   user: User | null;
@@ -14,12 +13,15 @@ export interface UserStore {
   likes: string[];
   setLikes: (likes?: string[]) => Promise<void>;
   setCartItems: (cartItems?: { product: string; quantity: number }[]) => Promise<void>;
-  setSaves: (props?: { saves?: string[]; signal?: GenericAbortSignal }) => Promise<void>;
+  setSaves: (saves?: string[]) => Promise<void>;
   setFollowedVendors: (followed?: string[]) => Promise<void>;
   setReviews: (reviews?: string[]) => Promise<void>;
   setUser: (user: User | null) => void;
   setUserActions: () => Promise<void>;
 }
+
+let likesTimeout: number;
+let savesTimeout: number;
 
 export const useUserStore = create<UserStore>()(
   devtools(
@@ -37,16 +39,24 @@ export const useUserStore = create<UserStore>()(
           set({ reviews: result });
         },
         setLikes: async (likes?: string[]) => {
-          const result = likes ?? (await getLikeIds());
-          set({ likes: result });
+          if (likes) return set({ likes: likes });
+          window.clearTimeout(likesTimeout);
+          likesTimeout = window.setTimeout(async () => {
+            const result = await getLikeIds();
+            set({ likes: result });
+          }, 1000);
         },
         setCartItems: async (cartItems?: { product: string; quantity: number }[]) => {
           const result = cartItems ?? (await getCartIds());
           set({ cartItems: result });
         },
-        setSaves: async (props?: { saves?: string[] }) => {
-          const result = props?.saves ?? (await getSaveIds());
-          set({ saves: result });
+        setSaves: async (saves?: string[]) => {
+          if (saves) return set({ saves: saves });
+          window.clearTimeout(savesTimeout);
+          savesTimeout = window.setTimeout(async () => {
+            const result = await getSaveIds();
+            set({ saves: result });
+          }, 600);
         },
         setFollowedVendors: async (followed?: string[]) => {
           const result = followed ?? (await getFollowIds());
@@ -65,7 +75,7 @@ export const useUserStore = create<UserStore>()(
         }
       }),
       {
-        name: "store",
+        name: "user",
         storage: createJSONStorage(() => localStorage)
       }
     )

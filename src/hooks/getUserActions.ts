@@ -1,34 +1,21 @@
 import axios from "@/lib/axios";
 
-let savesTimeoutId: number;
-let likesTimeoutId: number;
-
-export async function getLikeIds(): Promise<string[]> {
-  return await new Promise((resolve) => {
-    clearTimeout(likesTimeoutId);
-    likesTimeoutId = window.setTimeout(async () => {
-      try {
-        const res = await axios.get<string[]>("/api/common/likesId");
-        resolve(res.data);
-      } catch {
-        resolve([]);
-      }
-    }, 400);
-  });
+export async function getLikeIds() {
+  try {
+    const res = await axios.get<string[]>("/api/common/likesId");
+    return res.data;
+  } catch {
+    return [];
+  }
 }
 
-export async function getSaveIds(): Promise<string[]> {
-  return await new Promise((resolve) => {
-    clearTimeout(savesTimeoutId);
-    savesTimeoutId = window.setTimeout(async () => {
-      try {
-        const res = await axios.get<string[]>("/api/common/savesId");
-        resolve(res.data);
-      } catch {
-        resolve([]);
-      }
-    }, 400);
-  });
+export async function getSaveIds() {
+  try {
+    const res = await axios.get<string[]>("/api/common/savesId");
+    return res.data;
+  } catch {
+    return [];
+  }
 }
 
 export async function getFollowIds() {

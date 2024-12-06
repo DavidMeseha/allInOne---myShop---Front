@@ -12,7 +12,7 @@ export default async function Page() {
           page: page
         },
         headers: {
-          Authorization: `Bearer ${cookies().get("access_token")?.value}`
+          Authorization: `Bearer ${(await cookies()).get("access_token")?.value}`
         }
       })
       .catch(() => ({ data: { data: [], pages: { current: 0, limit: 0, hasNext: false } } }));

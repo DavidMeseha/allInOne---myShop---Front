@@ -39,7 +39,7 @@ export default async function page(props: Props) {
       await axios.post<{ message: string }>(
         "/api/auth/register",
         { ...data },
-        { headers: { Authorization: `Bearer ${cookies().get("session")?.value}` } }
+        { headers: { Authorization: `Bearer ${(await cookies()).get("session")?.value}` } }
       );
     } catch (err) {
       const error = err as AxiosError<{ message: string }>;

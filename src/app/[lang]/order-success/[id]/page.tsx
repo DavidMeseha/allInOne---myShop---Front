@@ -3,7 +3,8 @@ import { LocalLink } from "@/components/LocalizedNavigation";
 import { getDictionary } from "@/dictionary";
 import { Language } from "@/types";
 
-export default async function Page({ params }: { params: { lang: Language; id: string } }) {
+export default async function Page(props: { params: Promise<{ lang: Language; id: string }> }) {
+  const params = await props.params;
   const dictionary = await getDictionary(params.lang);
 
   return (

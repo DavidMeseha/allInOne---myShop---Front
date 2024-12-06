@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 import ProductPage from "../ProductPage";
 
 type Props = {
-  params: { seName: string };
+  params: Promise<{ seName: string }>;
 };
 
 const getProduct = cache(async (seName: string) => {
@@ -24,7 +24,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  const params = props.params;
+  const params = await props.params;
   try {
     const res = await getProduct(params.seName);
     const product = res;
@@ -46,7 +46,7 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata):
 }
 
 export default async function Page(props: Props) {
-  const params = props.params;
+  const params = await props.params;
   try {
     const product = await getProduct(params.seName);
     return <ProductPage product={product} />;

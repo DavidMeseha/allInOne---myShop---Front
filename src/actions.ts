@@ -6,37 +6,37 @@ import { redirect } from "next/navigation";
 import { IVendor, Language, User } from "./types";
 import { getPathnameLang, replacePathnameLang } from "./lib/misc";
 
-const axiosConfig = () => {
+const axiosConfig = async () => {
   return {
     headers: {
-      Authorization: `Bearer ${cookies().get("session")?.value}`,
-      "Accept-Language": cookies().get("lang")?.value
+      Authorization: `Bearer ${(await cookies()).get("session")?.value}`,
+      "Accept-Language": (await cookies()).get("lang")?.value
     }
   };
 };
 
 export async function setToken(token: string) {
-  cookies().set("session", token, { httpOnly: true, sameSite: "strict", secure: true });
+  (await cookies()).set("session", token, { httpOnly: true, sameSite: "strict", secure: true });
 }
 
 export async function removeToken() {
-  cookies().delete("session");
+  (await cookies()).delete("session");
 }
 
 export async function setLanguage(lang: Language) {
-  cookies().set("lang", lang);
+  (await cookies()).set("lang", lang);
 }
 
 export async function getLanguage() {
-  return (cookies().get("lang")?.value ?? "en") as Language;
+  return ((await cookies()).get("lang")?.value ?? "en") as Language;
 }
 
 export async function logout(pathname: string) {
   try {
-    await axios.post("/api/auth/logout", {}, axiosConfig());
+    await axios.post("/api/auth/logout", {}, await axiosConfig());
     const guest = await axios.get<{ user: User; token: string }>("/api/auth/guest");
     await setToken(guest.data.token);
-    cookies().set("lang", "en");
+    (await cookies()).set("lang", "en");
   } catch {
     return redirect(pathname);
   }
@@ -56,7 +56,7 @@ export async function registerGuest(pathname: string) {
 
 export async function getCartIds() {
   try {
-    const res = await axios.get<{ product: string; quantity: number }[]>("/api/common/cart/ids", axiosConfig());
+    const res = await axios.get<{ product: string; quantity: number }[]>("/api/common/cart/ids", await axiosConfig());
     return res.data;
   } catch {
     return [];
@@ -69,7 +69,7 @@ export async function changeLanguage(lang: Language, pathname: string) {
   const pathOnly = tempPath.replace("/" + pathnameLang, "");
 
   try {
-    await axios.post(`/api/common/changeLanguage/${lang}`, {}, axiosConfig());
+    await axios.post(`/api/common/changeLanguage/${lang}`, {}, await axiosConfig());
     await setLanguage(lang);
   } catch {
     return redirect(pathname + "?error=couldNotChangeLanguage");
@@ -79,7 +79,7 @@ export async function changeLanguage(lang: Language, pathname: string) {
 
 export async function follow(vendorId: string, pathanme: string) {
   try {
-    await axios.post(`/api/user/followVendor/${vendorId}`, {}, axiosConfig());
+    await axios.post(`/api/user/followVendor/${vendorId}`, {}, await axiosConfig());
     return { success: true };
   } catch {
     redirect(pathanme + "?error=faildToSubmitYourAction");
@@ -88,7 +88,7 @@ export async function follow(vendorId: string, pathanme: string) {
 
 export async function unfollow(vendorId: string, pathanme: string) {
   try {
-    await axios.post(`/api/user/unfollowVendor/${vendorId}`, {}, axiosConfig());
+    await axios.post(`/api/user/unfollowVendor/${vendorId}`, {}, await axiosConfig());
     return { success: true };
   } catch {
     return redirect(pathanme + "?error=faildToSubmitYourAction");
@@ -97,7 +97,7 @@ export async function unfollow(vendorId: string, pathanme: string) {
 
 export async function followings(pathanme: string) {
   try {
-    const res = await axios.get<IVendor[]>("/api/user/followingVendors", axiosConfig());
+    const res = await axios.get<IVendor[]>("/api/user/followingVendors", await axiosConfig());
     return res.data;
   } catch {
     return redirect(pathanme + "?error=faildToSubmitYourAction");

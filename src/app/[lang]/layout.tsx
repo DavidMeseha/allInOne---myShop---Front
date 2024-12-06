@@ -13,9 +13,13 @@ export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
 }
 
-export default async function Layout({ children, params }: { children: ReactElement; params: { lang: Language } }) {
+export default async function Layout(props: { children: ReactElement<any>; params: Promise<{ lang: Language }> }) {
+  const params = await props.params;
+
+  const { children } = props;
+
   const dictionary = await getDictionary(params.lang);
-  const token = cookies().get("session")?.value;
+  const token = (await cookies()).get("session")?.value;
 
   return (
     <html className="snap-both snap-mandatory" dir={params.lang === "ar" ? "rtl" : "ltr"} lang={params.lang}>

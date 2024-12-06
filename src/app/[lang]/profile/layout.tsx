@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { use } from "react";
 import { useGeneralStore } from "@/stores/generalStore";
 import { BiMenu } from "react-icons/bi";
 import { useTranslation } from "@/context/Translation";
@@ -10,11 +10,11 @@ import { useUserStore } from "@/stores/userStore";
 
 type Props = {
   children: React.ReactNode;
-  params: { seName: string };
+  params: Promise<{ seName: string }>;
 };
 
 export default function ProfileLayout(props: Props) {
-  const params = props.params;
+  const params = use(props.params);
 
   const { children } = props;
 

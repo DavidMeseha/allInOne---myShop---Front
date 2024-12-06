@@ -33,7 +33,7 @@ export default async function Page(props: Props) {
         }>(
           "/api/auth/login",
           { email, password },
-          { headers: { Authorization: `Bearer ${cookies().get("session")?.value}` } }
+          { headers: { Authorization: `Bearer ${(await cookies()).get("session")?.value}` } }
         )
         .then((data) => data.data);
 

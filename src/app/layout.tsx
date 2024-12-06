@@ -17,6 +17,6 @@ export const metadata: Metadata = {
   }
 };
 
-export default async function RootLayout({ children }: { children: ReactElement }) {
+export default async function RootLayout({ children }: { children: ReactElement<any> }) {
   return <>{children}</>;
 }

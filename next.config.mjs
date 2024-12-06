@@ -39,7 +39,8 @@ const nextConfig = {
           as: "*.js"
         }
       }
-    }
+    },
+    reactCompiler: true
   }
 };
 

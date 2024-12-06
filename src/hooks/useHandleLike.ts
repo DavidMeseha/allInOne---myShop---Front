@@ -15,7 +15,7 @@ type Props = {
 
 export default function useHandleLike({ product, onSuccess, onError, onClick }: Props) {
   const { setLikes, user } = useUserStore();
-  const actionTimeoutRef = useRef<number>();
+  const actionTimeoutRef = useRef<number>(undefined);
 
   const likeMutation = useMutation({
     mutationKey: ["like", product.seName],

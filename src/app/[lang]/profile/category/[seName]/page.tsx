@@ -6,7 +6,7 @@ import { cache } from "react";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
-type Props = { params: { seName: string } };
+type Props = { params: Promise<{ seName: string }> };
 
 const getCategoryInfo = cache(async (seName: string) => {
   return await axios.get<ICategory>(`/api/Catalog/Category/${seName}`).then((res) => res.data);
@@ -21,7 +21,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata(props: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const params = await props.params;
   try {
     const category = await getCategoryInfo(params.seName);
     const parentMeta = await parent;
@@ -40,7 +41,8 @@ export async function generateMetadata({ params }: Props, parent: ResolvingMetad
   }
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page(props: Props) {
+  const params = await props.params;
   try {
     const category = await getCategoryInfo(params.seName);
     return <ViewCategoryProfile category={category} />;

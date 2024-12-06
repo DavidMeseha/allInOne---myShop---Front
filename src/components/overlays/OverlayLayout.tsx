@@ -3,7 +3,8 @@ import React from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 import { RiCloseLine } from "react-icons/ri";
 import { twMerge } from "tailwind-merge";
-import { motion, Variants } from "framer-motion";
+import { Variants } from "framer-motion";
+import * as Motion from "@/components/MotionExtend";
 
 type Props = {
   className?: string;
@@ -27,14 +28,14 @@ const popupVariants: Variants = {
 
 export default function OverlayLayout({ children, close, className, title, isLoading }: Props) {
   return (
-    <motion.div animate="visible" exit="exit" initial="hidden">
-      <motion.div
+    <Motion.div animate="visible" exit="exit" initial="hidden">
+      <Motion.div
         className="fixed left-0 top-0 z-50 h-screen w-screen bg-black bg-opacity-50"
         variants={bgVariants}
         onMouseDown={close}
         onTouchStart={close}
       >
-        <motion.div className="pb- h-full w-full overflow-auto transition-transform" variants={popupVariants}>
+        <Motion.div className="pb- h-full w-full overflow-auto transition-transform" variants={popupVariants}>
           <div className="flex min-h-screen items-end justify-center pt-40 md:items-center md:py-8">
             <div
               className={twMerge(
@@ -62,8 +63,8 @@ export default function OverlayLayout({ children, close, className, title, isLoa
               </div>
             </div>
           </div>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </Motion.div>
+      </Motion.div>
+    </Motion.div>
   );
 }

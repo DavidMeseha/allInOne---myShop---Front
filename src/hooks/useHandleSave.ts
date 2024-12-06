@@ -15,7 +15,7 @@ type Props = {
 export default function useHandleSave({ product, onSuccess, onError, onClick }: Props) {
   const { setSaves, user } = useUserStore();
   const queryClient = useQueryClient();
-  const actionTimeoutRef = useRef<number>();
+  const actionTimeoutRef = useRef<number>(undefined);
 
   const saveMutation = useMutation({
     mutationKey: ["save", product.seName],

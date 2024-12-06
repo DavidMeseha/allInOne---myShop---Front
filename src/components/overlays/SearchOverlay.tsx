@@ -11,6 +11,7 @@ import { useGeneralStore } from "@/stores/generalStore";
 import { LocalLink } from "@/components/LocalizedNavigation";
 import { BiLoaderCircle } from "react-icons/bi";
 import { Variants, motion } from "framer-motion";
+import * as Motion from "@/components/MotionExtend";
 
 type SearchResponseItem = {
   item: IFullProduct | IVendor | ITag | ICategory;
@@ -38,7 +39,7 @@ export default function SearchOverlay() {
     tags: false,
     products: false
   });
-  const timeoutRef = useRef<number>();
+  const timeoutRef = useRef<number>(undefined);
 
   const handleChange = (value: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -66,11 +67,11 @@ export default function SearchOverlay() {
 
   return (
     <motion.div animate="visible" data-testid="search-overlay" exit="exit" initial="hidden">
-      <motion.div
+      <Motion.div
         className="fixed z-40 h-screen w-screen bg-lightGray bg-opacity-90 backdrop-blur-lg"
         variants={bgVariants}
       >
-        <motion.div className="mx-auto mt-4 max-w-[1200px] px-4 md:mt-14 md:px-28" variants={popupVariants}>
+        <Motion.div className="mx-auto mt-4 max-w-[1200px] px-4 md:mt-14 md:px-28" variants={popupVariants}>
           <div className="relative">
             <Input
               className="rounded-full border-none bg-white p-4 pe-12 drop-shadow-md"
@@ -130,8 +131,8 @@ export default function SearchOverlay() {
               ))
             )}
           </div>
-        </motion.div>
-      </motion.div>
+        </Motion.div>
+      </Motion.div>
     </motion.div>
   );
 }

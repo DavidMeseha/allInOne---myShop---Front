@@ -44,7 +44,7 @@ export const useUserStore = create<UserStore>()(
           likesTimeout = window.setTimeout(async () => {
             const result = await getLikeIds();
             set({ likes: result });
-          }, 1000);
+          }, 10_000);
         },
         setCartItems: async (cartItems?: { product: string; quantity: number }[]) => {
           const result = cartItems ?? (await getCartIds());
@@ -56,7 +56,7 @@ export const useUserStore = create<UserStore>()(
           savesTimeout = window.setTimeout(async () => {
             const result = await getSaveIds();
             set({ saves: result });
-          }, 600);
+          }, 10_000);
         },
         setFollowedVendors: async (followed?: string[]) => {
           const result = followed ?? (await getFollowIds());

@@ -21,7 +21,7 @@ export default function Button({ className, isLoading, spinnerSize = 24, ...prop
           <BiLoaderCircle className="animate-spin fill-inherit" size={spinnerSize} />
         </div>
       ) : null}
-      <div className="rounded-sm2">{props.children}</div>
+      <div className="rounded-sm">{props.children}</div>
     </button>
   );
 }

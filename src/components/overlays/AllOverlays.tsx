@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { useGeneralStore } from "../../stores/generalStore";
 import EditProfileOverlay from "./EditProfileOverlay";
-import ShareOverlay from "./Share";
 import ProfileMenuOverlay from "./ProfileMenu";
 import { usePathname } from "next/navigation";
 import AttributesOverlay from "./AttributesOverlay";
@@ -27,7 +26,6 @@ export default function AllOverlays() {
     setIsProductAttributesOpen,
     setIsEditProfileOpen,
     setIsSearchOpen,
-    setShare,
     setIsProfileMenuOpen,
     setIsProductMoreInfoOpen,
     setIsHomeMenuOpen,
@@ -38,7 +36,6 @@ export default function AllOverlays() {
 
   useEffect(() => {
     setIsEditProfileOpen(false);
-    setShare(false);
     setIsProfileMenuOpen(false);
     setIsProductAttributesOpen(false);
     setIsProductMoreInfoOpen(false);
@@ -78,7 +75,6 @@ export default function AllOverlays() {
   return (
     <AnimatePresence>
       {isEditProfileOpen ? <EditProfileOverlay /> : null}
-      {isShareOpen ? <ShareOverlay /> : null}
       {isProfileMenuOpen ? <ProfileMenuOverlay /> : null}
       {isAddToCartOpen ? <AttributesOverlay /> : null}
       {isProductMoreInfoOpen ? <ProductMoreInfoOverlay /> : null}

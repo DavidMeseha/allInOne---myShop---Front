@@ -33,7 +33,6 @@ export const mockGeneralStore = create<GeneralStore>()((set) => ({
   setIsSearchOpen: jest.fn(),
   setSearch: jest.fn(),
   setIsProductMoreInfoOpen: jest.fn(),
-  setShare: jest.fn(),
   setIsAddReviewOpen: jest.fn(),
   setCountries: () =>
     set({

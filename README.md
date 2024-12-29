@@ -1,5 +1,8 @@
 # TechShop - Ecommerce
 
+- Backend code: https://github.com/DavidMeseha/allInOne-myShop-back
+- Angular code (In Progress): https://github.com/DavidMeseha/TechShop-Angular-
+
 ## Technologies
 
 - React.js

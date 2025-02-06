@@ -33,7 +33,7 @@ export default function CartItem({ product, attributes, quantity, canEdit = fals
     }
   });
 
-  useClickRecognition(() => setShowDetails(false), containerRef);
+  useClickRecognition({ onOutsideClick: () => setShowDetails(false), containerRef });
 
   return (
     <li className="list-none border-b px-4" ref={containerRef}>

@@ -1,4 +1,4 @@
-import ClickRecognition from "@/hooks/useClickRecognition";
+import useClickRecognition from "@/hooks/useClickRecognition";
 import React, { useRef, useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IAddress } from "@/types";
@@ -13,7 +13,7 @@ export default function AddressItem({ address, handleDelete, handleEdit }: Props
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
 
-  ClickRecognition(() => setShowMenu(false), menuRef);
+  useClickRecognition({ onOutsideClick: () => setShowMenu(false), containerRef: menuRef });
   return (
     <div className="mb-6 flex justify-between">
       <div className="w-10/12">

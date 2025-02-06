@@ -23,7 +23,7 @@ export default function DropdownButton({
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
 
-  useClickRecognition(() => setIsOpen(false), containerRef);
+  useClickRecognition({ onOutsideClick: () => setIsOpen(false), containerRef });
   return (
     <button
       className={cn(`relative flex w-full justify-between rounded-sm px-4 py-2`, className)}

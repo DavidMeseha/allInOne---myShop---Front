@@ -16,60 +16,75 @@ import { Language, Translation } from "@/types";
 import { useGeneralStore } from "@/stores/generalStore";
 import UserSetupWrapper from "./includes/UserSetupWrapper";
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+      retry: 1,
+    },
+  },
+});
+
+interface MainLayoutProps {
+  children: React.ReactNode;
+  dictionary: Translation;
+  lang: Language;
+  token?: string;
+}
 
 export default function MainLayout({
   children,
   dictionary,
   lang,
   token
-}: {
-  children: React.ReactNode;
-  dictionary: Translation;
-  lang: Language;
-  token: string | undefined;
-}) {
+}: MainLayoutProps) {
   const { setCountries } = useGeneralStore();
-  const [loading, setLoading] = useState(true);
+  const [isInitializing, setIsInitializing] = useState(true);
 
   useEffect(() => {
     setCountries();
-    setLoading(false);
+    setIsInitializing(false);
   }, []);
 
   useEffect(() => {
-    axios.interceptors.request.clear();
-    axios.interceptors.request.use((config) => {
-      config.headers.Authorization = `Bearer ${token}`;
-      return config;
-    });
-    queryClient.invalidateQueries({ queryKey: ["checkToken"] });
+    const configureAxios = () => {
+      axios.interceptors.request.clear();
+      axios.interceptors.request.use((config) => {
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      });
+      queryClient.invalidateQueries({ queryKey: ["checkToken"] });
+    };
+
+    configureAxios();
   }, [token]);
 
+  if (isInitializing) {
+    return null;
+  }
+
   return (
-    <>
-      <ProgressBarProvider>
-        <QueryClientProvider client={queryClient}>
-          <TranslationProvider lang={lang} translation={dictionary}>
-            <NetworkErrors>
-              {!loading ? (
-                <UserSetupWrapper>
-                  <AllOverlays />
-                  <Header />
-                  <div className="mx-auto flex w-full justify-between px-0">
-                    <SideNav />
-                    <div className="relative mx-auto my-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
-                      <div className="m-auto max-w-[1200px] md:px-4">{children}</div>
-                    </div>
-                  </div>
-                  <BottomNav />
-                </UserSetupWrapper>
-              ) : null}
-            </NetworkErrors>
-          </TranslationProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </ProgressBarProvider>
-    </>
+    <ProgressBarProvider>
+      <QueryClientProvider client={queryClient}>
+        <TranslationProvider lang={lang} translation={dictionary}>
+          <NetworkErrors>
+            <UserSetupWrapper>
+              <AllOverlays />
+              <Header />
+              <main className="mx-auto flex w-full justify-between px-0">
+                <SideNav />
+                <div className="relative mx-auto my-11 w-full md:mx-0 md:ms-[230px] md:mt-[60px]">
+                  <div className="m-auto max-w-[1200px] md:px-4">{children}</div>
+                </div>
+              </main>
+              <BottomNav />
+            </UserSetupWrapper>
+          </NetworkErrors>
+        </TranslationProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ProgressBarProvider>
   );
 }

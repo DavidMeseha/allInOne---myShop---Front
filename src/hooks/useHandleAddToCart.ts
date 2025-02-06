@@ -4,32 +4,33 @@ import { useGeneralStore } from "@/stores/generalStore";
 import { useUserStore } from "@/stores/userStore";
 import { IFullProduct, IProductAttribute } from "@/types";
 import { useMutation } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-type Props = {
+interface CartHookProps {
   product: IFullProduct;
-  onSuccess?: (liked: boolean) => void;
-};
+  onSuccess?: (added: boolean) => void;
+}
 
-interface MutationProps {
+interface CartMutationProps {
   attributes: IProductAttribute[];
   quantity: number;
 }
 
-export default function useHandleAddToCart({ product, onSuccess }: Props) {
+export default function useHandleAddToCart({ product, onSuccess }: CartHookProps) {
   const { setCartItems, user } = useUserStore();
   const { setIsProductAttributesOpen } = useGeneralStore();
 
   const addToCartMutation = useMutation({
     mutationKey: ["addToCart"],
-    mutationFn: (props: MutationProps) =>
+    mutationFn: ({ attributes, quantity }: CartMutationProps) =>
       axios.post(`/api/common/cart/add/${product._id}`, {
-        attributes: props.attributes,
-        quantity: props.quantity
+        attributes,
+        quantity
       }),
     onSuccess: () => {
       setCartItems();
       queryClient.invalidateQueries({ queryKey: ["cartProducts"] });
-      onSuccess && onSuccess(true);
+      onSuccess?.(true);
     }
   });
 
@@ -39,19 +40,36 @@ export default function useHandleAddToCart({ product, onSuccess }: Props) {
     onSuccess: () => {
       setCartItems();
       queryClient.invalidateQueries({ queryKey: ["cartProducts"] });
-      onSuccess && onSuccess(false);
+      onSuccess?.(false);
     }
   });
 
-  const handleAddToCart = (addToCart: boolean, props: MutationProps) => {
-    if (!user || addToCartMutation.isPending || removeFromCartMutation.isPending) return;
-    if (product.hasAttributes && addToCart)
-      return setIsProductAttributesOpen(true, product._id, "Add To Cart", (attributes) =>
-        addToCartMutation.mutate({ attributes, quantity: 1 })
+  // Helper function to handle product attributes
+  const handleProductAttributes = useCallback(
+    (props: CartMutationProps) => {
+      setIsProductAttributesOpen(true, product._id, "Add To Cart", (attributes) =>
+        addToCartMutation.mutate({ ...props, attributes })
       );
-    if (addToCart && !product.hasAttributes) return addToCartMutation.mutate(props);
+    },
+    [product._id, addToCartMutation, setIsProductAttributesOpen]
+  );
+
+  // Main handler function
+  const handleAddToCart = (addToCart: boolean, props: CartMutationProps) => {
+    if (!user) return;
+    if (addToCartMutation.isPending || removeFromCartMutation.isPending) return;
+
+    if (addToCart) {
+      if (product.hasAttributes) {
+        return handleProductAttributes(props);
+      }
+      return addToCartMutation.mutate(props);
+    }
+
     removeFromCartMutation.mutate();
   };
 
-  return { handleAddToCart, isPending: addToCartMutation.isPending || removeFromCartMutation.isPending };
+  const isPending = addToCartMutation.isPending || removeFromCartMutation.isPending;
+
+  return { handleAddToCart, isPending };
 }

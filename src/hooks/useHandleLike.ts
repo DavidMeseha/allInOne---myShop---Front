@@ -3,51 +3,59 @@ import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 import { IFullProduct } from "@/types";
 import { useMutation } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useTranslation } from "@/context/Translation";
 import { toast } from "react-toastify";
 
-type Props = {
+interface LikeHookProps {
   product: IFullProduct;
   onSuccess?: (liked: boolean) => void;
   onError?: (liked: boolean) => void;
   onClick?: (liked: boolean) => void;
-};
+}
 
-export default function useHandleLike({ product, onSuccess, onError, onClick }: Props) {
+export default function useHandleLike({ product, onSuccess, onError, onClick }: LikeHookProps) {
   const { setLikes, user } = useUserStore();
-  const actionTimeoutRef = useRef<number>();
+  const { t } = useTranslation();
 
   const likeMutation = useMutation({
     mutationKey: ["like", product.seName],
-    mutationFn: () => axios.post(`/api/user/likeProduct/${product._id}`).catch(() => null),
-    onSettled: () => {
+    mutationFn: () => axios.post(`/api/user/likeProduct/${product._id}`),
+    onSuccess: async () => {
+      await setLikes();
+      onSuccess?.(true);
       queryClient.invalidateQueries({ queryKey: ["likedProducts"] });
     },
-    onSuccess: () => onSuccess && onSuccess(true),
-    onError: () => onError && onError(true)
+    onError: () => onError?.(true),
   });
 
   const unlikeMutation = useMutation({
     mutationKey: ["unlike", product.seName],
-    mutationFn: () => axios.post(`/api/user/unlikeProduct/${product._id}`).catch(() => null),
-    onSettled: () => {
+    mutationFn: () => axios.post(`/api/user/unlikeProduct/${product._id}`),
+    onSuccess: async () => {
+      await setLikes();
+      onSuccess?.(false);
       queryClient.invalidateQueries({ queryKey: ["likedProducts"] });
     },
-    onSuccess: () => onSuccess && onSuccess(false),
-    onError: () => onError && onError(false)
+    onError: () => onError?.(false),
   });
 
-  const handleLike = (like: boolean) => {
-    if (actionTimeoutRef.current) clearTimeout(actionTimeoutRef.current);
+  const handleLike = async (shouldLike: boolean) => {
+    if (!user) return;
+    if (!user.isRegistered) {
+      return toast.warn(t('loginToPerformAction'), { toastId: 'likeError' });
+    }
+    if (likeMutation.isPending || unlikeMutation.isPending) return;
 
-    if (user && !user.isRegistered) return toast.warn("You need to login to perform action", { toastId: "likeError" });
-    onClick && onClick(like);
-    actionTimeoutRef.current = window.setTimeout(async () => {
-      if (like) await likeMutation.mutateAsync();
-      else await unlikeMutation.mutateAsync();
-      setLikes();
-    }, 0);
+    onClick?.(shouldLike);
+
+    if (shouldLike) {
+      await likeMutation.mutateAsync();
+    } else {
+      await unlikeMutation.mutateAsync();
+    }
   };
 
-  return { handleLike, isPending: likeMutation.isPending || unlikeMutation.isPending };
+  const isPending = likeMutation.isPending || unlikeMutation.isPending;
+
+  return { handleLike, isPending };
 }

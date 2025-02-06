@@ -1,32 +1,59 @@
 import { languages } from "@/lib/misc";
 import type { MetadataRoute } from "next";
 
+type RobotRoutes = {
+  [key: string]: string[];
+};
+
+// Define allowed routes by type
+const allowedRoutes: RobotRoutes = {
+  auth: ["login", "register"],
+  product: ["product/*"],
+  profile: ["profile/vendor/*", "profile/tag/*", "profile/category/*"],
+  pages: ["feeds"],
+  system: ["sitemap.xml"]
+};
+
 export default function robots(): MetadataRoute.Robots {
-  const allowLoginPage = languages.map((lang) => `/${lang}/login`);
-  const allowRegisterPage = languages.map((lang) => `/${lang}/register`);
-  const allowProductPage = languages.map((lang) => `/${lang}/product/*`);
-  const allowVendorProfile = languages.map((lang) => `/${lang}/profile/vendor/*`);
-  const allowTagProfile = languages.map((lang) => `/${lang}/profile/tag/*`);
-  const allowCategoryProfile = languages.map((lang) => `/${lang}/profile/category/*`);
-  const allowFeeds = languages.map((lang) => `/${lang}/feeds`);
-  const allowHome = languages.map((lang) => `/${lang}`);
-  const allowSitemap = ["/sitemap.xml"];
+  // Generate language-specific paths
+  const generatePaths = (routes: string[]): string[] => {
+    const paths: string[] = [];
+
+    // Add root paths for each language
+    languages.forEach((lang) => {
+      paths.push(`/${lang}`);
+      routes.forEach((route) => {
+        paths.push(`/${lang}/${route}`);
+      });
+    });
+
+    return paths;
+  };
+
+  // Combine all allowed paths
+  const allowedPaths = [
+    ...generatePaths([
+      ...allowedRoutes.auth,
+      ...allowedRoutes.product,
+      ...allowedRoutes.profile,
+      ...allowedRoutes.pages
+    ]),
+    ...allowedRoutes.system
+  ];
 
   return {
     rules: {
       userAgent: "*",
-      allow: [
-        ...allowCategoryProfile,
-        ...allowFeeds,
-        ...allowHome,
-        ...allowLoginPage,
-        ...allowProductPage,
-        ...allowRegisterPage,
-        ...allowTagProfile,
-        ...allowSitemap,
-        ...allowVendorProfile
-      ],
-      disallow: "/"
+      allow: allowedPaths,
+      disallow: [
+        "/api/*", // Block API routes
+        "/admin/*", // Block admin routes
+        "/_next/*", // Block Next.js system files
+        "/*.json$", // Block JSON files
+        "/*.xml$", // Block XML files except sitemap
+        "/cdn-cgi/*", // Block Cloudflare files
+        "/private/*" // Block private routes
+      ]
     },
     sitemap: "https://techshop-commerce.vercel.app/sitemap.xml"
   };

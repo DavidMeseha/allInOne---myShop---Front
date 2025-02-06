@@ -3,44 +3,52 @@ import { useTranslation } from "@/context/Translation";
 import { useUserStore } from "@/stores/userStore";
 import { IVendor } from "@/types";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-type Props = {
+interface FollowHookProps {
   vendor: IVendor;
-  onSuccess?: (follow: boolean) => void;
-};
+  onSuccess?: (followed: boolean) => void;
+}
 
-export default function useHandleFollow({ vendor, onSuccess }: Props) {
+export default function useHandleFollow({ vendor, onSuccess }: FollowHookProps) {
   const { setFollowedVendors, user } = useUserStore();
-  const [isPending, setIsPending] = useState<boolean>(false);
   const { t } = useTranslation();
   const pathname = usePathname();
 
-  const followAction = async () => {
-    const res = await follow(vendor._id, pathname);
-    if (res) {
+  const followMutation = useMutation({
+    mutationKey: ['follow', vendor._id],
+    mutationFn: () => follow(vendor._id, pathname),
+    onSuccess: async () => {
       await setFollowedVendors();
-      onSuccess && onSuccess(true);
+      onSuccess?.(true);
+    },
+  });
+
+  const unfollowMutation = useMutation({
+    mutationKey: ['unfollow', vendor._id],
+    mutationFn: () => unfollow(vendor._id, pathname),
+    onSuccess: async () => {
+      await setFollowedVendors();
+      onSuccess?.(false);
+    },
+  });
+
+  const handleFollow = async (shouldFollow: boolean) => {
+    if (!user) return;
+    if (!user.isRegistered) {
+      return toast.warn(t('loginToPerformAction'));
+    }
+    if (followMutation.isPending || unfollowMutation.isPending) return;
+
+    if (shouldFollow) {
+      await followMutation.mutateAsync();
+    } else {
+      await unfollowMutation.mutateAsync();
     }
   };
 
-  const unfollowAction = async () => {
-    const res = await unfollow(vendor._id, pathname);
-    if (res) {
-      await setFollowedVendors();
-      onSuccess && onSuccess(false);
-    }
-  };
-
-  const handleFollow = async (follow: boolean) => {
-    if (!user || isPending) return;
-    if (!user.isRegistered) return toast.warn(t("loginToPerformAction"));
-    setIsPending(true);
-    if (follow) await followAction();
-    else await unfollowAction();
-    setIsPending(false);
-  };
+  const isPending = followMutation.isPending || unfollowMutation.isPending;
 
   return { handleFollow, isPending };
 }

@@ -1,27 +1,35 @@
 "use client";
 
-import { RefObject, useEffect } from "react";
+import { RefObject, useEffect, useCallback } from "react";
 
-export default function ClickRecognition(exit: () => void, containerRef: RefObject<HTMLElement | null>) {
+interface ClickRecognitionProps {
+  onOutsideClick: () => void;
+  containerRef: RefObject<HTMLElement>;
+  enabled?: boolean;
+}
+
+export default function useClickRecognition({ onOutsideClick, containerRef, enabled = true }: ClickRecognitionProps) {
+  const handleOutsideClick = useCallback(
+    (event: MouseEvent | TouchEvent) => {
+      if (!containerRef?.current || !event.target) return;
+
+      const isOutside = !containerRef.current.contains(event.target as Node);
+      if (isOutside) {
+        onOutsideClick();
+      }
+    },
+    [containerRef, onOutsideClick]
+  );
+
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (containerRef.current && event.target && !containerRef.current.contains(event.target as Node)) {
-        exit();
-      }
-    }
+    if (!enabled) return;
 
-    function handleTouchOutside(event: TouchEvent) {
-      if (containerRef.current && event.target && !containerRef.current.contains(event.target as Node)) {
-        exit();
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleTouchOutside);
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleTouchOutside);
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
     };
-  }, [containerRef]);
+  }, [enabled, handleOutsideClick]);
 }

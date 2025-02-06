@@ -2,52 +2,60 @@ import axios from "@/lib/axios";
 import { useUserStore } from "@/stores/userStore";
 import { IFullProduct } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useTranslation } from "@/context/Translation";
 import { toast } from "react-toastify";
 
-type Props = {
+interface SaveHookProps {
   product: IFullProduct;
-  onSuccess?: (liked: boolean) => void;
-  onError?: (liked: boolean) => void;
-  onClick?: (liked: boolean) => void;
-};
+  onSuccess?: (saved: boolean) => void;
+  onError?: (saved: boolean) => void;
+  onClick?: (saved: boolean) => void;
+}
 
-export default function useHandleSave({ product, onSuccess, onError, onClick }: Props) {
+export default function useHandleSave({ product, onSuccess, onError, onClick }: SaveHookProps) {
   const { setSaves, user } = useUserStore();
   const queryClient = useQueryClient();
-  const actionTimeoutRef = useRef<number>();
+  const { t } = useTranslation();
 
   const saveMutation = useMutation({
     mutationKey: ["save", product.seName],
-    mutationFn: () => axios.post(`/api/user/saveProduct/${product._id}`).catch(() => null),
-    onSuccess: () => {
-      onSuccess && onSuccess(true);
+    mutationFn: () => axios.post(`/api/user/saveProduct/${product._id}`),
+    onSuccess: async () => {
+      await setSaves();
+      onSuccess?.(true);
       queryClient.invalidateQueries({ queryKey: ["savedProducts"] });
     },
-    onError: () => onError && onError(true)
+    onError: () => onError?.(true),
   });
 
   const unsaveMutation = useMutation({
     mutationKey: ["unsave", product.seName],
-    mutationFn: () => axios.post(`/api/user/unsaveProduct/${product._id}`).catch(() => null),
-    onSettled: () => {},
-    onSuccess: () => {
-      onSuccess && onSuccess(false);
+    mutationFn: () => axios.post(`/api/user/unsaveProduct/${product._id}`),
+    onSuccess: async () => {
+      await setSaves();
+      onSuccess?.(false);
       queryClient.invalidateQueries({ queryKey: ["savedProducts"] });
     },
-    onError: () => onError && onError(false)
+    onError: () => onError?.(false),
   });
 
-  const handleSave = async (save: boolean) => {
-    if (actionTimeoutRef.current) clearTimeout(actionTimeoutRef.current);
-    if (user && !user.isRegistered) return toast.warn("You need to login to perform action", { toastId: "saveError" });
-    onClick && onClick(save);
-    actionTimeoutRef.current = window.setTimeout(async () => {
-      if (save) await saveMutation.mutateAsync();
-      else await unsaveMutation.mutateAsync();
-      setSaves();
-    }, 0);
+  const handleSave = async (shouldSave: boolean) => {
+    if (!user) return;
+    if (!user.isRegistered) {
+      return toast.warn(t('loginToPerformAction'), { toastId: 'saveError' });
+    }
+    if (saveMutation.isPending || unsaveMutation.isPending) return;
+
+    onClick?.(shouldSave);
+
+    if (shouldSave) {
+      await saveMutation.mutateAsync();
+    } else {
+      await unsaveMutation.mutateAsync();
+    }
   };
 
-  return { handleSave, isPending: saveMutation.isPending || unsaveMutation.isPending };
+  const isPending = saveMutation.isPending || unsaveMutation.isPending;
+
+  return { handleSave, isPending };
 }

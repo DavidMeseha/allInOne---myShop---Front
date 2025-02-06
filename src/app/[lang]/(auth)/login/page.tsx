@@ -1,5 +1,5 @@
 import FormTextInput from "@/components/FormTextInput";
-import { getDictionary } from "../../../../dictionary";
+import { getDictionary } from "@/dictionary";
 import { SubmitButton } from "@/components/SubmitButton";
 import axios from "@/lib/axios";
 import { Language, User } from "@/types";

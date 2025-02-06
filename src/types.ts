@@ -4,6 +4,7 @@ export type FieldError = string | false;
 export type Language = "en" | "ar" | "fr";
 
 export type Translation = typeof en;
+export type TranslationKey = keyof typeof en;
 
 export interface Pagination {
   current: number;

@@ -1,6 +1,7 @@
-import { Translation } from "@/dictionary";
+import { Translation } from "@/types";
 import en from "@/dictionaries/en.json";
 import ar from "@/dictionaries/ar.json";
+import fr from "@/dictionaries/fr.json";
 import MainLayout from "@/components/layout/MainLayout";
 import { act, render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -58,8 +59,10 @@ export const renderWithTransation = async (
 
 const dictionaries = {
   en: en,
-  ar: ar
+  ar: ar,
+  fr: fr
 };
+
 
 export const languages: Language[] = ["en", "ar"];
 export const getDictionary = (lang: Language) => dictionaries[lang as keyof typeof dictionaries];

@@ -1,10 +1,7 @@
 import "server-only";
-import tJson from "@/dictionaries/en.json";
-import { Language } from "./types";
+import { Language, TranslationKey } from "./types";
 
-export type Translation = typeof tJson;
-export type TKey = keyof typeof tJson;
-export type TFunction = (key: TKey) => string;
+export type TFunction = (key: TranslationKey) => string;
 
 const dictionaries = {
   en: import("@/dictionaries/en.json").then((module) => module.default),

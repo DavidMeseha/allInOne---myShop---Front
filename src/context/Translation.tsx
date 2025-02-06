@@ -1,6 +1,6 @@
 "use client";
 
-import { TKey, Translation } from "@/dictionary";
+import { TranslationKey, Translation } from "@/types";
 import React, { useContext, useEffect } from "react";
 import { createContext } from "react";
 import { TFunction } from "../dictionary";
@@ -26,11 +26,11 @@ export function TranslationProvider({ translation, children, lang }: Props) {
   const message = searchParams.get("message");
   const error = searchParams.get("error");
 
-  const t = (key: TKey) => (translation ? (key in translation ? translation[key as TKey] : key) : key);
+  const t = (key: TranslationKey) => (translation ? (key in translation ? translation[key as TranslationKey] : key) : key);
 
   useEffect(() => {
-    if (message) toast.success(t(message as TKey));
-    if (error) toast.error(t(error as TKey));
+    if (message) toast.success(t(message as TranslationKey));
+    if (error) toast.error(t(error as TranslationKey));
   }, [message, error, translation, lang]);
 
   return (

@@ -5,9 +5,9 @@ import { useTranslation } from "@/context/Translation";
 import { LocalLink } from "@/components/LocalizedNavigation";
 import React from "react";
 import Button from "@/components/Button";
-import { BiLoaderCircle } from "react-icons/bi";
 import axios from "@/lib/axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import Loading from "@/components/LoadingUi/LoadingSpinner";
 
 export default function CategoriesView() {
   const { t } = useTranslation();
@@ -26,25 +26,21 @@ export default function CategoriesView() {
     }
   });
 
-  const categoriesPages = categoriesQuery.data?.pages;
+  const categoriesPages = categoriesQuery.data?.pages ?? [];
   const lastPage = categoriesPages?.findLast((page) => page);
 
   return (
     <ul className="mt-14 md:mt-4">
-      {categoriesQuery.isFetchedAfterMount && categoriesPages
-        ? categoriesPages.map((page, index) => (
-            <React.Fragment key={index}>
-              {page.data.map((category) => (
-                <ListItem category={category} key={category._id} to={`/profile/category/${category.seName}`} />
-              ))}
-            </React.Fragment>
-          ))
-        : null}
+      {categoriesPages.map((page, index) => (
+        <React.Fragment key={index}>
+          {page.data.map((category) => (
+            <ListItem category={category} key={category._id} to={`/profile/category/${category.seName}`} />
+          ))}
+        </React.Fragment>
+      ))}
 
-      {!categoriesQuery.isFetchedAfterMount ? (
-        <div className="flex w-full flex-col items-center justify-center py-2">
-          <BiLoaderCircle className="animate-spin fill-primary" role="status" size={35} />
-        </div>
+      {categoriesQuery.isFetching ? (
+        <Loading />
       ) : lastPage && lastPage.pages.hasNext ? (
         <div className="px-w py-4 text-center">
           <Button

@@ -26,26 +26,14 @@ export default function VendorsView() {
     }
   });
 
-  const vendorsPages = vendorsQuery.data?.pages;
+  const vendorsPages = vendorsQuery.data?.pages ?? [];
   const lastPage = vendorsPages?.findLast((page) => page);
 
   return (
     <ul className="mt-14 md:mt-4">
-      {vendorsQuery.isFetchedAfterMount ? (
-        vendorsPages ? (
-          <div>
-            {vendorsPages.map((page) =>
-              page.data.map((vendor) => (
-                <ListItem key={vendor._id} to={`/profile/vendor/${vendor.seName}`} vendor={vendor} />
-              ))
-            )}
-          </div>
-        ) : (
-          <div className="py-14 text-center text-secondary">You Created No Reviews Yet</div>
-        )
-      ) : null}
+      {vendorsPages.map((page) => page.data.map((vendor) => <ListItem key={vendor._id} vendor={vendor} />))}
 
-      {!vendorsQuery.isFetchedAfterMount ? (
+      {vendorsQuery.isFetching ? (
         <Loading />
       ) : lastPage && lastPage.pages.hasNext ? (
         <div className="px-w py-4 text-center">
@@ -62,12 +50,7 @@ export default function VendorsView() {
   );
 }
 
-type ListItemProps = {
-  vendor: IVendor;
-  to: string;
-};
-
-function ListItem({ vendor, to }: ListItemProps) {
+function ListItem({ vendor }: { vendor: IVendor }) {
   const { t } = useTranslation();
   const { following } = useUserStore();
   const { handleFollow, isPending } = useHandleFollow({ vendor });
@@ -84,7 +67,7 @@ function ListItem({ vendor, to }: ListItemProps) {
         />
 
         <div>
-          <LocalLink className="font-bold hover:underline" href={to}>
+          <LocalLink className="font-bold hover:underline" href={`/profile/vendor/${vendor.seName}`}>
             {vendor.name}
           </LocalLink>
           <p className="text-secondary">Products: {vendor.productCount}</p>

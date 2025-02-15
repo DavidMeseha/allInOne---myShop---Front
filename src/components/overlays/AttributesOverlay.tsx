@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OverlayLayout from "./OverlayLayout";
 import { useGeneralStore } from "@/stores/generalStore";
 import { IProductAttribute } from "@/types";
@@ -25,11 +25,14 @@ export default function AttributesOverlay() {
           name: string;
         }>(`/api/product/attributes/${overlayProductId}`)
         .then((res) => {
-          setCustomAttributes(selectDefaultAttributes(res.data.productAttributes));
           return res.data;
         })
   });
   const product = productQuery.data;
+
+  useEffect(() => {
+    product && setCustomAttributes(selectDefaultAttributes(product.productAttributes));
+  }, [productQuery.data]);
 
   const handleAttributesChange = (attributeId: string, value: string[]) => {
     if (!product) return;

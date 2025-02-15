@@ -7,7 +7,7 @@ import { ITag, Pagination } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import Button from "@/components/Button";
-import { BiLoaderCircle } from "react-icons/bi";
+import Loading from "@/components/LoadingUi/LoadingSpinner";
 
 export default function TagsView() {
   const tagsQuery = useInfiniteQuery({
@@ -24,23 +24,19 @@ export default function TagsView() {
     }
   });
 
-  const tagsPages = tagsQuery.data?.pages;
+  const tagsPages = tagsQuery.data?.pages ?? [];
   const lastPage = tagsPages?.findLast((page) => page);
 
   return (
     <div className="mt-10 p-4 md:mt-0">
       <ul>
         <li className="hidden text-3xl font-bold md:inline-block">Tags</li>
-        {tagsPages
-          ? tagsPages.map((page) =>
-              page.data.map((tag) => <ListItem key={tag._id} tag={tag} to={`/profile/tag/${tag.seName}`} />)
-            )
-          : null}
+        {tagsPages.map((page) =>
+          page.data.map((tag) => <ListItem key={tag._id} tag={tag} to={`/profile/tag/${tag.seName}`} />)
+        )}
 
-        {!tagsQuery.isFetchedAfterMount ? (
-          <div className="flex w-full flex-col items-center justify-center py-2">
-            <BiLoaderCircle className="animate-spin fill-primary" size={35} />
-          </div>
+        {tagsQuery.isFetching ? (
+          <Loading />
         ) : lastPage && lastPage.pages.hasNext ? (
           <div className="px-w py-4 text-center">
             <Button

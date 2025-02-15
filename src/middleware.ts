@@ -3,22 +3,25 @@ import { NextResponse } from "next/server";
 import { getPathnameLang } from "./lib/misc";
 
 export async function middleware(req: NextRequest) {
-  let res: NextResponse = NextResponse.next();
-  const { pathname } = req.nextUrl;
-  let lang = req.cookies.get("lang")?.value ?? "en";
+  try {
+    let res: NextResponse = NextResponse.next();
+    const { pathname } = req.nextUrl;
+    const lang = req.cookies.get("lang")?.value ?? "en";
 
-  const pathnameLang = getPathnameLang(pathname);
-  const pathnameTemp = pathname;
-  const pathOnly = pathnameLang ? pathnameTemp.replace("/" + pathnameLang, "") : pathname;
+    const pathnameLang = getPathnameLang(pathname);
+    const pathOnly = pathnameLang ? pathname.replace("/" + pathnameLang, "") : pathname;
 
-  if (!pathnameLang) {
-    req.nextUrl.pathname = `/${lang}${pathOnly ?? ""}`;
-    res = NextResponse.redirect(req.nextUrl);
+    if (!pathnameLang) {
+      req.nextUrl.pathname = `/${lang}${pathOnly}`;
+      return NextResponse.redirect(req.nextUrl);
+    }
+
+    return res;
+  } catch {
+    return NextResponse.next();
   }
-
-  return res;
 }
 
 export const config: MiddlewareConfig = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|favicon.png|images/*).*)"]
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|favicon.png|images|sitemap.xml|robots.txt).*)"]
 };
